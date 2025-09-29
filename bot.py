@@ -7,6 +7,9 @@ import random
 import time
 import json, os
 
+DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
+if not DISCORD_TOKEN:
+    raise RuntimeError("Set DISCORD_TOKEN environment variable.")
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -1554,4 +1557,4 @@ async def on_ready():
 
 # --- Run the bot ---
 if __name__ == "__main__":
-    bot.run("DISCORD_TOKEN")
+    bot.run(DISCORD_TOKEN)

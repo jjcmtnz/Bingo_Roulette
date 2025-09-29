@@ -11,5 +11,3 @@ venv/
 
 # Game state
 bingo_state.json
-
-# Never commit your token
