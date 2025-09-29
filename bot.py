@@ -6,6 +6,8 @@ import asyncio
 import random
 import time
 import json, os
+from pathlib import Path
+
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 if not DISCORD_TOKEN:
@@ -14,6 +16,11 @@ if not DISCORD_TOKEN:
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
+
+ASSETS_DIR = Path(__file__).parent / "assets" / "boards"
+print("[BOOT] ASSETS_DIR:", ASSETS_DIR)
+print("[BOOT] PNGs found:", [p.name for p in ASSETS_DIR.glob("*.png")])
+
 
 # --- Allowlist for admin commands (use real Discord user IDs) ---
 ALLOWED_ADMINS = {
@@ -61,6 +68,8 @@ game_state = {
     }
     for team in team_sequences
 }
+
+
 
 PENDING_PURGE_CONFIRMATIONS = {}  # {channel_id: {"user": int, "expires": float}}
 
@@ -431,9 +440,6 @@ tile_texts = {
 }
 
 
-# Board image folder
-BOARD_FOLDER = r"C:/Users/joshu/Documents/Bingo_Roulette"
-
 # Tile coordinates
 tile_coords = [
     (130, 189), (313, 189), (491, 189),
@@ -452,7 +458,7 @@ def get_current_board_letter(team_key):
     return team_sequences[team_key][game_state[team_key]["board_index"]]
 
 def create_board_image_with_checks(board_letter, completed_tiles):
-    img_path = f"{BOARD_FOLDER}/Board {board_letter}.png"
+    img_path = ASSETS_DIR / f"Board {board_letter}.png"
     img = Image.open(img_path).convert("RGBA")
     draw = ImageDraw.Draw(img)
     checkmark_size = 60
