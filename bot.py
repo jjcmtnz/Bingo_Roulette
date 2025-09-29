@@ -1545,6 +1545,11 @@ async def _auto_delete_admin_triggers(ctx):
         # No perms or already deleted — ignore silently
         pass
 
+@bot.command()
+async def pinglog(ctx):
+    print(f"[CMD] pinglog guild={getattr(ctx.guild,'name',None)} channel={getattr(ctx.channel,'name',None)}")
+    await ctx.send("pong")
+
 
 @bot.command()
 @is_allowed_admin()
