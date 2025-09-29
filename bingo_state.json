@@ -1,0 +1,99 @@
+{
+  "game_state": {
+    "team1": {
+      "board_index": 0,
+      "completed_tiles": [],
+      "bonus_active": false,
+      "points": 0,
+      "bonus_points": 0,
+      "started": false,
+      "used_quips": {},
+      "looped": false,
+      "finished": false
+    },
+    "team2": {
+      "board_index": 0,
+      "completed_tiles": [],
+      "bonus_active": false,
+      "points": 0,
+      "bonus_points": 0,
+      "started": false,
+      "used_quips": {},
+      "looped": false,
+      "finished": false
+    },
+    "team3": {
+      "board_index": 0,
+      "completed_tiles": [],
+      "bonus_active": false,
+      "points": 0,
+      "bonus_points": 0,
+      "started": false,
+      "used_quips": {},
+      "looped": false,
+      "finished": false
+    },
+    "team4": {
+      "board_index": 0,
+      "completed_tiles": [],
+      "bonus_active": false,
+      "points": 0,
+      "bonus_points": 0,
+      "started": false,
+      "used_quips": {},
+      "looped": false,
+      "finished": false
+    }
+  },
+  "GLOBAL_USED_QUIPS": {
+    "resetall": [
+      "Global reset executed. Fresh chaos unlocked. Don’t make me regret this.",
+      "Factory settings restored. Perform better in the sequel, please.",
+      "We nuked it from orbit. Only way to be sure. Proceed.",
+      "All teams scrubbed clean. Like it never happened. Except I remember everything."
+    ],
+    "help_commands": [
+      "A list of commands? Riveting. Use them wisely—or spectacularly badly. I’ll mock you either way.",
+      "Command scroll unfurled! Don’t smudge it with your grubby fingers.",
+      "Fine, mortals. Here are your precious commands. Try not to pull a muscle scrolling. 🙃"
+    ],
+    "help_allcommands": [
+      "Admin knowledge unlocked. Abuse it spectacularly, please.",
+      "So you want the whole playbook? Fine. Try not to drown in power."
+    ]
+  },
+  "team_sequences": {
+    "team1": [
+      "A",
+      "C",
+      "E",
+      "B",
+      "D",
+      "F"
+    ],
+    "team2": [
+      "D",
+      "F",
+      "B",
+      "A",
+      "C",
+      "E"
+    ],
+    "team3": [
+      "B",
+      "E",
+      "C",
+      "F",
+      "A",
+      "D"
+    ],
+    "team4": [
+      "E",
+      "B",
+      "F",
+      "C",
+      "D",
+      "A"
+    ]
+  }
+}
