@@ -13,4 +13,3 @@ venv/
 bingo_state.json
 
 # Never commit your token
-bot.py
