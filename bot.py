@@ -1603,8 +1603,8 @@ async def intro(ctx):
         "**🎲 Gameplay Loop**\n"
         "- `!startboard` — Use this command to begin your team’s first board! (use only once)\n"
         "- `!tile#` — Use to check-off tiles after completing them (e.g., `!tile3`)\n"
-        "- `!finishbonus` — Use to complete the Bonus Tile and advance\n"
-        "- `!skipbonus` — Use to skip the Bonus Tile and advance\n\n"
+        "- `!finishbonus` — Use to complete the Bonus Tile\n"
+        "- `!skipbonus` — Use to skip the Bonus Tile\n\n"
 
         "**📜 Points**\n"
         "- You earn 1 point per completed tile\n"
