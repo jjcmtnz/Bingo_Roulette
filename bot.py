@@ -1666,15 +1666,15 @@ async def intro(ctx):
 
     msg = (
         "**🔮 Welcome to Bingo Roulette!**\n"
-        "- This event features 6 rotating bingo boards in a predetermined order\n"
-        "- Teams will work on one board at a time. After you complete every tile on one board, you will proceed to the next board\n"
-        "- Once you complete the final sixth board, the sequence of boards will start over again\n\n"
+        "- This event features 6 rotating bingo boards in a predetermined order.\n"
+        "- Teams will work on one board at a time. After you complete every tile on one board, you will proceed to the next board.\n"
+        "- Once you complete the final sixth board, the sequence of boards will start over again.\n\n"
 
         "**🎲 Gameplay Loop**\n"
-        "-`!startboard` — Use this command to begin your team’s first board! (use only once)\n"
-        "- 1. `!tile#` — Use to check-off tiles after completing them (e.g., `!tile3`)\n"
-        "- 2. Use `!finishbonus` to complete the Bonus Tile or use !skipbonus` to skip the Bonus Tile\n"
-        "- 3. Repeat steps 1. and 2. after each Bonus Tile. Rinse and repeat!\n\n" 
+        "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board! (use only once).\n"
+        "- 1. `!tile#` — Use to check-off tiles after completing them (e.g. `!tile3`).\n"
+        "- 2. Use `!finishbonus` after completing the Bonus Tile or use !skipbonus` to skip the Bonus Tile.\n"
+        "- 3. rinse n' repeat steps 1 and 2.\n\n" 
         
 
         "**📜 Points**\n"
@@ -1684,7 +1684,7 @@ async def intro(ctx):
 
         "**🏠 House Rules**\n"
         "- Keep all chatter in the chit-chat channel. This channel is for bot commands only. Please only use the bot when necessary; do not abuse it\n"
-        "- All drops should be posted in the drops channel. Please refer to the rules channel for screenshot guidelines. Pay close attention to specifics regarding kc pity, minigames, and other ss requirements\n"
+        "- All drops should be posted in the drops channel. Please refer to the rules channel for screenshot guidelines.\n"
         "- Use `!progress`, `!points`, and `!commands` to see your current board, your current points, and a list of available commands\n"
         "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, have fun, and for the love of Betty, take a damn shower!\n\n"
 
