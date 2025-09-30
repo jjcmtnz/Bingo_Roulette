@@ -418,7 +418,7 @@ QUIPS_BONUS_REVEAL = [
 tile_texts = {
     "A": [
         "Tombs of Amascut\n\n1 purple from ToA (Fang, LB, Ward, Masori, Shadow, pet)",
-        "Hydra\n\n100 kc or 1 unique (eye, fang, heart, tail, leather, claw, jar, pet)",
+        "Alchemical Hydra\n\n100 kc or 1 unique (eye, fang, heart, tail, leather, claw, jar, pet)",
         "Vardorvis\n\n125 kc or 1 unique (ingot, vestige, SRA piece, virtus, quartz, pet)",
         "Kalphite Queen\n\n150 kc or 1 unique (kq head (no tattered head), d pick, d2h, d chainbody, pet)",
         "Bandos\n\n150 kc or 1 unique (chestplate, tassets, boots, hilt, pet)",
@@ -831,10 +831,10 @@ async def startboard(ctx):
         board_letter = get_current_board_letter(team_key)
         await ctx.send(
         f"🟢 {format_team_text(team_key)} has already activated **Board {board_letter}**.\n"
-        f"No need to use `!startboard` ever again — that was a one-and-only kinda thing for the first board.\n"
+        f"No need to use `!startboard` ever again — that was a one-and-only kinda thing for the first board."
         f"When a new board appears, it activates automatically.\n\n"
         f"Use `!progress` to display your current board.\n"
-        f"And use `!tile#` to complete tiles once you finish them!\n"
+        f"Use `!tile#` to complete tiles after you finish them!\n"
        
     )
         return
