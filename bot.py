@@ -693,31 +693,33 @@ def make_remove_tile_command(tile_num):
         state["points"] = max(0, state["points"] - 1)
         await save_state(game_state)
 
-
         tiles_left = 9 - len(state["completed_tiles"])
         tiles_left_text = f"❌ 1 point removed. {tiles_left} tile{'s' if tiles_left != 1 else ''} left"
-
         tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
-        cross_emoji = "❌"
 
+        # 1) Action (no quip here)
         await ctx.send(
-    f"{cross_emoji} **Tile {tile_num}: {tile_title} – removed.** -1 point removed.\n\n"
-    f"{quip}\n\n"
-    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-    f"**Total:** {state['points'] + state['bonus_points']}"
-)
+            f"❌ Tile {tile_num}: {tile_title} – removed.\n\n{tiles_left_text}"
+        )
 
+        # 2) Quip
+        quip = get_quip(team_key, "tile_remove", QUIPS_TILE_REMOVE)
+        await ctx.send(f"{quip}")
 
-        img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
-        await ctx.send(file=discord.File(img_bytes, filename="board.png"))
-
-        descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
-        await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
-
+        # 3) Scoreboard
         await ctx.send(
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
         )
+
+        # 4) Board image
+        img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
+        await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+
+        # 5) Checklist
+        descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
+        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 
