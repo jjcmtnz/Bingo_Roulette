@@ -649,11 +649,12 @@ def make_tile_command(tile_num):
 
         # 1) One combined text message: tile line + points + quip
         await ctx.send(
-            f"{check_emoji} **Tile {tile_num}: {tile_title} – complete!** +1 point awarded.\n\n"
-            f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-            f"**Total:** {state['points'] + state['bonus_points']}\n\n"
-            f"{quip}"
-        )
+    f"{check_emoji} **Tile {tile_num}: {tile_title} – complete!** +1 point awarded.\n\n"
+    f"{quip}\n\n"
+    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+    f"**Total:** {state['points'] + state['bonus_points']}"
+)
+
 
         # 2) The board image
         img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
@@ -699,12 +700,13 @@ def make_remove_tile_command(tile_num):
         tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
         cross_emoji = "❌"
 
-        quip = get_quip(team_key, "tile_remove", QUIPS_TILE_REMOVE)
         await ctx.send(
-            f"{cross_emoji} Tile {tile_num}: {tile_title} – removed.\n\n"
-            f"{tiles_left_text}\n\n"
-            f"{quip}"
-        )
+    f"{cross_emoji} **Tile {tile_num}: {tile_title} – removed.** -1 point removed.\n\n"
+    f"{quip}\n\n"
+    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+    f"**Total:** {state['points'] + state['bonus_points']}"
+)
+
 
         img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
         await ctx.send(file=discord.File(img_bytes, filename="board.png"))
@@ -1689,8 +1691,8 @@ async def _auto_delete_admin_triggers(ctx):
         # No perms or already deleted — ignore silently
         pass
 
-@bot.command(name="pinglog")
-async def pinglog(ctx):
+@bot.command(name="ping")
+async def ping(ctx):
     """Quick sanity check: logs where it was called from and replies 'pong'."""
     try:
         guild_name = getattr(ctx.guild, "name", "(DMs)")
@@ -1698,7 +1700,7 @@ async def pinglog(ctx):
         author = f"{ctx.author} ({ctx.author.id})"
 
         # Log to stdout (shows in your host logs)
-        print("[PINGLOG]",
+        print("[PING]",
               f"guild={guild_name}",
               f"channel={channel_name}",
               f"author={author}",
@@ -1707,9 +1709,9 @@ async def pinglog(ctx):
         # Confirm in channel
         await ctx.send(f"pong ({bot.latency:.3f}s)")
     except Exception as e:
-        # Log error and tell the channel what happened
-        print("[PINGLOG][ERROR]", repr(e))
+        print("[PING][ERROR]", repr(e))
         await ctx.send(f"pong? something went wrong: `{type(e).__name__}: {e}`")
+
 
 
 
