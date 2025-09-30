@@ -1666,9 +1666,9 @@ async def intro(ctx):
 
     msg = (
         "**🔮 Welcome to Bingo Roulette!**\n"
-        "- This event features 6 rotating bingo boards in a predetermined order.\n"
+        "- This event features 6 rotating bingo boards in a predetermined random order.\n"
         "- Teams will work on one board at a time. After you complete every tile on one board, you will proceed to the next board.\n"
-        "- Once you complete the final sixth board, the sequence of boards will start over again.\n\n"
+        "- Once you complete the final sixth board, the sequence of boards will begin again.\n\n"
 
         "**🎲 Gameplay Loop**\n"
         "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board! (use only once).\n"
