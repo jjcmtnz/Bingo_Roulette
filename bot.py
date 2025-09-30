@@ -748,22 +748,26 @@ async def tileall(ctx, *, team: str):
         # First cycle → trigger bonus tile
         state["bonus_active"] = True
 
-        # 1) completed message
-        await ctx.send(
-            f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!"
+        # 1) announcement + 2) betty quip + 3) scoreboard (single send)
+        quip = get_quip(team_key, "bonus_reveal", QUIPS_BONUS_REVEAL).format(
+            letter=board_letter, team=format_team_text(team_key)
         )
-
-        # 2) board image (all checks)
-        img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
-        await ctx.send(file=discord.File(img_bytes, filename="board.png"))
-
-        # 3) points recap
         await ctx.send(
+            f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n\n"
+            f"{quip}\n\n"
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
         )
 
-        # 4) bonus intro + challenge + instructions (last)
+        # 4) board image
+        img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
+        await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+
+        # 5) checklist
+        descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
+        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
+        # 6) bonus challenge LAST
         raw_bonus = bonus_challenges[board_letter].replace("/n", "\n")
         challenge_block = "> " + "\n> ".join(raw_bonus.splitlines())
         await ctx.send(
@@ -778,29 +782,28 @@ async def tileall(ctx, *, team: str):
         state["board_index"] = (state["board_index"] + 1) % len(team_sequences[team_key])
         state["completed_tiles"] = []
 
+        # 1) announcement + 2) betty quip + 3) scoreboard (single send)
         await ctx.send(
             f"🎉 {format_team_text(team_key)} has completed all 9 tiles on Board {board_letter}!\n\n"
-            f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*"
+            "🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*\n\n"
+            f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+            f"**Total:** {state['points'] + state['bonus_points']}"
         )
 
         # New current board after advancing
         board_letter = get_current_board_letter(team_key)
 
-        # Board image (fresh)
+        # 4) board image (fresh)
         img_bytes = create_board_image_with_checks(board_letter, [])
         await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-        # Checklist for the new board (underlined header)
+        # 5) checklist for the new board
         descriptions = get_tile_descriptions(board_letter, [])
         await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
 
-        # Points recap
-        await ctx.send(
-            f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-            f"**Total:** {state['points'] + state['bonus_points']}"
-        )
-
+    # persist mutations from either branch
     await save_state(game_state)
+
 
 
 
