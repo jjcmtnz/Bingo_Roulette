@@ -1590,7 +1590,7 @@ async def intro(ctx):
         "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, grind hard, have fun, and for the love of Betty, take a shower at some point!\n\n"
 
         "**🔮 Ready?**\n"
-        "- Type !startboard when you’re ready to start Bingo Roulette. Godspeed."
+        "- Type `!startboard` when you’re ready to start Bingo Roulette. Godspeed."
     )
 
     await ctx.send(msg)
