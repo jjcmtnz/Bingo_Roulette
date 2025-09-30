@@ -1331,7 +1331,7 @@ async def progress(ctx):
 
     # SCOREBOARD BEFORE IMAGE
     await ctx.send(
-        f"\n🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+        f"\n\n🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
 
