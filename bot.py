@@ -831,7 +831,7 @@ async def startboard(ctx):
         board_letter = get_current_board_letter(team_key)
         await ctx.send(
         f"🟢 {format_team_text(team_key)} has already activated **Board {board_letter}**.\n"
-        f"No need to use `!startboard` ever again — that was a one-and-only kinda thing for the first board."
+        f"No need to use `!startboard` ever again — that was a one-and-only kinda thing for the first board of the event."
         f" When a new board appears, it activates automatically.\n\n"
         f"Use `!progress` to display your current board.\n"
         f"Use `!tile#` to complete tiles after you finish them!\n"
