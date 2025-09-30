@@ -467,7 +467,7 @@ tile_texts = {
         "Zulrah\n\n175 kc or 1 unique (tanz fang, magic fang, visage, either mutagen, pet)",
         "Huey\n\n200 kc or 3 separate hide drops or 1 unique (tome of earth, dragon hunter wand, pet)",
         "Dagannoth Kings\n\n1 pet or all 4 rings (berserker, warrior, seers, archers)",
-        "Obor\n\n35 kc or 1 unique (hill giant club; note: WOM only tracks chest kills).",
+        "Obor\n\n35 obor chest kc or 1 unique (hill giant club)",
         "Scorpia\n\n150 kc or 1 unique (either ward shard, pet)",
         "Guardians of the Rift\n\n125 abyssal pearls or 1 unique (catalytic talisman, elemental talisman, abyssal needle, abyssal lantern, any dye, pet)\n\n"
     ],
@@ -478,7 +478,7 @@ tile_texts = {
         "Tormented Demons\n\n250 kc or 1 unique(burning claws, tormented synapse)",
         "Jad\n\n4 fire capes or pet",
         "Gemstone Crab\n\n1 diamond",
-        "Bryophyta\n\n35 kc or 1 unique (bryophyta's essence; note: WOM only tracks chest kills)",
+        "Bryophyta\n\n35 bryo chest kc or 1 unique (bryophyta's essence)",
         "Revenants\n\n1 unique (any wilderness weapon, ancient crystal, amulet of avarice, or any ancient artefact)",
         "Mastering Mixology\n\nPrescription Goggles (can split mox, aga, and lye resin #s across team)\n\n"
     ]
