@@ -842,13 +842,10 @@ async def tileall(ctx, *, team: str):
 
 
 
-
-
-# ------- Start board (infer team) -------
+# ------- Start board (one-time) -------
 @bot.command()
 async def startboard(ctx):
-    team_name = ctx.channel.name.replace("-", "")
-    team_key = normalize_team_name(team_name)
+    team_key = normalize_team_name(ctx.channel.name.replace("-", ""))
     if team_key not in game_state:
         await ctx.send("Invalid team name.")
         return
@@ -860,50 +857,53 @@ async def startboard(ctx):
         await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
         return
 
-    # 🔒 One-time guard: if already started, refuse to reset their progress
+    board_letter = get_current_board_letter(team_key)
+
+    # If already started: single, consistent line (no extra sends)
     if state.get("started"):
-        board_letter = get_current_board_letter(team_key)
         await ctx.send(
-        f"🟢 {format_team_text(team_key)} has already activated **Board {board_letter}**.\n"
-        f"No need to use `!startboard` ever again — that was a one-and-only kinda thing for the first board of the event."
-        f" When a new board appears, it activates automatically.\n\n"
-        f"Use `!progress` to display your current board.\n"
-        f"Use `!tile#` to complete tiles after you finish them!\n"
-       
-    )
+            "ℹ️ No need to use `!startboard` ever again. That was a one-and-only kind of thing. "
+            "When a new board appears, it activates automatically. Use `!tile#` to complete tiles, "
+            "or `!progress` to display your current board."
+        )
         return
 
-
-    # ✅ First-time start (or after a reset)
-    board_letter = get_current_board_letter(team_key)
-    state["completed_tiles"] = []
-    state["bonus_active"] = False
+    # First-time start
     state["started"] = True
-    await save_state(game_state)
+    state.setdefault("completed_tiles", set())
+    state.setdefault("points", 0)
+    state.setdefault("bonus_points", 0)
+    state["bonus_active"] = False  # starting a fresh board shouldn't be in bonus
+    save_state()
 
-
-    # Intro line FIRST
-    await ctx.send("🔮 **Welcome to Bingo Roulette!**\n\n")
-
-    # Betty quip
-    quip = get_quip(team_key, "startboard", QUIPS_START_BOARD).format(
-        letter=board_letter, team=format_team_text(team_key)
+    # 1) Announcement
+    announcement = (
+        f"🚀 **Board {board_letter} activated!** {format_team_text(team_key)} is officially in play."
     )
-    await ctx.send(quip)
 
-    # Board image
-    img_bytes = create_board_image_with_checks(board_letter, [])
-    await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+    # 2) Bingo Betty quip (use your pool; fallback to progress if you don't have startboard-specific)
+    try:
+        quip = get_quip(team_key, "startboard", QUIPS_START_BOARD)
+    except NameError:
+        quip = get_quip(team_key, "progress", QUIPS_PROGRESS)
 
-    # Checklist
-    descriptions = get_tile_descriptions(board_letter, [])
-    await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
-
-    # Points
-    await ctx.send(
+    # 3) Scoreboard
+    points_line = (
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
+
+    # Send announcement + quip + scoreboard together
+    await ctx.send("\n\n".join([announcement, quip, points_line]))
+
+    # 4) Board image (fresh board)
+    img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
+    await ctx.send(file=discord.File(img_bytes, filename=f"board_{board_letter}.png"))
+
+    # 5) Checklist
+    descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
+    await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 
