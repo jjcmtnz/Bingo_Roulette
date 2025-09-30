@@ -874,7 +874,8 @@ async def startboard(ctx):
     state.setdefault("points", 0)
     state.setdefault("bonus_points", 0)
     state["bonus_active"] = False  # starting a fresh board shouldn't be in bonus
-    save_state()
+    save_state(game_state)
+
 
     # 1) Announcement
     announcement = (
