@@ -576,7 +576,7 @@ def make_tile_command(tile_num):
         # --- mutate state ---
         state["completed_tiles"].append(tile_num)
         state["points"] += 1
-        await save_state(game_state)
+        
 
         # ======================
         # Case 1: all tiles done
@@ -1300,10 +1300,6 @@ async def progress(ctx):
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
-
-    # harmless here; keeps disk in sync
-    await save_state(game_state)
-
 
 
 
