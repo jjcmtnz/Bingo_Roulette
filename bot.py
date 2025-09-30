@@ -1327,7 +1327,7 @@ async def progress(ctx):
     # --- normal progress view ---
     # Order: quip (if you want it), SCOREBOARD, board image, checklist
     quip = get_quip(team_key, "progress", QUIPS_PROGRESS)
-    await ctx.send(f"{quip}")
+    await ctx.send(f"{quip}\n\n")
 
     # SCOREBOARD BEFORE IMAGE
     await ctx.send(
