@@ -698,7 +698,7 @@ def make_remove_tile_command(tile_num):
 
 
         tiles_left = 9 - len(state["completed_tiles"])
-        tiles_left_text = f"❌ –1 point removed. {tiles_left} tile{'s' if tiles_left != 1 else ''} left"
+        tiles_left_text = f"❌ 1 point removed. {tiles_left} tile{'s' if tiles_left != 1 else ''} left"
 
         tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
         cross_emoji = "❌"
@@ -927,7 +927,7 @@ async def finishbonus(ctx):
 
     # ✅ Checklist & descriptions
     descriptions = get_tile_descriptions(board_letter, [])
-    await ctx.send(f"✅ Board {board_letter} – Checklist\n\n{descriptions}")
+    await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
 
     # 🧮 Points recap
     await ctx.send(
@@ -991,7 +991,7 @@ async def skipbonus(ctx):
 
     # ✅ Checklist & descriptions
     descriptions = get_tile_descriptions(board_letter, [])
-    await ctx.send(f"✅ Board {board_letter} – Checklist\n\n{descriptions}")
+    await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
 
     # 🧮 Points recap
     await ctx.send(
