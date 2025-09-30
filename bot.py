@@ -1606,7 +1606,7 @@ async def intro(ctx):
         "- Once you complete the final sixth board, the sequence of boards will start over again\n\n"
 
         "**🎲 Gameplay Loop**\n"
-        "- 0. `!startboard` — Use this command to begin your team’s first board! (use only once)\n"
+        "-`!startboard` — Use this command to begin your team’s first board! (use only once)\n"
         "- 1. `!tile#` — Use to check-off tiles after completing them (e.g., `!tile3`)\n"
         "- 2. Use `!finishbonus` to complete the Bonus Tile or use !skipbonus` to skip the Bonus Tile\n"
         "- 3. Repeat steps 1. and 2. after each Bonus Tile. Rinse and repeat!\n\n" 
