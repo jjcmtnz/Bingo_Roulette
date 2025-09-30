@@ -880,6 +880,14 @@ async def finishbonus(ctx):
 
     state = game_state[team_key]
 
+    if not state.get("started"):
+        await ctx.send("Oops! You must use `!startboard` before you can finish a Bonus Tile.")
+        return
+
+    if not state.get("bonus_active"):
+        await ctx.send("There is no active Bonus Tile to complete.")
+        return
+
     # ❄️ Frozen team guard
     if state.get("finished"):
         await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
@@ -947,6 +955,14 @@ async def skipbonus(ctx):
         return
 
     state = game_state[team_key]
+
+    if not state.get("started"):
+        await ctx.send("Oops! You must use `!startboard` before you can skip a Bonus Tile.")
+        return
+
+    if not state.get("bonus_active"):
+        await ctx.send("There is no active Bonus Tile to skip.")
+        return
 
     # ❄️ Frozen team guard
     if state.get("finished"):
@@ -1230,6 +1246,14 @@ async def progress(ctx):
         return
 
     state = game_state[team_key]
+
+    state = game_state[team_key]
+
+    if not state.get("started"):
+        await ctx.send("Oops! You must use `!startboard` before you can view your progress.")
+        return
+
+
     board_letter = get_current_board_letter(team_key)
 
     quip = get_quip(team_key, "progress", QUIPS_PROGRESS)
@@ -1260,6 +1284,10 @@ async def points(ctx):
         return
 
     state = game_state[team_key]
+
+    if not state.get("started"):
+        await ctx.send("Oops! You must use `!startboard` before you can view your team’s points.")
+        return
 
     quip = get_quip(team_key, "points", QUIPS_POINTS)
     await ctx.send(f"{quip}")
@@ -1567,7 +1595,7 @@ async def intro(ctx):
         return
 
     msg = (
-        "**🔮 Welcome to Bingo Roulette**\n"
+        "**🔮 Welcome to Bingo Roulette!**\n"
         "- This event features 6 rotating bingo boards in a predetermined order\n"
         "- Teams will work on one board at a time. After you complete every tile on one board, you will proceed to the next board\n"
         "- Once you complete the final sixth board, the sequence of boards will start over again\n\n"
