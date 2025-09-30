@@ -667,58 +667,91 @@ def make_tile_command(tile_num):
 
 
 
+# ------- Admin: remove a completed tile -------
+# If you use an admin decorator, keep it here (e.g., @is_allowed_admin())
+@bot.command()
+async def removetile(ctx, tile: int):
+    team_key = normalize_team_name(ctx.channel.name.replace("-", ""))
+    if team_key not in game_state:
+        await ctx.send("Invalid team name.")
+        return
 
+    state = game_state[team_key]
 
+    # must have started, not finished
+    if not state.get("started"):
+        await ctx.send("Oops! You must use `!startboard` before you can update tiles.")
+        return
+    if state.get("finished"):
+        await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
+        return
 
-def make_remove_tile_command(tile_num):
-    @bot.command(name=f"removetile{tile_num}")
-    @is_allowed_admin()
-    async def remove_tile_command(ctx):
-        team_name = ctx.channel.name.replace("-", "")
-        team_key = normalize_team_name(team_name)
+    # validate tile
+    if tile not in range(1, 10):
+        await ctx.send("Please specify a tile number from 1 to 9.")
+        return
 
-        if team_key not in game_state:
-            await ctx.send("Invalid team name.")
-            return
+    board_letter = get_current_board_letter(team_key)
 
-        state = game_state[team_key]
-        board_letter = get_current_board_letter(team_key)
-
-        if tile_num not in state["completed_tiles"]:
-            await ctx.send(f"Tile {tile_num} is not currently marked as complete for {format_team_text(team_key)}.")
-            return
-
-        # Mutate + persist
-        state["completed_tiles"].remove(tile_num)
-        state["points"] = max(0, state["points"] - 1)
-        await save_state(game_state)
-
-        tiles_left = 9 - len(state["completed_tiles"])
-        tiles_left_text = f"❌ 1 point removed. {tiles_left} tile{'s' if tiles_left != 1 else ''} left"
-        tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
-
-        # 1) Action (no quip here)
+    # if tile wasn't completed, just report it and show the normal view in your order
+    if tile not in state["completed_tiles"]:
+        # 1) action
         await ctx.send(
-            f"❌ Tile {tile_num}: {tile_title} – removed.\n\n{tiles_left_text}"
+            f"⚠️ Tile {tile} was not marked complete for {format_team_text(team_key)} on **Board {board_letter}**."
         )
-
-        # 2) Quip
-        quip = get_quip(team_key, "tile_remove", QUIPS_TILE_REMOVE)
+        # 2) quip (fallback to progress quips if you don't have a specific pool)
+        quip = get_quip(team_key, "removetile", QUIPS_PROGRESS)
         await ctx.send(f"{quip}")
-
-        # 3) Scoreboard
+        # 3) scoreboard
         await ctx.send(
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
         )
-
-        # 4) Board image
+        # 4) board image
         img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
         await ctx.send(file=discord.File(img_bytes, filename="board.png"))
-
-        # 5) Checklist
+        # 5) checklist
         descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
         await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+        return
+
+    # actually remove the tile
+    state["completed_tiles"].discard(tile)
+
+    # adjust points if your rules give 1 point per tile (safe, minimal)
+    if state.get("points", 0) > 0:
+        state["points"] -= 1
+
+    # if we dropped below 9 tiles, ensure bonus is not active
+    if len(state["completed_tiles"]) < 9 and state.get("bonus_active"):
+        state["bonus_active"] = False
+
+    save_state()
+
+    # ----- Ordered output -----
+    # 1) action
+    await ctx.send(
+        f"⛔️ **Tile {tile} removed.** {format_team_text(team_key)} progress updated on **Board {board_letter}**."
+    )
+
+    # 2) quip (use your dedicated pool if you have one; fallback to progress)
+    quip = get_quip(team_key, "removetile", QUIPS_PROGRESS)
+    await ctx.send(f"{quip}")
+
+    # 3) scoreboard
+    await ctx.send(
+        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+        f"**Total:** {state['points'] + state['bonus_points']}"
+    )
+
+    # 4) board image
+    img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
+    await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+
+    # 5) checklist
+    descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
+    await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 
