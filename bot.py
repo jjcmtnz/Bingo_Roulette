@@ -132,7 +132,7 @@ async def save_state(game_state: dict):
             with os.fdopen(fd, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
                 f.flush()
-                os.fsync(f.fileno())
+                # os.fsync(f.fileno()) #comment this out
             if os.path.exists(STATE_PATH):
                 try:
                     if os.path.exists(STATE_BAK):
