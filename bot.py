@@ -1673,7 +1673,7 @@ async def intro(ctx):
         "**🎲 Gameplay Loop**\n"
         "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board! (use only once).\n"
         "- 1. `!tile#` — Use to check-off tiles after completing them (e.g. `!tile3`).\n"
-        "- 2. Use `!finishbonus` after completing the Bonus Tile or use !skipbonus` to skip the Bonus Tile.\n"
+        "- 2. Use `!finishbonus` after completing the Bonus Tile; or use !skipbonus` to skip the Bonus Tile.\n"
         "- 3. rinse n' repeat steps 1 and 2.\n\n" 
         
 
@@ -1684,7 +1684,7 @@ async def intro(ctx):
 
         "**🏠 House Rules**\n"
         "- Keep all chatter in the chit-chat channel. This channel is for bot commands only. Please don't abuse Betty.\n"
-        "- All drops should be posted in the drops channel. Please refer to the rules channel for screenshot guidelines.\n"
+        "- All drops should be posted in the drops channel. Please refer to the rules-and-info channel for screenshot requirements.\n"
         "- Use `!progress`, `!points`, and `!commands` to see your current board, your current points, and a list of available commands\n"
         "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, have fun, and for the love of Betty, take a damn shower!\n\n"
 
