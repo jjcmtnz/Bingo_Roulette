@@ -1238,7 +1238,7 @@ async def removebonuspoints(ctx, amount: int, team: str):
 
 
 
-# ------- Non-admin info commands (infer team) -------
+# ------- Show team progress -------
 @bot.command()
 async def progress(ctx):
     team_name = ctx.channel.name.replace("-", "")
@@ -1250,49 +1250,43 @@ async def progress(ctx):
 
     state = game_state[team_key]
 
-    # Block if team finished
-    if state.get("finished"):
-        await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
-        return
-
-# If bonus tile is active, re-show the bonus screen instead of board
-    if state.get("bonus_active"):
-        board_letter = get_current_board_letter(team_key)
-
-    # announce completion again
-    await ctx.send(
-        f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!"
-    )
-
-    # image with all tiles checked
-    img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
-    await ctx.send(file=discord.File(img_bytes, filename="board.png"))
-
-    # points line
-    await ctx.send(
-        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-        f"**Total:** {state['points'] + state['bonus_points']}"
-    )
-
-    # bonus tile text
-    raw_bonus = bonus_challenges[board_letter].replace("/n", "\n")
-    challenge_block = "> " + "\n> ".join(raw_bonus.splitlines())
-    await ctx.send(
-        f"🔮 **A wild Bonus Tile has appeared!**\n\n"
-        f"{challenge_block}\n\n"
-        "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
-        "Or, type `!skipbonus` to skip to the next board."
-    )
-    return
-
-
+    # must have started first
     if not state.get("started"):
         await ctx.send("Oops! You must use `!startboard` before you can view your progress.")
         return
 
+    # block if event finished
+    if state.get("finished"):
+        await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
+        return
 
     board_letter = get_current_board_letter(team_key)
 
+    # if bonus is active, re-show the bonus screen (in your specified order)
+    if state.get("bonus_active"):
+        await ctx.send(
+            f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!"
+        )
+
+        img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
+        await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+
+        await ctx.send(
+            f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+            f"**Total:** {state['points'] + state['bonus_points']}"
+        )
+
+        raw_bonus = bonus_challenges[board_letter].replace("/n", "\n")
+        challenge_block = "> " + "\n> ".join(raw_bonus.splitlines())
+        await ctx.send(
+            f"🔮 **A wild Bonus Tile has appeared!**\n\n"
+            f"{challenge_block}\n\n"
+            "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
+            "Or, type `!skipbonus` to skip to the next board."
+        )
+        return
+
+    # normal progress view
     quip = get_quip(team_key, "progress", QUIPS_PROGRESS)
     await ctx.send(f"{quip}")
 
@@ -1306,8 +1300,10 @@ async def progress(ctx):
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
-    # Not strictly required here, but harmless:
+
+    # harmless here; keeps disk in sync
     await save_state(game_state)
+
 
 
 
