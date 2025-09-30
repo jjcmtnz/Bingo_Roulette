@@ -1303,7 +1303,7 @@ async def progress(ctx):
     # 1) completed message + points (single send), 2) board image, 3) bonus header + challenge + instructions (last)
     if state.get("bonus_active"):
         # 1) completed message + points (SCOREBOARD BEFORE IMAGE)
-        completed_msg = f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!"
+        completed_msg = f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n\n"
         points_line = (
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
