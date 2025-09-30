@@ -1683,7 +1683,7 @@ async def intro(ctx):
         "- The team with the most points at the end wins!\n\n"
 
         "**🏠 House Rules**\n"
-        "- Keep all chatter in the chit-chat channel. This channel is for bot commands only. Please only use the bot when necessary; do not abuse it\n"
+        "- Keep all chatter in the chit-chat channel. This channel is for bot commands only. Please don't abuse Betty.\n"
         "- All drops should be posted in the drops channel. Please refer to the rules channel for screenshot guidelines.\n"
         "- Use `!progress`, `!points`, and `!commands` to see your current board, your current points, and a list of available commands\n"
         "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, have fun, and for the love of Betty, take a damn shower!\n\n"
