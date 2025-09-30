@@ -837,7 +837,7 @@ async def startboard(ctx):
         f"And use `!tile#` to complete tiles once you finish them!\n"
        
     )
-    return
+        return
 
 
     # ✅ First-time start (or after a reset)
@@ -1606,10 +1606,11 @@ async def intro(ctx):
         "- Once you complete the final sixth board, the sequence of boards will start over again\n\n"
 
         "**🎲 Gameplay Loop**\n"
-        "- `!startboard` — Use this command to begin your team’s first board! (use only once)\n"
-        "- `!tile#` — Use to check-off tiles after completing them (e.g., `!tile3`)\n"
-        "- `!finishbonus` — Use to complete the Bonus Tile\n"
-        "- `!skipbonus` — Use to skip the Bonus Tile\n\n"
+        "- 0. `!startboard` — Use this command to begin your team’s first board! (use only once)\n"
+        "- 1. `!tile#` — Use to check-off tiles after completing them (e.g., `!tile3`)\n"
+        "- 2. Use `!finishbonus` to complete the Bonus Tile or use !skipbonus` to skip the Bonus Tile\n"
+        "- 3. Repeat steps 1. and 2. after each Bonus Tile. Rinse and repeat!\n\n" 
+        
 
         "**📜 Points**\n"
         "- You earn 1 point per completed tile\n"
@@ -1618,9 +1619,9 @@ async def intro(ctx):
 
         "**🏠 House Rules**\n"
         "- Keep all chatter in the chit-chat channel. This channel is for bot commands only. Please only use the bot when necessary; do not abuse it\n"
-        "- Use `!progress`, `!points`, and `!commands` to see your status, your current points, and a list of available commands\n"
-        "- All drops must be posted in the drops channel. Please refer to the rules channel for screenshot guidelines. Pay close attention to specifics regarding kc pity, minigames, and other tile requirements\n"
-        "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, grind hard, have fun, and for the love of Betty, take a shower at some point!\n\n"
+        "- All drops should be posted in the drops channel. Please refer to the rules channel for screenshot guidelines. Pay close attention to specifics regarding kc pity, minigames, and other ss requirements\n"
+        "- Use `!progress`, `!points`, and `!commands` to see your current board, your current points, and a list of available commands\n"
+        "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, have fun, and for the love of Betty, take a damn shower!\n\n"
 
         "**🔮 Ready?**\n"
         "- Type `!startboard` when you’re ready to start Bingo Roulette. Godspeed."
