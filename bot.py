@@ -6,6 +6,7 @@ import asyncio
 import random
 import time
 import json, os
+import tempfile      # ← add this
 from pathlib import Path
 
 
@@ -15,11 +16,10 @@ if not DISCORD_TOKEN:
 
 intents = discord.Intents.default()
 intents.message_content = True
+intents.guilds = True  #
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 ASSETS_DIR = Path(__file__).parent / "assets" / "boards"
-print("[BOOT] ASSETS_DIR:", ASSETS_DIR)
-print("[BOOT] PNGs found:", [p.name for p in ASSETS_DIR.glob("*.png")])
 
 
 # --- Allowlist for admin commands (use real Discord user IDs) ---
@@ -69,6 +69,28 @@ game_state = {
     for team in team_sequences
 }
 
+# --- Keep exactly one on_ready ---
+@bot.event
+async def on_ready():
+    # run once
+    if not getattr(bot, "_initialized", False):
+        # Load persisted state (this uses your later load_state() that merges in-place)
+        load_state()
+        bot._initialized = True
+
+    # Boot diagnostics
+    print(f"Logged in as {bot.user}")
+    print("[BOOT] ASSETS_DIR:", ASSETS_DIR)
+    try:
+        print("[BOOT] PNGs found:", [p.name for p in ASSETS_DIR.glob("*.png")])
+    except Exception as e:
+        print("[BOOT] Error listing PNGs:", e)
+
+    # Duplicate command check
+    names = [cmd.name for cmd in bot.commands]
+    dupes = {n for n in names if names.count(n) > 1}
+    print("Loaded commands:", len(names))
+    print("Duplicate commands found:", dupes)
 
 
 PENDING_PURGE_CONFIRMATIONS = {}  # {channel_id: {"user": int, "expires": float}}
@@ -76,8 +98,16 @@ PENDING_PURGE_CONFIRMATIONS = {}  # {channel_id: {"user": int, "expires": float}
 # Quip memory for non-team cases (must be defined BEFORE persistence helpers)
 GLOBAL_USED_QUIPS = {}
 
-# ---- Persistent state (save/load) ----
-STATE_FILE = os.path.join(os.path.dirname(__file__), "bingo_state.json")
+
+# Always write to the mounted Railway volume
+DATA_DIR = os.environ.get("DATA_DIR", "/data")
+os.makedirs(DATA_DIR, exist_ok=True)
+
+# Single source of truth for your save paths
+STATE_PATH = os.path.join(DATA_DIR, "bingo_state.json")   # you can name it state.json if you prefer
+STATE_BAK  = os.path.join(DATA_DIR, "bingo_state.bak.json")
+
+_persist_lock = asyncio.Lock()
 
 def _serialize_state():
     """Make a JSON-safe snapshot (convert sets -> lists)."""
@@ -94,67 +124,82 @@ def _serialize_state():
         "team_sequences": team_sequences,  # optional: keep for reference
     }
 
-def save_state():
-    """Atomically write current state to disk."""
-    try:
-        data = _serialize_state()
-        tmp = STATE_FILE + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        os.replace(tmp, STATE_FILE)  # atomic on same filesystem
-    except Exception as e:
-        print(f"[WARN] save_state failed: {e}")
+async def save_state(game_state: dict):
+    data = _serialize_state()
+    async with _persist_lock:   # ← add this line
+        fd, tmp = tempfile.mkstemp(dir=os.path.dirname(STATE_PATH), prefix=".tmp_state_", text=True)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False, indent=2)
+                f.flush()
+                os.fsync(f.fileno())
+            if os.path.exists(STATE_PATH):
+                try:
+                    if os.path.exists(STATE_BAK):
+                        os.remove(STATE_BAK)
+                    os.replace(STATE_PATH, STATE_BAK)
+                except Exception:
+                    pass
+            os.replace(tmp, STATE_PATH)
+        finally:
+            try:
+                if os.path.exists(tmp):
+                    os.remove(tmp)
+            except Exception:
+                pass
+
 
 def load_state():
-    """Load state from disk (if present) and merge into current structures."""
-    if not os.path.exists(STATE_FILE):
+    """Load state from /data/bingo_state.json (or backup) and merge into current structures."""
+    def _read(path):
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    data = None
+    for candidate in (STATE_PATH, STATE_BAK):
+        if os.path.exists(candidate):
+            try:
+                data = _read(candidate)
+                break
+            except Exception:
+                continue
+
+    if not data:
         print("[INFO] No prior state file; starting fresh.")
-        return
-    try:
-        with open(STATE_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        loaded_gs = data.get("game_state", {})
-        loaded_global_quips = data.get("GLOBAL_USED_QUIPS", {})
+        return {}
 
-        # Merge per-team (keeping any new teams that weren’t in the file)
-        for team_key in game_state.keys():
-            if team_key in loaded_gs:
-                s = loaded_gs[team_key]
-                # lists -> sets for used_quips
-                uq = {cat: set(vals) for cat, vals in s.get("used_quips", {}).items()}
-                game_state[team_key].update({
-                    "board_index": s.get("board_index", 0),
-                    "completed_tiles": s.get("completed_tiles", []),
-                    "bonus_active": s.get("bonus_active", False),
-                    "points": s.get("points", 0),
-                    "bonus_points": s.get("bonus_points", 0),
-                    "started": s.get("started", False),
-                    "used_quips": uq,
-                    "looped": s.get("looped", False),   # <— add this line
-                    "finished": s.get("finished", False),  # <— NEW: persist finished flag
-                })
-            else:
-                # keep default state for new teams
-                game_state[team_key].setdefault("used_quips", {})
+    loaded_gs = data.get("game_state", {})
+    loaded_global_quips = data.get("GLOBAL_USED_QUIPS", {})
 
-        # Restore global quip memory
-        GLOBAL_USED_QUIPS.clear()
-        for cat, vals in loaded_global_quips.items():
-            GLOBAL_USED_QUIPS[cat] = set(vals)
+    # Merge per-team (keeping any new teams not in file)
+    for team_key in game_state.keys():
+        if team_key in loaded_gs:
+            s = loaded_gs[team_key]
+            uq = {cat: set(vals) for cat, vals in s.get("used_quips", {}).items()}  # lists -> sets
+            game_state[team_key].update({
+                "board_index": s.get("board_index", 0),
+                "completed_tiles": s.get("completed_tiles", []),
+                "bonus_active": s.get("bonus_active", False),
+                "points": s.get("points", 0),
+                "bonus_points": s.get("bonus_points", 0),
+                "started": s.get("started", False),
+                "used_quips": uq,
+                "looped": s.get("looped", False),
+                "finished": s.get("finished", False),
+            })
+        else:
+            game_state[team_key].setdefault("used_quips", {})
 
-        print("[INFO] State loaded from disk.")
-    except Exception as e:
-        print(f"[WARN] load_state failed (starting fresh): {e}")
+    # Restore global quip memory
+    GLOBAL_USED_QUIPS.clear()
+    for cat, vals in loaded_global_quips.items():
+        GLOBAL_USED_QUIPS[cat] = set(vals)
 
-load_state()
+    print("[INFO] State loaded from volume.")
+    return game_state
 
-# Backfill for older save files: ensure 'looped' and 'finished' exist for all teams
-for t in game_state:
-    if "looped" not in game_state[t]:
-        game_state[t]["looped"] = False
-    if "finished" not in game_state[t]:
-        game_state[t]["finished"] = False
-save_state()
+
+
 
 LAST_RESETALL_CALL = 0  # prevents accidental double-fires
 
@@ -521,8 +566,7 @@ def make_tile_command(tile_num):
             await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
             return
 
-
-        if state["bonus_active"]:
+        if state.get("bonus_active"):
             await ctx.send(f"{format_team_text(team_key)} is currently in a bonus challenge and cannot check tiles.")
             return
 
@@ -533,7 +577,7 @@ def make_tile_command(tile_num):
         # --- mutate state ---
         state["completed_tiles"].append(tile_num)
         state["points"] += 1
-        save_state()  # persist immediately after mutation
+        await save_state(game_state)
 
         tiles_left = 9 - len(state["completed_tiles"])
 
@@ -542,9 +586,9 @@ def make_tile_command(tile_num):
         # ======================
         if len(state["completed_tiles"]) == 9:
             if not state.get("looped", False):
-                # First cycle → trigger bonus tile
+                # First cycle → trigger bonus tile (DO NOT ADVANCE HERE)
                 state["bonus_active"] = True
-                save_state()
+                await save_state(game_state)
 
                 await ctx.send(
                     f"""🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!
@@ -567,77 +611,65 @@ Or, type `!skipbonus` to skip to the next board."""
                     f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
                     f"**Total:** {state['points'] + state['bonus_points']}"
                 )
+                return  # keep the team on the bonus
 
             else:
-                # Loop cycle → skip bonus, advance directly
-                state["board_index"] = (state["board_index"] + 1) % len(team_sequences[team_key])
-                state["completed_tiles"] = []
-                save_state()
-
-                board_letter = get_current_board_letter(team_key)
-
+                # Loop cycle → no bonus; advance immediately
                 await ctx.send(
                     f"🎉 {format_team_text(team_key)} has completed all 9 tiles on Board {board_letter}!\n\n"
                     f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*"
                 )
-            
-            # Loop cycle → announce completion for the CURRENT board, then advance
-            await ctx.send(
-                f"🎉 {format_team_text(team_key)} has completed all 9 tiles on Board {board_letter}!\n\n"
-                f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*"
-            )
 
-            # Now advance to the next board and reset
-            state["board_index"] = (state["board_index"] + 1) % len(team_sequences[team_key])
-            state["completed_tiles"] = []
-            save_state()
+                # Advance and reset for the next board
+                state["board_index"] = (state["board_index"] + 1) % len(team_sequences[team_key])
+                state["completed_tiles"] = []
+                await save_state(game_state)
 
-            # Recompute for the NEW current board (for image/checklist below)
-            board_letter = get_current_board_letter(team_key)      
+                # New board setup
+                board_letter = get_current_board_letter(team_key)
 
-            # --- Board image (reset for new board) ---
-            img_bytes = create_board_image_with_checks(board_letter, [])
-            await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+                # --- Board image (fresh board, no checks) ---
+                img_bytes = create_board_image_with_checks(board_letter, [])
+                await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-            # --- Checklist for new board ---
-            descriptions = get_tile_descriptions(board_letter, [])
-            await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
+                # --- Checklist for the new board ---
+                descriptions = get_tile_descriptions(board_letter, [])
+                await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
 
-            # --- Points recap ---
-            await ctx.send(
-                f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-                f"**Total:** {state['points'] + state['bonus_points']}"
-            )
-
+                # --- Points recap ---
+                await ctx.send(
+                    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+                    f"**Total:** {state['points'] + state['bonus_points']}"
+                )
+                return  # done with loop-cycle path
 
         # ======================
         # Case 2: normal progress
         # ======================
-        else:
-            tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
-            check_emoji = "✅"  # always checkmark
-            tiles_left_text = f"🔮 +1 point awarded. {tiles_left} tile{'s' if tiles_left != 1 else ''} left"
-            quip = get_quip(team_key, "tile_complete", QUIPS_TILE_COMPLETE)
+        tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
+        check_emoji = "✅"  # always checkmark
+        tiles_left_text = f"🔮 +1 point awarded. {tiles_left} tile{'s' if tiles_left != 1 else ''} left"
+        quip = get_quip(team_key, "tile_complete", QUIPS_TILE_COMPLETE)
 
-            await ctx.send(
-                f"{check_emoji} Tile {tile_num}: {tile_title} – complete!\n\n"
-                f"{tiles_left_text}\n\n"
-                f"{quip}"
-            )
+        await ctx.send(
+            f"{check_emoji} Tile {tile_num}: {tile_title} – complete!\n\n"
+            f"{tiles_left_text}\n\n"
+            f"{quip}"
+        )
 
-            # --- Board image ---
-            img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
-            await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+        # --- Board image ---
+        img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
+        await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-            # --- Remaining descriptions ---
-            descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
-            await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
+        # --- Remaining descriptions ---
+        descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
+        await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
 
-            # --- Points recap ---
-            await ctx.send(
-                f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-                f"**Total:** {state['points'] + state['bonus_points']}"
-            )
+        # --- Points recap ---
+        await ctx.send(
+            f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+            f"**Total:** {state['points'] + state['bonus_points']}"
+        )
 
 
 
@@ -662,7 +694,8 @@ def make_remove_tile_command(tile_num):
         # Mutate + persist
         state["completed_tiles"].remove(tile_num)
         state["points"] = max(0, state["points"] - 1)
-        save_state()
+        await save_state(game_state)
+
 
         tiles_left = 9 - len(state["completed_tiles"])
         tiles_left_text = f"❌ –1 point removed. {tiles_left} tile{'s' if tiles_left != 1 else ''} left"
@@ -771,7 +804,8 @@ Or, type `!skipbonus` to skip to the next board."""
         )
 
 
-    save_state()
+    await save_state(game_state)
+
 
 
 
@@ -806,7 +840,8 @@ async def startboard(ctx):
     state["completed_tiles"] = []
     state["bonus_active"] = False
     state["started"] = True
-    save_state()
+    await save_state(game_state)
+
 
     # Intro line FIRST
     await ctx.send("🔮 **Welcome to Bingo Roulette!**\n\n")
@@ -856,7 +891,8 @@ async def finishbonus(ctx):
     if not state.get("bonus_active"):
         if len(state.get("completed_tiles", [])) == 9 and not state.get("looped", False):
             state["bonus_active"] = True
-            save_state()
+            await save_state(game_state)
+
         else:
             await ctx.send(f"{format_team_text(team_key)} is not currently in a bonus challenge.")
             return
@@ -870,7 +906,8 @@ async def finishbonus(ctx):
 
     state["completed_tiles"] = []
     state["bonus_active"] = False
-    save_state()
+    await save_state(game_state)
+
 
     board_letter = get_current_board_letter(team_key)
 
@@ -920,7 +957,8 @@ async def skipbonus(ctx):
     if not state.get("bonus_active"):
         if len(state.get("completed_tiles", [])) == 9 and not state.get("looped", False):
             state["bonus_active"] = True
-            save_state()
+            await save_state(game_state)
+
         else:
             await ctx.send(f"{format_team_text(team_key)} is not currently in a bonus challenge.")
             return
@@ -934,7 +972,8 @@ async def skipbonus(ctx):
 
     state["completed_tiles"] = []
     state["bonus_active"] = False
-    save_state()
+    await save_state(game_state)
+
 
     board_letter = get_current_board_letter(team_key)
 
@@ -980,7 +1019,7 @@ async def reset(ctx, *, team: str):
             "looped": False,  # <-- ensure present
             "finished": False,   # 👈 add this
         }
-        save_state()
+        await save_state(game_state)
         await ctx.send(f"{format_team_text(team_key)} has been reset.")
 
 
@@ -1007,7 +1046,8 @@ async def resetall(ctx):
             "finished": False,   # 👈 add this
         }
 
-    save_state()
+    await save_state(game_state)
+
 
     try:
         msg = get_quip("global", "resetall", [
@@ -1039,7 +1079,8 @@ async def setboard(ctx, board_letter: str, team: str):
     game_state[team_key]["completed_tiles"] = []
     game_state[team_key]["bonus_active"] = False
     game_state[team_key]["started"] = True  # ✅ added line
-    save_state()
+    await save_state(game_state)
+
 
     img_bytes = create_board_image_with_checks(board_letter.upper(), [])
     await ctx.send(f"Admin override: {format_team_text(team_key)} set to Board {board_letter.upper()}.")
@@ -1061,7 +1102,8 @@ async def setnextboard(ctx, *, team: str):
         state["completed_tiles"] = []
         state["bonus_active"] = False
         state["started"] = True  # ✅ make sure team can immediately use tiles
-        save_state()
+        await save_state(game_state)
+
 
         board_letter = get_current_board_letter(team_key)
         img_bytes = create_board_image_with_checks(board_letter, [])
@@ -1081,7 +1123,8 @@ async def addpoints(ctx, amount: int, team: str):
         return
 
     game_state[team_key]["points"] += amount
-    save_state()
+    await save_state(game_state)
+
 
     total = game_state[team_key]["points"] + game_state[team_key]["bonus_points"]
     quip = random.choice(QUIPS_ADMIN_ADD_TILE).format(amount=amount, team=format_team_text(team_key))
@@ -1105,7 +1148,8 @@ async def removepoints(ctx, amount: int, team: str):
         return
 
     game_state[team_key]["points"] = max(0, game_state[team_key]["points"] - amount)
-    save_state()
+    await save_state(game_state)
+
 
     total = game_state[team_key]["points"] + game_state[team_key]["bonus_points"]
     quip = random.choice(QUIPS_ADMIN_REMOVE_TILE).format(amount=amount, team=format_team_text(team_key))
@@ -1130,7 +1174,8 @@ async def addbonuspoints(ctx, amount: int, team: str):
         return
 
     game_state[team_key]["bonus_points"] += amount
-    save_state()
+    await save_state(game_state)
+
 
     total = game_state[team_key]["points"] + game_state[team_key]["bonus_points"]
     quip = random.choice(QUIPS_ADMIN_ADD).format(amount=amount, team=format_team_text(team_key))
@@ -1156,7 +1201,8 @@ async def removebonuspoints(ctx, amount: int, team: str):
         return
 
     game_state[team_key]["bonus_points"] = max(0, game_state[team_key]["bonus_points"] - amount)
-    save_state()
+    await save_state(game_state)
+
 
     total = game_state[team_key]["points"] + game_state[team_key]["bonus_points"]
     quip = random.choice(QUIPS_ADMIN_REMOVE).format(amount=amount, team=format_team_text(team_key))
@@ -1200,7 +1246,8 @@ async def progress(ctx):
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
     # Not strictly required here, but harmless:
-    save_state()
+    await save_state(game_state)
+
 
 
 @bot.command()
@@ -1509,6 +1556,48 @@ async def show_all_commands(ctx):
 
     await ctx.send(msg)
 
+@bot.command()
+async def intro(ctx):
+    """Show the rules and how to start the game (team channels only)."""
+    team_name = ctx.channel.name.replace("-", "")
+    team_key = normalize_team_name(team_name)
+
+    if team_key not in game_state:
+        await ctx.send("This command can only be used in a team channel.")
+        return
+
+    msg = (
+        "## 🎲 Welcome to Bingo Roulette!\n"
+        "- This event features **6 rotating bingo boards** in a **predetermined order**.\n"
+        "- You will work on **one board at a time**. After you complete **every tile** on a board, "
+        "you will **proceed to the next board**.\n"
+        "- If you complete the final board, the sequence of boards will **start over again**.\n"
+        "- You earn **1 point per completed tile**.\n"
+        "- **Bonus Tiles** and **Team Challenges** will award **additional bonus points**.\n"
+        "- At the end of the event, the team with the **most points wins**. 🏆\n\n"
+        "---\n\n"
+        "## 🎮 Gameplay Loop\n"
+        "1. **`!startboard`** — begin your current board (**only use this once**).\n"
+        "2. **`!tile#`** — *use this AFTER you have fully completed a tile* (e.g., `!tile3`).\n"
+        "3. After all 9 tiles are complete: a **Bonus Tile** appears.\n"
+        "   - **`!finishbonus`** use after completing the Bonus Tile.\n"
+        "   - **`!skipbonus`** use to skip the Bonus Tile and move on.\n\n"
+        "---\n\n"
+        "## 📜 House Rules\n"
+        "- Keep **all chatter in the chat channels**. This channel is for **bot commands only**. "
+        "Please **do not abuse the bot** and only use it when necessary.\n"
+        "- Post **all drops** in the **drops channel** — please refer to the **rules channel** "
+        "for screenshot guidelines.\n"
+        "- Refs verify Bonus Tile completions and award bonus points manually.\n"
+        "- Use **`!progress`** to see your board image + checklist + points.\n"
+        "- Use **`!points`** for totals, and **`!commands`** to see the full list of commands.\n"
+        "- Please be **respectful, kind, and courteous** to your teammates and refs. Keep it positive, "
+        "grind hard, have fun — and for the love of Guthix, **take a shower at some point**. 🧼✨\n\n"
+        "---\n\n"
+        "🚀 **Type `!startboard` when you're ready to start Bingo Roulette. GODSPEED.**"
+    )
+
+    await ctx.send(msg)
 
 
 
@@ -1525,7 +1614,8 @@ async def finishevent(ctx, *, team: str):
 
     state = game_state[team_key]
     state["finished"] = True  # 👈 freeze the team
-    save_state()
+    await save_state(game_state)
+
 
     total = state['points'] + state['bonus_points']
 
@@ -1545,25 +1635,37 @@ async def _auto_delete_admin_triggers(ctx):
         # No perms or already deleted — ignore silently
         pass
 
-@bot.command()
+@bot.command(name="pinglog")
 async def pinglog(ctx):
-    print(f"[CMD] pinglog guild={getattr(ctx.guild,'name',None)} channel={getattr(ctx.channel,'name',None)}")
-    await ctx.send("pong")
+    """Quick sanity check: logs where it was called from and replies 'pong'."""
+    try:
+        guild_name = getattr(ctx.guild, "name", "(DMs)")
+        channel_name = getattr(ctx.channel, "name", f"(type={type(ctx.channel).__name__})")
+        author = f"{ctx.author} ({ctx.author.id})"
+
+        # Log to stdout (shows in your host logs)
+        print("[PINGLOG]",
+              f"guild={guild_name}",
+              f"channel={channel_name}",
+              f"author={author}",
+              f"latency={bot.latency:.3f}s")
+
+        # Confirm in channel
+        await ctx.send(f"pong ({bot.latency:.3f}s)")
+    except Exception as e:
+        # Log error and tell the channel what happened
+        print("[PINGLOG][ERROR]", repr(e))
+        await ctx.send(f"pong? something went wrong: `{type(e).__name__}: {e}`")
+
+
+
+
 
 
 @bot.command()
 @is_allowed_admin()
 async def hola(ctx):
     await ctx.send("👋 Hola! Bingo Betty is awake, loud af, and ready to twerk.")
-
-
-# --- Debug helper to check for duplicate commands at startup ---
-@bot.event
-async def on_ready():
-    names = [cmd.name for cmd in bot.commands]
-    dupes = {n for n in names if names.count(n) > 1}
-    print("Loaded commands:", len(names))
-    print("Duplicate commands found:", dupes)
 
 
 # --- Run the bot ---
