@@ -759,7 +759,6 @@ async def removetile(ctx, tile: int):
 # Register tile commands
 for tile_num in range(1, 10):
     make_tile_command(tile_num)
-    make_remove_tile_command(tile_num)
 
 
 # ------- Admin: complete all tiles on current board -------
