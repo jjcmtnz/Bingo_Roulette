@@ -830,10 +830,15 @@ async def startboard(ctx):
     if state.get("started"):
         board_letter = get_current_board_letter(team_key)
         await ctx.send(
-            f"🔒 {format_team_text(team_key)} already started on **Board {board_letter}**. "
-            f"To reset your board and start over, please ask an admin."
-        )
-        return  # <-- stop here; do NOT show board/checklist/points
+        f"🟢 {format_team_text(team_key)} has already activated **Board {board_letter}**.\n"
+        f"No need to use `!startboard` ever again — that was a one-and-only kinda thing for the first board.\n"
+        f"When a new board appears, it activates automatically.\n\n"
+        f"Use `!progress` to display your current board.\n"
+        f"And use `!tile#` to complete tiles once you finish them!\n"
+       
+    )
+    return
+
 
     # ✅ First-time start (or after a reset)
     board_letter = get_current_board_letter(team_key)
