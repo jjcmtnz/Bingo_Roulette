@@ -748,30 +748,29 @@ async def tileall(ctx, *, team: str):
         # First cycle → trigger bonus tile
         state["bonus_active"] = True
 
-        # Build the bonus text as a blockquote (and fix any '/n' typos)
-        raw_bonus = bonus_challenges[board_letter].replace("/n", "\n")
-        challenge_block = "> " + "\n> ".join(raw_bonus.splitlines())
-
+        # 1) completed message
         await ctx.send(
-            f"""🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!
-
-🔮 **A wild Bonus Tile has appeared!**  
-You may choose to accept the challenge and earn bonus points, or skip the challenge and proceed to the next board without earning bonus points.
-
-{challenge_block}
-
-Type `!finishbonus` when you have completed the Bonus Tile challenge.  
-Or, type `!skipbonus` to skip to the next board."""
+            f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!"
         )
 
-        # --- Board image with all tiles checked ---
+        # 2) board image (all checks)
         img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
         await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-        # --- Points recap ---
+        # 3) points recap
         await ctx.send(
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
+        )
+
+        # 4) bonus intro + challenge + instructions (last)
+        raw_bonus = bonus_challenges[board_letter].replace("/n", "\n")
+        challenge_block = "> " + "\n> ".join(raw_bonus.splitlines())
+        await ctx.send(
+            f"🔮 **A wild Bonus Tile has appeared!**\n\n"
+            f"{challenge_block}\n\n"
+            "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
+            "Or, type `!skipbonus` to skip to the next board."
         )
 
     else:
@@ -787,22 +786,22 @@ Or, type `!skipbonus` to skip to the next board."""
         # New current board after advancing
         board_letter = get_current_board_letter(team_key)
 
-        # --- Board image (fresh board, no checks yet) ---
+        # Board image (fresh)
         img_bytes = create_board_image_with_checks(board_letter, [])
         await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-        # --- Checklist for the new board ---
+        # Checklist for the new board (underlined header)
         descriptions = get_tile_descriptions(board_letter, [])
-        await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
+        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
 
-        # --- Points recap ---
+        # Points recap
         await ctx.send(
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
         )
 
-
     await save_state(game_state)
+
 
 
 
@@ -1262,20 +1261,25 @@ async def progress(ctx):
 
     board_letter = get_current_board_letter(team_key)
 
-    # if bonus is active, re-show the bonus screen (in your specified order)
+    # If bonus is active, re-show the bonus screen in this order:
+    # 1) completed message, 2) board image, 3) points, 4) bonus header + challenge + instructions (last)
     if state.get("bonus_active"):
+        # 1) completed message
         await ctx.send(
             f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!"
         )
 
+        # 2) board image
         img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
         await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
+        # 3) points
         await ctx.send(
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
         )
 
+        # 4) bonus last
         raw_bonus = bonus_challenges[board_letter].replace("/n", "\n")
         challenge_block = "> " + "\n> ".join(raw_bonus.splitlines())
         await ctx.send(
@@ -1294,12 +1298,15 @@ async def progress(ctx):
     await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
     descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
-    await ctx.send(f"📋 **Board {board_letter} – Checklist:**\n\n{descriptions}")
+    await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
 
     await ctx.send(
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
+
+
+
 
 
 
