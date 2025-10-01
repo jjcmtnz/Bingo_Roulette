@@ -890,7 +890,13 @@ async def startboard(ctx):
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
-    await ctx.send("\n\n".join([announcement, quip, points_line]))
+    await ctx.send(
+        f"🚀 **Board {board_letter} activated!** {format_team_text(team_key)} is officially in play.\n\n"
+        f"{quip}\n\n"
+        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+        f"**Total:** {state['points'] + state['bonus_points']}"
+)
+
 
     # 4) board image
     img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
