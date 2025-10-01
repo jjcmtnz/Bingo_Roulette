@@ -10,6 +10,16 @@ from pathlib import Path
 import asyncio  # if not already imported
 _persist_lock = asyncio.Lock()
 
+# Always write to the mounted Railway volume
+DATA_DIR = os.environ.get("DATA_DIR", "/data")
+os.makedirs(DATA_DIR, exist_ok=True)
+
+# Single source of truth for your save paths
+STATE_PATH = os.path.join(DATA_DIR, "bingo_state.json")   # you can name it state.json if you prefer
+STATE_BAK  = os.path.join(DATA_DIR, "bingo_state.bak.json")
+
+_persist_lock = asyncio.Lock()
+
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 if not DISCORD_TOKEN:
@@ -70,14 +80,48 @@ game_state = {
     for team in team_sequences
 }
 
-# --- Keep exactly one on_ready ---
+def _normalize_team_state(st: dict) -> dict:
+    st.setdefault("started", False)
+    st.setdefault("completed_tiles", [])
+    st.setdefault("bonus_active", False)
+    st.setdefault("board_index", 0)
+    st.setdefault("looped", False)
+    st.setdefault("finished", False)
+    st.setdefault("points", 0)
+    st.setdefault("bonus_points", 0)
+
+    if isinstance(st["completed_tiles"], set):
+        st["completed_tiles"] = list(st["completed_tiles"])
+    try:
+        st["completed_tiles"] = sorted({int(t) for t in st["completed_tiles"] if 1 <= int(t) <= 9})
+    except Exception:
+        st["completed_tiles"] = []
+    return st
+
+
 @bot.event
 async def on_ready():
     # run once
-    if not getattr(bot, "_initialized", False):
-        # Load persisted state (this uses your later load_state() that merges in-place)
-        load_state()
-        bot._initialized = True
+    if getattr(bot, "_initialized", False):
+        return
+
+    # 1) Load persisted state (must read from STATE_PATH under /data)
+    global game_state
+    loaded = load_state()  # OK if this merges in-place or returns a dict
+    if isinstance(loaded, dict):
+        game_state = loaded
+
+    # 2) Normalize/repair each team so restarts don't force !startboard again
+    for team_key in list(game_state.keys()):
+        game_state[team_key] = _normalize_team_state(dict(game_state[team_key]))
+
+    # 3) Persist the normalized snapshot immediately
+    try:
+        await save_state(game_state)
+    except Exception as e:
+        print("[BOOT] save_state failed:", e)
+
+    bot._initialized = True
 
     # Boot diagnostics
     print(f"Logged in as {bot.user}")
@@ -94,21 +138,13 @@ async def on_ready():
     print("Duplicate commands found:", dupes)
 
 
+
+
 PENDING_PURGE_CONFIRMATIONS = {}  # {channel_id: {"user": int, "expires": float}}
 
 # Quip memory for non-team cases (must be defined BEFORE persistence helpers)
 GLOBAL_USED_QUIPS = {}
 
-
-# Always write to the mounted Railway volume
-DATA_DIR = os.environ.get("DATA_DIR", "/data")
-os.makedirs(DATA_DIR, exist_ok=True)
-
-# Single source of truth for your save paths
-STATE_PATH = os.path.join(DATA_DIR, "bingo_state.json")   # you can name it state.json if you prefer
-STATE_BAK  = os.path.join(DATA_DIR, "bingo_state.bak.json")
-
-_persist_lock = asyncio.Lock()
 
 def _serialize_state():
     """Make a JSON-safe snapshot (convert sets -> lists)."""
