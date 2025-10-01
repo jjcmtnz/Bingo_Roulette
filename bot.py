@@ -589,8 +589,20 @@ def make_tile_command(tile_num):
         state["points"] += 1
         await save_state(game_state)
 
+        # Pre-build common strings (used by both cases)
+        check_emoji = "✅"
+        # If your tile_texts structure differs, keep your existing lookup
+        tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
+        quip = get_quip(team_key, "tile_complete", QUIPS_TILE_COMPLETE)
+        points_line = (
+            f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+            f"**Total:** {state['points'] + state['bonus_points']}"
+        )
+        action_line = f"{check_emoji} **Tile {tile_num}: {tile_title} – complete!** +1 point awarded."
+        combined_text = f"{action_line}\n{quip}\n{points_line}"
+
         # ======================
-        # Case 1: all tiles done
+        # Case 1: all tiles done (final tile)
         # ======================
         if len(state["completed_tiles"]) == 9:
             if not state.get("looped", False):
@@ -598,27 +610,23 @@ def make_tile_command(tile_num):
                 state["bonus_active"] = True
                 await save_state(game_state)
 
-                # 1) Completed message
+                # 1) Combined: action + quip + scoreboard (moved above image)
                 await ctx.send(
-                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!"
+                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n"
+                    f"{quip}\n"
+                    f"{points_line}"
                 )
 
                 # 2) Board image (all checks)
                 img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
                 await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-                # 3) Points line
-                await ctx.send(
-                    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-                    f"**Total:** {state['points'] + state['bonus_points']}"
-                )
-
-                # 4) Bonus intro + challenge + instructions
+                # 3) Bonus intro + challenge + instructions (LAST)
                 raw_bonus = bonus_challenges[board_letter].replace("/n", "\n")
                 challenge_block = "> " + "\n> ".join(raw_bonus.splitlines())
                 await ctx.send(
-                    f"🔮 **A wild Bonus Tile has appeared!**\n\n"
-                    f"{challenge_block}\n\n"
+                    "🔮 **A wild Bonus Tile has appeared!**\n"
+                    f"{challenge_block}\n"
                     "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
                     "Or, type `!skipbonus` to skip to the next board."
                 )
@@ -626,9 +634,11 @@ def make_tile_command(tile_num):
 
             else:
                 # Loop cycle → no bonus; advance immediately
+                # 1) Combined: action + quip + scoreboard (before advancing image)
                 await ctx.send(
-                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles on Board {board_letter}!\n\n"
-                    f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*"
+                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles on Board {board_letter}!\n"
+                    f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*\n"
+                    f"{points_line}"
                 )
 
                 # Advance and reset
@@ -636,43 +646,30 @@ def make_tile_command(tile_num):
                 state["completed_tiles"] = []
                 await save_state(game_state)
 
-                # New board
+                # 2) New board image
                 board_letter = get_current_board_letter(team_key)
                 img_bytes = create_board_image_with_checks(board_letter, [])
                 await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
+                # 3) Checklist LAST
                 descriptions = get_tile_descriptions(board_letter, [])
-                await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
-
-                await ctx.send(
-                    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-                    f"**Total:** {state['points'] + state['bonus_points']}"
-                )
+                await ctx.send(f"📋 __Board {board_letter} – Checklist__\n{descriptions}")
                 return
 
         # ======================
-        # Case 2: normal progress (your new layout)
+        # Case 2: normal progress (board not complete yet)
         # ======================
-        tile_title = tile_texts[board_letter][tile_num - 1].split("\n")[0]
-        check_emoji = "✅"  # different from the crystal ball; keep checkmark
-        quip = get_quip(team_key, "tile_complete", QUIPS_TILE_COMPLETE)
+        # 1) Combined text (action + quip + scoreboard)
+        await ctx.send(combined_text)
 
-        # 1) One combined text message: tile line + points + quip
-        await ctx.send(
-    f"{check_emoji} **Tile {tile_num}: {tile_title} – complete!** +1 point awarded.\n\n"
-    f"{quip}\n\n"
-    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-    f"**Total:** {state['points'] + state['bonus_points']}"
-)
-
-
-        # 2) The board image
+        # 2) Board image
         img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
         await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-        # 3) The remaining descriptions (with underlined header)
+        # 3) Remaining checklist LAST
         descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
-        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n{descriptions}")
+
 
 
 
@@ -1314,7 +1311,7 @@ async def progress(ctx):
     # 1) completed message + points (single send), 2) board image, 3) bonus header + challenge + instructions (last)
     if state.get("bonus_active"):
         # 1) completed message + points (SCOREBOARD BEFORE IMAGE)
-        completed_msg = f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n\n"
+        completed_msg = f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n"
         points_line = (
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
