@@ -627,6 +627,7 @@ def make_tile_command(tile_num):
                 await ctx.send(
                     "🔮 **A wild Bonus Tile has appeared!**\n"
                     f"{challenge_block}\n"
+                    "\n"
                     "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
                     "Or, type `!skipbonus` to skip to the next board."
                 )
