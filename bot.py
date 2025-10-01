@@ -669,9 +669,8 @@ def make_tile_command(tile_num):
 
         # 3) Remaining checklist LAST
         descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
-        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n{descriptions}")
-
-
+        descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
+        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions.strip()}\n")
 
 
 
