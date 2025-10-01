@@ -172,13 +172,14 @@ def _serialize_state():
 
 async def save_state(game_state: dict):
     data = _serialize_state()
-    async with _persist_lock:   # ← add this line
+    async with _persist_lock:
         fd, tmp = tempfile.mkstemp(dir=os.path.dirname(STATE_PATH), prefix=".tmp_state_", text=True)
         try:
             with os.fdopen(fd, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=2)
                 f.flush()
-                os.fsync(f.fileno()) #comment this out
+                os.fsync(f.fileno())  # ✅ force commit to disk
+
             if os.path.exists(STATE_PATH):
                 try:
                     if os.path.exists(STATE_BAK):
@@ -187,12 +188,17 @@ async def save_state(game_state: dict):
                 except Exception:
                     pass
             os.replace(tmp, STATE_PATH)
+
+            # ✅ new log line
+            print(f"[SAVE] State written to {STATE_PATH} ({len(json.dumps(data))} bytes)")
+
         finally:
             try:
                 if os.path.exists(tmp):
                     os.remove(tmp)
             except Exception:
                 pass
+
 
 
 def load_state():
@@ -241,8 +247,11 @@ def load_state():
     for cat, vals in loaded_global_quips.items():
         GLOBAL_USED_QUIPS[cat] = set(vals)
 
-    print("[INFO] State loaded from volume.")
+    # ✅ new log line
+    print(f"[LOAD] State loaded: {len(loaded_gs)} teams, {sum(len(v.get('completed_tiles', [])) for v in loaded_gs.values())} tiles marked complete")
+
     return game_state
+
 
 
 
