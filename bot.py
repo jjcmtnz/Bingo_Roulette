@@ -972,7 +972,7 @@ async def finishbonus(ctx):
         f"🎉 {format_team_text(team_key)} has completed the Bonus Tile challenge and advanced to Board {board_letter}!\n\n"
         f"{quip}\n\n"
         "📝 Refs will verify that the Bonus Tile Challenge has successfully been completed. "
-        "If approved, your bonus points will be manually added! (Please tag the refs!)"
+        "If approved, your bonus points will be manually added! (Please tag the refs!)\n\n"
     )
     await ctx.send(msg)
 
@@ -1049,19 +1049,20 @@ async def skipbonus(ctx):
     )
     await ctx.send(msg)
 
-    # 🖼️ Board image
+    # 🧮 Points recap (moved ABOVE image)
+    await ctx.send(
+    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+    f"**Total:** {state['points'] + state['bonus_points']}"
+)
+
+# 🖼️ Board image
     img_bytes = create_board_image_with_checks(board_letter, [])
     await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-    # ✅ Checklist & descriptions
+# 📋 Checklist
     descriptions = get_tile_descriptions(board_letter, [])
     await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
 
-    # 🧮 Points recap
-    await ctx.send(
-        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-        f"**Total:** {state['points'] + state['bonus_points']}"
-    )
 
 
 
