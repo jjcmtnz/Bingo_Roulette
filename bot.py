@@ -709,8 +709,7 @@ def make_tile_command(tile_num):
         await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions.strip()}\n")
 
 # ------- Admin: remove a completed tile -------
-# If you want this to be admin-only, uncomment the decorator:
-# @is_allowed_admin()
+@is_allowed_admin()
 @bot.command()
 async def removetile(ctx, tile: int):
     team_key = normalize_team_name(ctx.channel.name.replace("-", ""))
