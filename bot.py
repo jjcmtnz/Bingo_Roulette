@@ -906,9 +906,6 @@ async def startboard(ctx):
     await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
 
 
-
-
-
 # ------- Finish bonus (infer team) -------
 @bot.command()
 async def finishbonus(ctx):
@@ -958,29 +955,29 @@ async def finishbonus(ctx):
 
     board_letter = get_current_board_letter(team_key)
 
-    # 🎉 Progress + 🗣️ Quip + 📝 Refs note (single send)
+    # 🎉 Combined first send: Announcement + Quip + Refs note + 🧮 Scoreboard
     quip = get_quip(team_key, "bonus_complete", QUIPS_BONUS_COMPLETE)
+    points_line = (
+        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+        f"**Total:** {state['points'] + state['bonus_points']}"
+    )
     msg = (
         f"🎉 {format_team_text(team_key)} has completed the Bonus Tile challenge and advanced to Board {board_letter}!\n\n"
         f"{quip}\n\n"
         "📝 Refs will verify that the Bonus Tile Challenge has successfully been completed. "
         "If approved, your bonus points will be manually added! (Please tag the refs!)\n\n"
+        f"{points_line}"
     )
     await ctx.send(msg)
 
-    # 🧮 Points recap  ⬅️ moved ABOVE the image
-    await ctx.send(
-        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-        f"**Total:** {state['points'] + state['bonus_points']}"
-    )
-
-    # 🖼️ Board image (file upload must be separate)
+    # 🖼️ Board image (separate send)
     img_bytes = create_board_image_with_checks(board_letter, [])
     await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-    # ✅ Checklist & descriptions
+    # ✅ Checklist (separate send, underlined header with spacing)
     descriptions = get_tile_descriptions(board_letter, [])
     await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 
