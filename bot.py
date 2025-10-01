@@ -673,8 +673,8 @@ def make_tile_command(tile_num):
                 # Loop cycle → no bonus; advance immediately
                 # 1) Combined: action + quip + scoreboard (before advancing image)
                 await ctx.send(
-                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles on Board {board_letter}!\n"
-                    f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*\n"
+                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles on Board {board_letter}!\n\n"
+                    f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*\n\n"
                     f"{points_line}"
                 )
 
@@ -690,7 +690,7 @@ def make_tile_command(tile_num):
 
                 # 3) Checklist LAST
                 descriptions = get_tile_descriptions(board_letter, [])
-                await ctx.send(f"📋 __Board {board_letter} – Checklist__\n{descriptions}")
+                await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
                 return
 
         # ======================
