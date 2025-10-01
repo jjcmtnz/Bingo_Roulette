@@ -949,7 +949,6 @@ async def finishbonus(ctx):
         if len(state.get("completed_tiles", [])) == 9 and not state.get("looped", False):
             state["bonus_active"] = True
             await save_state(game_state)
-
         else:
             await ctx.send(f"{format_team_text(team_key)} is not currently in a bonus challenge.")
             return
@@ -965,7 +964,6 @@ async def finishbonus(ctx):
     state["bonus_active"] = False
     await save_state(game_state)
 
-
     board_letter = get_current_board_letter(team_key)
 
     # 🎉 Progress + 🗣️ Quip + 📝 Refs note (single send)
@@ -978,6 +976,12 @@ async def finishbonus(ctx):
     )
     await ctx.send(msg)
 
+    # 🧮 Points recap  ⬅️ moved ABOVE the image
+    await ctx.send(
+        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+        f"**Total:** {state['points'] + state['bonus_points']}"
+    )
+
     # 🖼️ Board image (file upload must be separate)
     img_bytes = create_board_image_with_checks(board_letter, [])
     await ctx.send(file=discord.File(img_bytes, filename="board.png"))
@@ -986,11 +990,6 @@ async def finishbonus(ctx):
     descriptions = get_tile_descriptions(board_letter, [])
     await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
 
-    # 🧮 Points recap
-    await ctx.send(
-        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-        f"**Total:** {state['points'] + state['bonus_points']}"
-    )
 
 
 
