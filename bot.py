@@ -1053,9 +1053,7 @@ async def skipbonus(ctx):
 
 # 📋 Checklist
     descriptions = get_tile_descriptions(board_letter, [])
-    await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
-
-
+    await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
 
 
 
@@ -1601,8 +1599,8 @@ async def purge(ctx, *args):
         await ctx.send("⚠️ Purge failed due to an API error.", delete_after=7)
 
 
-@bot.command(name="commands")
-async def show_commands(ctx):
+@bot.command(name="bingocommands")
+async def show_bingo_commands(ctx):
     quip = get_quip("global", "help_commands", [
         "Fine, mortals. Here are your precious commands. Try not to pull a muscle scrolling. 🙃",
         "Command scroll unfurled! Don’t smudge it with your grubby fingers.",
@@ -1618,9 +1616,10 @@ async def show_commands(ctx):
         "- `!skipbonus` — skip the bonus tile and advance\n"
         "- `!progress` — show your board image, checklist, and points\n"
         "- `!points` — show your team’s point totals\n"
-        "- `!commands` — to display this command list\n"
+        "- `!bingocommands` — to display this command list\n"
     )
     await ctx.send(msg)
+
 
 @bot.command(name="allcommands", hidden=True)
 @is_allowed_admin()
