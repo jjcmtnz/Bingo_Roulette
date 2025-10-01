@@ -891,8 +891,7 @@ async def startboard(ctx):
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
     await ctx.send(
-        f"🚀 **Board {board_letter} activated!** {format_team_text(team_key)} is officially in play.\n\n"
-        f"{quip}\n\n"
+        f"🚀 **Welcome to Bingo Roulette, {format_team_text(team_key)}. Your first board, Board {board_letter}, is now active!** {format_team_text(team_key)}\n\n"
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
 )
