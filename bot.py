@@ -708,10 +708,9 @@ def make_tile_command(tile_num):
         descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
         await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions.strip()}\n")
 
-
-
 # ------- Admin: remove a completed tile -------
-# If you use an admin decorator, keep it here (e.g., @is_allowed_admin())
+# If you want this to be admin-only, uncomment the decorator:
+# @is_allowed_admin()
 @bot.command()
 async def removetile(ctx, tile: int):
     team_key = normalize_team_name(ctx.channel.name.replace("-", ""))
@@ -736,15 +735,19 @@ async def removetile(ctx, tile: int):
 
     board_letter = get_current_board_letter(team_key)
 
-    # if tile wasn't completed, just report it and show the normal view in your order
+    # Ensure completed_tiles is a list (never a set)
+    if isinstance(state.get("completed_tiles"), set):
+        state["completed_tiles"] = list(state["completed_tiles"])
+
+    # If tile wasn't completed, just report it and show the normal view in your order
     if tile not in state["completed_tiles"]:
         # 1) action
         await ctx.send(
             f"⚠️ Tile {tile} was not marked complete for {format_team_text(team_key)} on **Board {board_letter}**."
         )
-        # 2) quip (fallback to progress quips if you don't have a specific pool)
+        # 2) quip (fallback to progress quips)
         quip = get_quip(team_key, "removetile", QUIPS_PROGRESS)
-        await ctx.send(f"{quip}")
+        await ctx.send(quip)
         # 3) scoreboard
         await ctx.send(
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
@@ -758,10 +761,27 @@ async def removetile(ctx, tile: int):
         await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
         return
 
-    # actually remove the tile
-    state["completed_tiles"].discard(tile)
+    # --- actually remove the tile (list-safe) ---
+    try:
+        state["completed_tiles"].remove(tile)
+    except ValueError:
+        # If it somehow isn't there, fall back to the "not completed" flow
+        await ctx.send(
+            f"⚠️ Tile {tile} was not marked complete for {format_team_text(team_key)} on **Board {board_letter}**."
+        )
+        quip = get_quip(team_key, "removetile", QUIPS_PROGRESS)
+        await ctx.send(quip)
+        await ctx.send(
+            f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+            f"**Total:** {state['points'] + state['bonus_points']}"
+        )
+        img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
+        await ctx.send(file=discord.File(img_bytes, filename="board.png"))
+        descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
+        await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+        return
 
-    # adjust points if your rules give 1 point per tile (safe, minimal)
+    # adjust points safely (1 point per tile)
     if state.get("points", 0) > 0:
         state["points"] -= 1
 
@@ -769,7 +789,8 @@ async def removetile(ctx, tile: int):
     if len(state["completed_tiles"]) < 9 and state.get("bonus_active"):
         state["bonus_active"] = False
 
-    save_state(game_state)
+    # persist mutation
+    await save_state(game_state)
 
     # ----- Ordered output -----
     # 1) action
@@ -777,9 +798,9 @@ async def removetile(ctx, tile: int):
         f"⛔️ **Tile {tile} removed.** {format_team_text(team_key)} progress updated on **Board {board_letter}**."
     )
 
-    # 2) quip (use your dedicated pool if you have one; fallback to progress)
-    quip = get_quip(team_key, "removetile", QUIPS_PROGRESS)
-    await ctx.send(f"{quip}")
+    # 2) quip
+    quip = get_quip(team_key, "removetile", QUIPS_TILE_REMOVE if 'QUIPS_TILE_REMOVE' in globals() else QUIPS_PROGRESS)
+    await ctx.send(quip)
 
     # 3) scoreboard
     await ctx.send(
@@ -906,7 +927,7 @@ async def startboard(ctx):
 
     # First-time start: set flags BEFORE any awaits, then persist immediately
     state["started"] = True
-    state.setdefault("completed_tiles", set())
+    state.setdefault("completed_tiles", [])
     state.setdefault("points", 0)
     state.setdefault("bonus_points", 0)
     state["bonus_active"] = False
