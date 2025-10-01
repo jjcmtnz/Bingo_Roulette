@@ -1316,7 +1316,7 @@ async def progress(ctx):
             f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
             f"**Total:** {state['points'] + state['bonus_points']}"
         )
-        await ctx.send("\n\n".join([completed_msg, points_line]))
+        await ctx.send("\n".join([completed_msg, points_line]))
 
         # 2) board image
         img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
