@@ -1011,7 +1011,6 @@ async def skipbonus(ctx):
         if len(state.get("completed_tiles", [])) == 9 and not state.get("looped", False):
             state["bonus_active"] = True
             await save_state(game_state)
-
         else:
             await ctx.send(f"{format_team_text(team_key)} is not currently in a bonus challenge.")
             return
@@ -1027,30 +1026,30 @@ async def skipbonus(ctx):
     state["bonus_active"] = False
     await save_state(game_state)
 
-
     board_letter = get_current_board_letter(team_key)
 
-    # 🚪 Progress + 🗣️ Quip (single send)
+    # 🎯 Combined first send: announcement + quip + scoreboard
     quip = get_quip(team_key, "bonus_skip", QUIPS_BONUS_SKIP)
+    points_line = (
+        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
+        f"**Total:** {state['points'] + state['bonus_points']}"
+    )
     msg = (
         f"🚪 {format_team_text(team_key)} has skipped the Bonus Tile Challenge and advanced to Board {board_letter}. "
-        f"No bonus points will be added.\n\n{quip}"
+        f"No bonus points will be added.\n\n"
+        f"{quip}\n\n"
+        f"{points_line}"
     )
     await ctx.send(msg)
 
-    # 🧮 Points recap (moved ABOVE image)
-    await ctx.send(
-    f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-    f"**Total:** {state['points'] + state['bonus_points']}"
-)
-
-# 🖼️ Board image
+    # 🖼️ Board image (separate send)
     img_bytes = create_board_image_with_checks(board_letter, [])
     await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-# 📋 Checklist
+    # 📋 Checklist (separate send, underlined header + spacing)
     descriptions = get_tile_descriptions(board_letter, [])
     await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 
