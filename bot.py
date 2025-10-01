@@ -5,7 +5,8 @@ from io import BytesIO
 import random
 import time
 import json, os
-import tempfile      # ← add this
+import tempfile
+import logging      # ← add this
 from pathlib import Path
 import asyncio  # if not already imported
 _persist_lock = asyncio.Lock()
@@ -20,6 +21,16 @@ STATE_BAK  = os.path.join(DATA_DIR, "bingo_state.bak.json")
 
 _persist_lock = asyncio.Lock()
 
+# ---- Logging config ----
+logging.basicConfig(
+    level=logging.INFO,  # INFO so you see normal activity
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+
+log = logging.getLogger("bingo")          # your app logs
+discord_log = logging.getLogger("discord")  # discord.py logs
+# Optional: tone down discord.py’s very chatty logs:
+discord_log.setLevel(logging.WARNING)
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 if not DISCORD_TOKEN:
