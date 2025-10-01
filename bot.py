@@ -10,6 +10,7 @@ import tempfile      # ← add this
 from pathlib import Path
 
 
+
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 if not DISCORD_TOKEN:
     raise RuntimeError("Set DISCORD_TOKEN environment variable.")
@@ -843,7 +844,9 @@ async def tileall(ctx, *, team: str):
 
 
 # ------- Start board (one-time) -------
+# ------- Start board (one-time, idempotent, concurrency-safe) -------
 @bot.command()
+@commands.max_concurrency(1, per=commands.BucketType.channel, wait=False)
 async def startboard(ctx):
     team_key = normalize_team_name(ctx.channel.name.replace("-", ""))
     if team_key not in game_state:
@@ -852,15 +855,13 @@ async def startboard(ctx):
 
     state = game_state[team_key]
 
-    # If the team is finished, do not allow a new start
+    # finished guard
     if state.get("finished"):
         await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
         return
 
-    board_letter = get_current_board_letter(team_key)
-
-    # If already started: single, consistent line (no extra sends)
-    if state.get("started"):
+    # If already started, show single line and exit
+    if state.setdefault("started", False):
         await ctx.send(
             "ℹ️ No need to use `!startboard` ever again. That was a one-and-only kind of thing. "
             "When a new board appears, it activates automatically. Use `!tile#` to complete tiles, "
@@ -868,42 +869,33 @@ async def startboard(ctx):
         )
         return
 
-    # First-time start
+    # First-time start: set flags BEFORE any awaits, then persist immediately
     state["started"] = True
     state.setdefault("completed_tiles", set())
     state.setdefault("points", 0)
     state.setdefault("bonus_points", 0)
-    state["bonus_active"] = False  # starting a fresh board shouldn't be in bonus
-    save_state(game_state)
+    state["bonus_active"] = False
+    save_state(game_state)  # important: pass the argument
 
+    board_letter = get_current_board_letter(team_key)
 
-    # 1) Announcement
-    announcement = (
-        f"🚀 **Board {board_letter} activated!** {format_team_text(team_key)} is officially in play."
-    )
-
-    # 2) Bingo Betty quip (use your pool; fallback to progress if you don't have startboard-specific)
-    try:
-        quip = get_quip(team_key, "startboard", QUIPS_START_BOARD)
-    except NameError:
-        quip = get_quip(team_key, "progress", QUIPS_PROGRESS)
-
-    # 3) Scoreboard
+    # 1) announcement + 2) quip + 3) scoreboard (single send)
+    announcement = f"🚀 **Board {board_letter} activated!** {format_team_text(team_key)} is officially in play."
+    quip = get_quip(team_key, "startboard", QUIPS_START_BOARD)  # uses your existing pool
     points_line = (
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
-
-    # Send announcement + quip + scoreboard together
     await ctx.send("\n\n".join([announcement, quip, points_line]))
 
-    # 4) Board image (fresh board)
+    # 4) board image
     img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
     await ctx.send(file=discord.File(img_bytes, filename=f"board_{board_letter}.png"))
 
-    # 5) Checklist
+    # 5) checklist
     descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
     await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 
