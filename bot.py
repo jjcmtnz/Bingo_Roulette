@@ -599,7 +599,7 @@ def make_tile_command(tile_num):
             f"**Total:** {state['points'] + state['bonus_points']}"
         )
         action_line = f"{check_emoji} **Tile {tile_num}: {tile_title} – complete!** +1 point awarded."
-        combined_text = f"{action_line}\n{quip}\n{points_line}"
+        combined_text = f"{action_line}\n\n{quip}\n\n{points_line}"
 
         # ======================
         # Case 1: all tiles done (final tile)
