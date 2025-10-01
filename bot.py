@@ -612,8 +612,8 @@ def make_tile_command(tile_num):
 
                 # 1) Combined: action + quip + scoreboard (moved above image)
                 await ctx.send(
-                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n"
-                    f"{quip}\n"
+                    f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n\n"
+                    f"{quip}\n\n"
                     f"{points_line}"
                 )
 
@@ -988,7 +988,7 @@ async def finishbonus(ctx):
 
     # ✅ Checklist & descriptions
     descriptions = get_tile_descriptions(board_letter, [])
-    await ctx.send(f"📋 Board {board_letter} – Checklist\n\n{descriptions}")
+    await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
 
 
 
