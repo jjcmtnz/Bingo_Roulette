@@ -2,13 +2,13 @@ import discord
 from discord.ext import commands
 from PIL import Image, ImageDraw
 from io import BytesIO
-import asyncio
 import random
 import time
 import json, os
 import tempfile      # ← add this
 from pathlib import Path
-
+import asyncio  # if not already imported
+_persist_lock = asyncio.Lock()
 
 
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
@@ -115,15 +115,24 @@ def _serialize_state():
     gs = {}
     for team_key, state in game_state.items():
         s = dict(state)  # shallow copy
+
+        # completed_tiles: set -> list (stable order helps diffs)
+        ct = s.get("completed_tiles")
+        if isinstance(ct, set):
+            s["completed_tiles"] = sorted(ct)
+
+        # used_quips: nested sets -> lists
         uq = s.get("used_quips", {})
-        # sets -> lists
-        s["used_quips"] = {cat: list(vals) for cat, vals in uq.items()}
+        s["used_quips"] = {cat: sorted(list(vals)) for cat, vals in uq.items()}
+
         gs[team_key] = s
+
     return {
         "game_state": gs,
-        "GLOBAL_USED_QUIPS": {cat: list(vals) for cat, vals in GLOBAL_USED_QUIPS.items()},
+        "GLOBAL_USED_QUIPS": {cat: sorted(list(vals)) for cat, vals in GLOBAL_USED_QUIPS.items()},
         "team_sequences": team_sequences,  # optional: keep for reference
     }
+
 
 async def save_state(game_state: dict):
     data = _serialize_state()
@@ -875,7 +884,8 @@ async def startboard(ctx):
     state.setdefault("points", 0)
     state.setdefault("bonus_points", 0)
     state["bonus_active"] = False
-    save_state(game_state)  # important: pass the argument
+    await save_state(game_state)
+  # important: pass the argument
 
     board_letter = get_current_board_letter(team_key)
 
@@ -891,7 +901,7 @@ async def startboard(ctx):
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
     await ctx.send(
-        f"🚀 **Welcome to Bingo Roulette, {format_team_text(team_key)}. Your first board, Board {board_letter}, is now active!** {format_team_text(team_key)}\n\n"
+        f"🚀 **Welcome to Bingo Roulette, {format_team_text(team_key)}. Your first board, Board {board_letter}, is now active!**\n\n"
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
 )
