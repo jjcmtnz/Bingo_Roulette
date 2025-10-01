@@ -726,7 +726,7 @@ async def removetile(ctx, tile: int):
     if len(state["completed_tiles"]) < 9 and state.get("bonus_active"):
         state["bonus_active"] = False
 
-    save_state()
+    save_state(game_state)
 
     # ----- Ordered output -----
     # 1) action
