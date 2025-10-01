@@ -880,11 +880,11 @@ async def startboard(ctx):
     board_letter = get_current_board_letter(team_key)
 
     # 1) announcement + 2) quip + 3) scoreboard (single send)
-    announcement = f"🚀 **Board {board_letter} activated!** {format_team_text(team_key)} is officially in play."
-    quip_template = get_quip(team_key, "startboard", QUIPS_START_BOARD)
+    quip_template = random.choice(QUIPS_START_BOARD)
     td = format_team_text(team_key)  # e.g., "Team 1"
-    team_num = td[5:] if td.startswith("Team ") else td  # -> "1"
+    team_num = td[5:] if td.startswith("Team ") else td
     quip = quip_template.format(letter=board_letter, team=team_num)
+
 
     points_line = (
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
