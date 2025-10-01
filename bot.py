@@ -6,7 +6,7 @@ import random
 import time
 import json, os
 import tempfile
-import logging      # ← add this
+import logging   # ← add this
 from pathlib import Path
 import asyncio  # if not already imported
 _persist_lock = asyncio.Lock()
@@ -109,6 +109,11 @@ def _normalize_team_state(st: dict) -> dict:
         st["completed_tiles"] = []
     return st
 
+PENDING_PURGE_CONFIRMATIONS = {}  # {channel_id: {"user": int, "expires": float}}
+
+# Quip memory for non-team cases (must be defined BEFORE persistence helpers)
+
+GLOBAL_USED_QUIPS = {}
 
 @bot.event
 async def on_ready():
@@ -1346,7 +1351,6 @@ async def removebonuspoints(ctx, amount: int, team: str):
 
 
 
-
 # ------- Show team progress -------
 @bot.command()
 async def progress(ctx):
@@ -1398,22 +1402,27 @@ async def progress(ctx):
         return
 
     # --- normal progress view ---
-    # Order: quip (if you want it), SCOREBOARD, board image, checklist
+    # Order: action line, quip, SCOREBOARD, board image, checklist
     quip = get_quip(team_key, "progress", QUIPS_PROGRESS)
+
+    # 1) Action line + 2) quip + 3) scoreboard (single send)
     await ctx.send(
+        "📊 **Progress update** for "
+        f"{format_team_text(team_key)} on **Board {board_letter}**\n\n"
         f"{quip}\n\n"
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
-)
+    )
 
-
-    # board image
+    # 4) board image
     img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
     await ctx.send(file=discord.File(img_bytes, filename="board.png"))
 
-    # checklist
+    # 5) checklist
     descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
     await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
+
 
 
 
