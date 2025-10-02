@@ -938,14 +938,16 @@ async def startboard(ctx):
         await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
         return
 
-    # If already started, show single line and exit
-    if state.setdefault("started", False):
+    # ✅ compute once so it's available in both branches
+    board_letter = get_current_board_letter(team_key)
+
+    # If already started, show single line and exit (don't mutate with setdefault)
+    if state.get("started"):
         await ctx.send(
             f"🔒 Oh, you thought we’d let you start twice? Cute. "
             f"{format_team_text(team_key)} is already on **Board {board_letter}**. "
             f"Use `!tile#` to finish tiles or `!progress` to check the board—that’s all you get."
         )
-
         return
 
     # First-time start: set flags BEFORE any awaits, then persist immediately
@@ -955,9 +957,6 @@ async def startboard(ctx):
     state.setdefault("bonus_points", 0)
     state["bonus_active"] = False
     await save_state(game_state)
-  # important: pass the argument
-
-    board_letter = get_current_board_letter(team_key)
 
     # 1) announcement + 2) quip + 3) scoreboard (single send)
     quip_template = random.choice(QUIPS_START_BOARD)
@@ -965,18 +964,16 @@ async def startboard(ctx):
     team_num = td[5:] if td.startswith("Team ") else td
     quip = quip_template.format(letter=board_letter, team=team_num)
 
-
     points_line = (
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
     await ctx.send(
-        f"🚀 **Welcome to Bingo Roulette, {format_team_text(team_key)}. Your first board, Board {board_letter}, is now active!**\n\n"
+        f"🚀 **Welcome to Bingo Roulette, {format_team_text(team_key)}. "
+        f"Your first board, Board {board_letter}, is now active!**\n\n"
         f"{quip}\n\n"
-        f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
-        f"**Total:** {state['points'] + state['bonus_points']}"
-)
-
+        f"{points_line}"
+    )
 
     # 4) board image
     img_bytes = create_board_image_with_checks(board_letter, state["completed_tiles"])
@@ -985,6 +982,7 @@ async def startboard(ctx):
     # 5) checklist
     descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
     await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 # ------- Finish bonus (infer team) -------
