@@ -933,15 +933,15 @@ async def startboard(ctx):
 
     state = game_state[team_key]
 
-    # finished guard
+    # Finished guard
     if state.get("finished"):
         await ctx.send(f"{format_team_text(team_key)} has already completed Bingo Roulette. No further progress can be made.")
         return
 
-    # ✅ compute once so it's available in both branches
+    # ✅ compute first so it's safe in both branches
     board_letter = get_current_board_letter(team_key)
 
-    # If already started, show single line and exit (don't mutate with setdefault)
+    # Already-started guard (don't mutate with setdefault)
     if state.get("started"):
         await ctx.send(
             f"🔒 Oh, you thought we’d let you start twice? Cute. "
@@ -950,7 +950,7 @@ async def startboard(ctx):
         )
         return
 
-    # First-time start: set flags BEFORE any awaits, then persist immediately
+    # First-time start: set flags BEFORE awaits, then persist
     state["started"] = True
     state.setdefault("completed_tiles", [])
     state.setdefault("points", 0)
@@ -958,16 +958,22 @@ async def startboard(ctx):
     state["bonus_active"] = False
     await save_state(game_state)
 
-    # 1) announcement + 2) quip + 3) scoreboard (single send)
-    quip_template = random.choice(QUIPS_START_BOARD)
-    td = format_team_text(team_key)  # e.g., "Team 1"
+    # 🔊 Quip with emoji + "Bingo Betty says" via get_quip (non-repeating)
+    td = format_team_text(team_key)               # e.g., "Team 1"
     team_num = td[5:] if td.startswith("Team ") else td
-    quip = quip_template.format(letter=board_letter, team=team_num)
+    quip = get_quip(
+        team_key,
+        "start_board",  # category key for non-repeat tracking
+        [q.format(letter=board_letter, team=team_num) for q in QUIPS_START_BOARD]
+    )
+    # get_quip returns: 🗣️ Bingo Betty says: *"…formatted quip…"*
 
     points_line = (
         f"🧮 **Points:** {state['points']} | **Bonus Points:** {state['bonus_points']} | "
         f"**Total:** {state['points'] + state['bonus_points']}"
     )
+
+    # 1) announcement + 2) quip + 3) scoreboard (single send)
     await ctx.send(
         f"🚀 **Welcome to Bingo Roulette, {format_team_text(team_key)}. "
         f"Your first board, Board {board_letter}, is now active!**\n\n"
@@ -982,6 +988,7 @@ async def startboard(ctx):
     # 5) checklist
     descriptions = get_tile_descriptions(board_letter, state["completed_tiles"])
     await ctx.send(f"📋 __Board {board_letter} – Checklist__\n\n{descriptions}")
+
 
 
 
