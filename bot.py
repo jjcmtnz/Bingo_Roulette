@@ -1426,6 +1426,7 @@ async def progress(ctx):
 
 
 
+# ------- Show team points (single send) -------
 @bot.command()
 async def points(ctx):
     team_name = ctx.channel.name.replace("-", "")
@@ -1437,19 +1438,24 @@ async def points(ctx):
 
     state = game_state[team_key]
 
+    # Require a started board (same guard you used for !progress)
     if not state.get("started"):
-        await ctx.send("Oops! You must use `!startboard` before you can view your team’s points.")
+        await ctx.send("Oops! You must use `!startboard` before you can view your points.")
         return
 
-    quip = get_quip(team_key, "points", QUIPS_POINTS)
-    await ctx.send(f"{quip}")
+    board_letter = get_current_board_letter(team_key)
 
+    points = state.get("points", 0)
+    bonus_points = state.get("bonus_points", 0)
+    total = points + bonus_points
 
+    # SINGLE SEND: action line + scoreboard in one message
     await ctx.send(
-        f"**🧮 {format_team_text(team_key)} Points Overview:**\n"
-        f"- Tiles Completed: {state['points']}\n"
-        f"- Bonus Points: {state['bonus_points']}\n"
-        f"- **Total Points: {state['points'] + state['bonus_points']}**"
+        "🧮 **Points summary** for "
+        f"{format_team_text(team_key)} on **Board {board_letter}**\n\n"
+        f"• **Points:** {points}\n"
+        f"• **Bonus Points:** {bonus_points}\n"
+        f"• **Total:** {total}"
     )
 
 # ------- Admin: overview points for all teams -------
