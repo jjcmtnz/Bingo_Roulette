@@ -1452,10 +1452,10 @@ async def points(ctx):
     # SINGLE SEND: action line + scoreboard in one message
     await ctx.send(
         "🧮 **Points summary** for "
-        f"{format_team_text(team_key)} on **Board {board_letter}**\n\n"
+        f"{format_team_text(team_key)} Points Overview:**\n"
         f"• **Points:** {points}\n"
         f"• **Bonus Points:** {bonus_points}\n"
-        f"• **Total:** {total}"
+        f"• **Total Points:** {total}"
     )
 
 # ------- Admin: overview points for all teams -------
