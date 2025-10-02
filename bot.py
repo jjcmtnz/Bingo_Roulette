@@ -975,8 +975,8 @@ async def startboard(ctx):
 
     # 1) announcement + 2) quip + 3) scoreboard (single send)
     await ctx.send(
-        f"🚀 **Welcome to Bingo Roulette, {format_team_text(team_key)}. "
-        f"Your first board, Board {board_letter}, is now active!**\n\n"
+        f"🔥 **Welcome to Bingo Roulette, {format_team_text(team_key)}. "
+        f"Your first board, Board {board_letter}, is now active!**✅\n\n"
         f"{quip}\n\n"
         f"{points_line}"
     )
@@ -1758,13 +1758,13 @@ async def intro(ctx):
         return
 
     msg = (
-        "**🔮 Welcome to Bingo Roulette!**\n"
+        "**🔥 Welcome to Bingo Roulette!**\n"
         "- This event features 6 rotating bingo boards in a predetermined random order.\n"
         "- Teams will work on one board at a time. After you complete every tile on one board, you will proceed to the next board.\n"
         "- Once you complete the final sixth board, the sequence of boards will begin again.\n\n"
 
         "**🎲 Gameplay Loop**\n"
-        "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board! (use only once).\n"
+        "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board!.\n"
         "- 1. `!tile#` — Use to check-off tiles after completing them (e.g. `!tile3`).\n"
         "- 2. Use `!finishbonus` after completing the Bonus Tile; or use !skipbonus` to skip the Bonus Tile.\n"
         "- 3. rinse n' repeat steps 1 and 2.\n\n" 
