@@ -943,10 +943,11 @@ async def startboard(ctx):
     # If already started, show single line and exit
     if state.setdefault("started", False):
         await ctx.send(
-            "ℹ️ No need to use `!startboard` ever again. That was a one-and-only kind of thing. "
-            "When a new board appears, it activates automatically. Use `!tile#` to complete tiles, "
-            "or `!progress` to display your current board."
+            f"🔒 Oh, you thought we’d let you start twice? Cute. "
+            f"{format_team_text(team_key)} is already on **Board {board_letter}**. "
+            f"Use `!tile#` to finish tiles or `!progress` to check the board—that’s all you get."
         )
+
         return
 
     # First-time start: set flags BEFORE any awaits, then persist immediately
