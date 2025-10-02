@@ -1457,8 +1457,8 @@ async def points(ctx):
     await ctx.send(
         "🧮 **Points summary** for "
         f"{format_team_text(team_key)}\n"
-        f"• **Points:** {points}\n"
-        f"• **Bonus Points:** {bonus_points}\n"
+        f"• Points: {points}\n"
+        f"• Bonus Points: {bonus_points}\n"
         f"• **Total Points:** {total}"
     )
 
