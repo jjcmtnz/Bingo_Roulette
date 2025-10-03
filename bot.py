@@ -690,7 +690,7 @@ def make_tile_command(tile_num):
                     f"{challenge_block}\n"
                     "\n"
                     "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
-                    "Or, type `!skipbonus` to skip to the next board."
+                    "Or, type `!skipbonus` to skip the Bonus Tile and move to the next board."
                 )
                 return
 
@@ -889,7 +889,7 @@ async def tileall(ctx, *, team: str):
             "🔮 **A wild Bonus Tile has appeared!**\n\n"
             f"{challenge_block}\n\n"
             "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
-            "Or, type `!skipbonus` to skip to the next board."
+            "Or, type `!skipbonus` to skip the Bonus Tile and move to the next board."
         )
 
     else:
@@ -1122,7 +1122,7 @@ async def skipbonus(ctx):
     )
     msg = (
         f"🚪 {format_team_text(team_key)} has skipped the Bonus Tile Challenge and advanced to Board {board_letter}. "
-        f"No bonus points will be added.\n\n"
+        f"No bonus points will be awarded.\n\n"
         f"{quip}\n\n"
         f"{points_line}"
     )
@@ -1401,7 +1401,7 @@ async def progress(ctx):
             f"🔮 **A wild Bonus Tile has appeared!**\n\n"
             f"{challenge_block}\n\n"
             "Type `!finishbonus` when you have completed the Bonus Tile challenge.\n"
-            "Or, type `!skipbonus` to skip to the next board."
+            "Or, type `!skipbonus` to skip the Bonus Tile and move to the next board."
         )
         return
 
