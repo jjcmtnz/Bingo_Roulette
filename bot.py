@@ -1492,37 +1492,25 @@ async def pointsallteams(ctx):
 
 
 @bot.command()
-@is_allowed_admin()
-async def cleanup(ctx, n: int = 1):
-    """Admin-only: delete the bot's last n messages in this channel (default 1, max 50)."""
-    # --- Always delete the trigger immediately ---
-    try:
-        await ctx.message.delete()
-    except Exception:
-        pass
-
-    n = max(1, min(n, 50))
+@commands.has_permissions(manage_messages=True)  # optional: restrict to admins
+async def cleanup(ctx, limit: int = 5000):
+    """Delete all messages sent by the bot in this channel."""
+    channel = ctx.channel
     deleted = 0
 
-    async for msg in ctx.channel.history(limit=200):
-        if msg.author == bot.user:
+    async for message in channel.history(limit=limit):
+        if message.author == bot.user:  # only delete messages from the bot
             try:
-                await msg.delete()
+                await message.delete()
                 deleted += 1
             except discord.Forbidden:
-                await ctx.send("⚠️ I don’t have permission to delete messages here.", delete_after=5)
+                await ctx.send("⚠️ I don’t have permission to delete messages here.")
                 return
-            except discord.NotFound:
-                pass
             except discord.HTTPException:
-                pass
-            if deleted >= n:
-                break
+                continue
 
-    if deleted == 0:
-        await ctx.send("🧹 No recent bot messages found to delete.", delete_after=5)
-    else:
-        await ctx.send(f"🧹 Deleted {deleted} bot message{'s' if deleted != 1 else ''}.", delete_after=3)
+    await ctx.send(f"🧹 Cleaned up {deleted} of my messages in {channel.mention}.", delete_after=5)
+
 
 
 
