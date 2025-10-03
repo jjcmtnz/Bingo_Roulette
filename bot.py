@@ -976,7 +976,7 @@ async def startboard(ctx):
     # 1) announcement + 2) quip + 3) scoreboard (single send)
     await ctx.send(
         f"🔥 **Welcome to Bingo Roulette, {format_team_text(team_key)}. "
-        f"Your first board, Board {board_letter}, is now active!**✅\n\n"
+        f"Your first board, Board {board_letter}, is now active!** ✅\n\n"
         f"{quip}\n\n"
         f"{points_line}"
     )
