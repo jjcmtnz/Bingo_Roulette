@@ -946,7 +946,7 @@ async def startboard(ctx):
         await ctx.send(
             f"🔒 Oh, you thought we’d let you start twice? Cute. "
             f"{format_team_text(team_key)} is already on **Board {board_letter}**. "
-            f"Use `!tile#` to finish tiles or `!progress` to check the board—that’s all you get."
+            f"Use `!progress` to check your board or `!tile#` once you've finished a board -- that’s all you get."
         )
         return
 
@@ -1764,9 +1764,9 @@ async def intro(ctx):
         "- Once you complete the final sixth board, the sequence of boards will begin again.\n\n"
 
         "**🎲 Gameplay Loop**\n"
-        "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board!.\n"
+        "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board!\n"
         "- 1. `!tile#` — Use to check-off tiles after completing them (e.g. `!tile3`).\n"
-        "- 2. Use `!finishbonus` after completing the Bonus Tile; or use !skipbonus` to skip the Bonus Tile.\n"
+        "- 2. Use `!finishbonus` after completing the Bonus Tile or use `!skipbonus` to skip the Bonus Tile.\n"
         "- 3. rinse n' repeat steps 1 and 2.\n\n" 
         
 
