@@ -276,17 +276,17 @@ LAST_RESETALL_CALL = 0  # prevents accidental double-fires
 
 # Real bonus challenges
 bonus_challenges = {
-    "A": "As a team of 5, battle Scurrius until you obtain a Ratbane weapon for everyone from scratch, while wearing no gear. \n\nYou may used any obtained Ratbane weapons during this grind to obtain future Ratbane weapons. You may bring food and potions. Ironmen may complete their contribution in a solo instance. \n\n+5 bonus points.",
+    "A": "As a team of 5, battle Scurrius until you obtain a Ratbane weapon for everyone from scratch, while wearing no gear. \n\nYou may used any obtained Ratbane weapons during this grind to obtain future Ratbane weapons. You may bring food and potions. You may use the addy/rune armor & weapons that Scurrius drops.  Ironmen may complete their contribution in a solo instance. \n\n Submit a pre-team selfie screenshot showing your gear. Submit a screenshot whenever a teammate receives Scurrius' spine.\n\n+5 bonus points.",
     
-    "B": "Complete the following activities ONLY with teammates: Wintertodt, Tempoross, Zalcano, Volcanic Mine, and Guardians of the Rift. No solos, masses or non-team members allowed. Please find & use an empty world. Take a team selfie at the end of each activity!\n\n+5 bonus points.",
+    "B": "Complete the following activities ONLY with teammates: Wintertodt, Tempoross, Zalcano, Volcanic Mine, and Guardians of the Rift. No solos, masses or non-team members allowed. Please find & use an empty world. \n\nTake and submit a team selfie at the end of each activity!\n\n+5 bonus points.",
     
-    "C": "Have up to 5 members of your team obtain both flippers and a mudskipper hat from mogres. Take ONE selfie (ss) with all team members wearing their flippers and hat. (Each team member must submit ss showing flipper and hat drops).\n\n+1 bonus point for every team member in the ss that is wearing flippers and mudskipper hat. \n\nMax of +5 bonus points.",
+    "C": "Have up to 5 members of your team obtain both flippers and a mudskipper hat from mogres. \n\nSubmit a team selfie with everyone in their flippers & hats! Each team member must submit a ss showing their flipper and hat drops. \n\n+1 bonus point for every team member in the ss that is wearing flippers and mudskipper hat. \n\nMax of +5 bonus points.",
     
-    "D": "Complete a Raid of your choosing (200+ invo ToA or normal Cox/ToB) with at least 3 teammates. However, each player may only use gear totaled under 10m. Each team member should submit a screenshot(s) at the beginning of the raid, and another ss in the chest room, showing their full gear and inventory.\n\n+5 bonus points.",
+    "D": "Complete a Raid of your choosing (200+ invo ToA or normal Cox/ToB) with at least 3 teammates. However, each player may only use gear totaled under 10m. \n\nEach team member should submit a screenshot at the beginning of the raid, and another ss in the chest room, showing their full gear and inventory.\n\n+5 bonus points.",
     
     "E": "Achieve platinum time in the Dragon Slayer 1 quest on a Quest Speedrunning world (+3 bonus points).\n\n+2 bonus points if you achieve Diamond time. \n\nMax of +5 bonus points.",
     
-    "F": "Acquire and complete 1 champion scroll.\n\n+5 bonus points."
+    "F": "Acquire and complete 1 champion scroll. \n\n Submit a screenshot of the champion scroll drop, and \n\n+5 bonus points."
 }
 
 # =========================
