@@ -1786,15 +1786,15 @@ from discord.ext import commands
 CHALLENGE_DIR = Path(__file__).parent / "assets" / "challenges"
 
 CHALLENGE_INFO = {
-    1: {"title": "Team Challenge 1", "image": "team_challenge_1.png",
+    1: {"title": "Team Challenge 1 - Raids", "image": "team_challenge_1.png",
         "description": "Challenge 1 description…"},
-    2: {"title": "Team Challenge 2", "image": "team_challenge_2.png",
+    2: {"title": "Team Challenge  - Barbarian Assault", "image": "team_challenge_2.png",
         "description": "Challenge 2 description…"},
-    3: {"title": "Team Challenge 3", "image": "team_challenge_3.png",
+    3: {"title": "Team Challenge 3 - PvP", "image": "team_challenge_3.png",
         "description": "Challenge 3 description…"},
-    4: {"title": "Team Challenge 4", "image": "team_challenge_4.png",
+    4: {"title": "Team Challenge 4 - The Nightmare", "image": "team_challenge_4.png",
         "description": "Challenge 4 description…"},
-    5: {"title": "Team Challenge 5", "image": "team_challenge_5.png",
+    5: {"title": "Team Challenge 5 - Trivia", "image": "team_challenge_5.png",
         "description": "Challenge 5 description…"},
 }
 
