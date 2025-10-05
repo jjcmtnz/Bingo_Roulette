@@ -496,7 +496,7 @@ tile_texts = {
         "Sarachnis\n\n150 kc or 1 unique (cudgel, jar, d med helm, pet)",
         "Moons of Peril\n\nAny 3 uniques",
         "Artio/Callisto\n\n100 kc or 1 unique (claws, d2h, d pick, voidwaker hilt, tyrannical ring, pet)",
-        "Tempoross\n\n75 soaked pages or 1 unique (fish barrel, tackle box, x25 soaked pages, big harpoonfish, tome of water, d harpoon, pet)\n\n"
+        "Tempoross\n\n1 unique (fish barrel, tackle box, x25 soaked pages, big harpoonfish, tome of water, d harpoon, pet)\n\n"
     ],
     "B": [
         "Theatre of Blood\n\n1 purple from ToB (Avernic, Sang, Justiciar, Rapier, Scythe, pet)",
@@ -507,7 +507,7 @@ tile_texts = {
         "Amoxliatl\n\n150 kc or 1 unique (glacial temotli, pet)",
         "Barrows\n\n1 helm, 1 body, and 1 legs from any set (does not have to match)",
         "Spindel/Vene\n\n150 kc or 1 unique (fangs, d2h, d pick, voidwaker gem, treasonous ring, pet)",
-        "Hunter Rumors\n\n75 hunter rumors or quetzin pet\n\n"
+        "Hunter Rumors\n\n100 hunter rumors or quetzin pet\n\n"
     ],
     "C": [
         "Chambers of Xeric\n\n1 purple from CoX (Dexterous/Arcane prayer scroll, Kodai, Buckler, Ancestral, Tbow, Dragon Claws, Elder Maul, Dinh's Bulwark, DHCB, pet)",
@@ -518,7 +518,7 @@ tile_texts = {
         "Giant Mole\n\n200 kc or 1 unique (long bone, curved bone, elite clue scroll, pet)",
         "King Black Dragon\n\n250 kc or 2 uniques (kbd heads, visage, d pick, pet) ",
         "Calvarion/Vetion\n\n150 kc or 1 unique (skull, d2h, d pick, voidwaker blade, ring of the gods)",
-        "Wintertodt\n\n200 burnt pages or 1 unique (d axe, tome of fire, any pyromancer piece, pet)\n\n"
+        "Wintertodt\n\n1 unique (d axe, tome of fire, any pyromancer piece, pet)\n\n"
     ],
     "D": [
         "Nex\n\n200 Nihil Shards or 1 unique (Torva, Nihil Horn, Zaryte Vambs, Ancient Hilt, pet)",
@@ -540,7 +540,7 @@ tile_texts = {
         "Dagannoth Kings\n\n1 pet or all 4 rings (berserker, warrior, seers, archers)",
         "Obor\n\n35 obor chest kc or 1 unique (hill giant club)",
         "Scorpia\n\n150 kc or 1 unique (either ward shard, pet)",
-        "Guardians of the Rift\n\n125 abyssal pearls or 1 unique (catalytic talisman, elemental talisman, abyssal needle, abyssal lantern, any dye, pet)\n\n"
+        "Guardians of the Rift\n\n1 unique (catalytic talisman, elemental talisman, abyssal needle, abyssal lantern, any dye, pet)\n\n"
     ],
     "F": [
         "Doom of Mokhaiotl\n\n15,000 demon tears or 1 unique (cloth, eye of ayak, avernic treads, pet)",
