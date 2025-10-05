@@ -1775,43 +1775,32 @@ async def intro(ctx):
 
     await ctx.send(msg)
 
-# === Team Challenge Announcements (assets/challenges) =======================
-from pathlib import Path
-import discord
-from discord.ext import commands
+# === Team Challenge Announcement (single command test: !teamchallenge5) ======
+# Requires: assets/challenges/team_challenge_5.png   (already added)
 
-# Put your images here:
-# assets/challenges/team_challenge_1.png ... team_challenge_5.png
+
+# Optional: lock to a specific announcements channel (uncomment & set ID)
+# ANNOUNCEMENTS_CHANNEL_ID = 123456789012345678
+
 CHALLENGE_DIR = Path(__file__).parent / "assets" / "challenges"
 
-# Optional: lock usage to ONE announcements channel by ID (uncomment to enforce)
-# ANNOUNCEMENTS_CHANNEL_ID = 123456789012345678  # replace with your channel ID
-
-# Edit titles/descriptions to your real copy. Nothing else required.
-CHALLENGE_INFO = {
-    1: {"title": "Team Challenge 1", "image": "team_challenge_1.png",
-        "description": "Challenge 1 description. Rules, timers, criteria, points."},
-    2: {"title": "Team Challenge 2", "image": "team_challenge_2.png",
-        "description": "Challenge 2 description. Edge cases, examples."},
-    3: {"title": "Team Challenge 3", "image": "team_challenge_3.png",
-        "description": "Challenge 3 description. Penalties / bonuses."},
-    4: {"title": "Team Challenge 4", "image": "team_challenge_4.png",
-        "description": "Challenge 4 description. Formatting consistent."},
-    5: {"title": "Team Challenge 5", "image": "team_challenge_5.png",
-        "description": "Challenge 5 description. Special notes."},
+CHALLENGE5 = {
+    "title": "Team Challenge 5",
+    "image": "team_challenge_5.png",
+    "description": (
+        "Replace this with your real Challenge 5 description. Include rules, timers, "
+        "completion criteria, and how points are awarded."
+    ),
 }
 
-def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
-    info = CHALLENGE_INFO[num]
-    img_path = CHALLENGE_DIR / info["image"]
+def _build_challenge5_embed() -> tuple[discord.Embed, discord.File]:
+    img_path = CHALLENGE_DIR / CHALLENGE5["image"]
     if not img_path.exists():
-        raise FileNotFoundError(
-            f"Image not found: {img_path}. Place the file in assets/challenges/."
-        )
+        raise FileNotFoundError(f"Image not found: {img_path} — place it in assets/challenges/")
 
     embed = discord.Embed(
-        title=f"🏁 {info['title']}",
-        description=info["description"],
+        title=f"🏁 {CHALLENGE5['title']}",
+        description=CHALLENGE5["description"],
         color=discord.Color.gold(),
     )
     file = discord.File(str(img_path), filename=img_path.name)
@@ -1819,35 +1808,28 @@ def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
     embed.set_footer(text="Bingo Betty — official team challenge")
     return embed, file
 
-def make_teamchallenge_command(num: int):
-    @commands.has_permissions(manage_messages=True)  # admin-only
-    async def _cmd(ctx: commands.Context):
-        # Optional: restrict to announcements channel only
-        # if ctx.channel.id != ANNOUNCEMENTS_CHANNEL_ID:
-        #     await ctx.send("❌ Use this in the announcements channel.")
-        #     return
+@bot.command(name="teamchallenge5")
+@commands.has_permissions(manage_messages=True)  # admin-only
+async def teamchallenge5(ctx: commands.Context):
+    # Optional: restrict to one announcements channel
+    # if ctx.channel.id != ANNOUNCEMENTS_CHANNEL_ID:
+    #     await ctx.send("❌ Use this in the announcements channel.")
+    #     return
+    try:
+        embed, file = _build_challenge5_embed()
+    except Exception as e:
+        await ctx.send(f"❌ Could not post Team Challenge 5: {e}")
+        return
 
-        try:
-            embed, file = _build_challenge_embed(num)
-        except Exception as e:
-            await ctx.send(f"❌ Could not post Team Challenge {num}: {e}")
-            return
+    # Tidy: remove the trigger if possible
+    try:
+        await ctx.message.delete()
+    except discord.HTTPException:
+        pass
 
-        # Keep announcements tidy
-        try:
-            await ctx.message.delete()
-        except discord.HTTPException:
-            pass
-
-        await ctx.send(embed=embed, file=file)
-
-    _cmd.__name__ = f"teamchallenge{num}"
-    return _cmd
-
-# Register: !teamchallenge1 .. !teamchallenge5
-for _n in range(1, 6):
-    bot.add_command(commands.Command(make_teamchallenge_command(_n), name=f"teamchallenge{_n}"))
+    await ctx.send(embed=embed, file=file)
 # ============================================================================
+
 
 
 
