@@ -946,7 +946,7 @@ async def startboard(ctx):
         await ctx.send(
             f"🔒 Oh, you thought we’d let you start twice? Cute. "
             f"{format_team_text(team_key)} is already on **Board {board_letter}**. "
-            f"Use `!progress` to check your board or `!tile#` once you've finished a board -- that’s all you get."
+            f"Use `!progress` to check your board or `!tile#` once you've finished a tile -- that’s all you get."
         )
         return
 
