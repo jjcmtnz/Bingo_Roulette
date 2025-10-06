@@ -1793,7 +1793,7 @@ CHALLENGE_INFO = {
             "Each player may participate in **only two** of the three raids. "
             "No player may participate in all three.\n\n"
             "**Bonus Points:**\n"
-            "• **+5** to any team that compeltes this challenge. **+3**for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
+            "• **+5** to any team that compeltes this challenge. **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
             "**Additional Reward:**\n"
             "Teams that complete this challenge earn **1 Tile Skip**."
         ),
@@ -1813,7 +1813,7 @@ CHALLENGE_INFO = {
         "image": "team_challenge_3.png",
         "description": (
             "As a team, **PK at least 10M** total loot in the wilderness.\n\n"
-            "**Evidence Rules:**\n\n"
+            "**Evidence Rules:**\n"
             "• **3+ teammates** must be visible in every fight screenshot\n"
             "• Take a screenshot of **each kill** and **each loot key opening**\n"
             "• PKing **clan members does not count**\n\n"
