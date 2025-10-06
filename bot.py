@@ -1793,7 +1793,7 @@ CHALLENGE_INFO = {
             "• Each player may participate in **only two** of the three raids. "
             "No player may participate in all three.\n"
             "• No alts or boosting is allowed.\n"
-            "• Take a screenshot in the final chest room of each raid, clearly showing your fireteam.\n\n"
+            "• Take a screenshot in the final chest room of each raid, clearly showing your raid party.\n\n"
             "**Bonus Points:**\n"
             "**+5** to any team that completes this challenge. **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
             "**Additional Reward:**\n"
@@ -1809,7 +1809,7 @@ CHALLENGE_INFO = {
             "Complete a **Barbarian Assault** run with **only teammates**.\n\n"
             "**Bonus Points:**\n"
             "• **+5** for the team that submits the **fastest completion time**\n"
-            "• **+3** to any team with a run **under 17:00**\n\n"
+            "• **+3** to any team with a run **under 18:00**\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #2 expires on <t:1760547600:F>.\n\n"
         ),
