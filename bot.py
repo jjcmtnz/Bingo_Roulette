@@ -1831,7 +1831,7 @@ CHALLENGE_INFO = {
         ),
     },
     4: {
-        "title": "Nightmare on Gem Street\n\n",
+        "title": "A Nightmare on Gem Street\n\n",
         "image": "team_challenge_4.png",
         "description": (
             "As a **team of 5**, defeat **The Nightmare of Ashihama**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
