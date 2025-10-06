@@ -1777,66 +1777,119 @@ async def intro(ctx):
 
 # === Team Challenge Announcements (assets/challenges) =======================
 
-
-# Optional: lock usage to ONE announcements channel by ID
-# ANNOUNCEMENTS_CHANNEL_ID = 123456789012345678
-
 CHALLENGE_DIR = Path(__file__).parent / "assets" / "challenges"
 
 CHALLENGE_INFO = {
-    1: {"title": "Team Challenge 1 - Raids", "image": "team_challenge_1.png",
-        "description": "Challenge 1 description…"},
-    2: {"title": "Team Challenge  - Barbarian Assault", "image": "team_challenge_2.png",
-        "description": "Challenge 2 description…"},
-    3: {"title": "Team Challenge 3 - PvP", "image": "team_challenge_3.png",
-        "description": "Challenge 3 description…"},
-    4: {"title": "Team Challenge 4 - The Nightmare", "image": "team_challenge_4.png",
-        "description": "Challenge 4 description…"},
-    5: {"title": "Team Challenge 5 - Trivia", "image": "team_challenge_5.png",
-        "description": "Challenge 5 description…"},
+    1: {
+        "title": "Raid Triathlon",
+        "image": "team_challenge_1.png",
+        "description": (
+            "(+5) Complete all of the following with at least **3 team members** in each group:\n"
+            "• **400 Invocation ToA**\n"
+            "• **Challenge Mode Cox**\n"
+            "• **Normal ToB**\n\n"
+            "⚠️ A player may only participate in **two** of these raids. "
+            "No player may participate in all three.\n\n"
+            "**Bonus Points:** +3 awarded for the team with the **fastest submitted time** in each raid "
+            "(+3 for ToA, +3 for CM, +3 for ToB).\n\n"
+            "🏁 **Reward:** 1 **tile skip** granted for each team that completes this Team Challenge."
+        ),
+    },
+    2: {
+        "title": "Barbarian Assault Blitz",
+        "image": "team_challenge_2.png",
+        "description": (
+            "Complete a **Barbarian Assault** run with only teammates.\n\n"
+            "**Bonus Points:**\n"
+            "• +5 for the team with the **fastest completion time**\n"
+            "• +3 to any team who completes a run **under 17 minutes**"
+        ),
+    },
+    3: {
+        "title": "Wilderness Heist",
+        "image": "team_challenge_3.png",
+        "description": (
+            "As a **team**, PK at least **10M** worth of loot in the wilderness.\n\n"
+            "At least **3 teammates** must be visible in each screenshot. "
+            "PKing **clan members does not count.**\n\n"
+            "Take screenshots of **each kill** showing at least 3 teammates present during each fight, "
+            "and of **each loot key opening**.\n\n"
+            "**Bonus Points:**\n"
+            "• +5 for any team that PKs at least **10M** of loot\n"
+            "• +3 for the team with the **highest total PKed loot** within 48 hours"
+        ),
+    },
+    4: {
+        "title": "Nightmare Offensive",
+        "image": "team_challenge_4.png",
+        "description": (
+            "As a **team of 5**, fight **The Nightmare**.\n\n"
+            "**Bonus Points:**\n"
+            "• +4 to any team who completes a **5-man kill in 4:00 or less**\n"
+            "• +2 to the team with the **fastest 5-man completion time** "
+            "(must include at least 3 teammates in your group of 5)\n"
+            "• +2 to the team with the **fastest submitted Phosani's Nightmare** time"
+        ),
+    },
+    5: {
+        "title": "Trivia Trials",
+        "image": "team_challenge_5.png",
+        "description": (
+            "Compete in a **Trivia** event across **5 categories.**\n\n"
+            "**Bonus Points:**\n"
+            "• +8 to the team with the **highest trivia score**\n"
+            "• +5 to the team with the **second highest score**\n"
+            "• +3 to the team with the **third highest score**"
+        ),
+    },
 }
 
+
 def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
+    """Builds a single embed + file for the given challenge number."""
     info = CHALLENGE_INFO[num]
     img_path = CHALLENGE_DIR / info["image"]
     if not img_path.exists():
-        raise FileNotFoundError(f"Image not found: {img_path} — in assets/challenges/")
+        raise FileNotFoundError(f"Image not found: {img_path} — place it in assets/challenges/")
+
     embed = discord.Embed(
-        title=f"🏁 {info['title']}",
+        title=f"🏁 Team Challenge #{num} – {info['title']}",
         description=info["description"],
         color=discord.Color.gold(),
     )
+
     file = discord.File(str(img_path), filename=img_path.name)
     embed.set_image(url=f"attachment://{img_path.name}")
-    embed.set_footer(text="Bingo Roulette")
+    embed.set_footer(text="Bingo Betty — official team challenge")
     return embed, file
 
+
 def make_teamchallenge_command(num: int):
+    """Creates one command for each challenge number."""
     @commands.has_permissions(manage_messages=True)  # admin-only
     async def _cmd(ctx: commands.Context):
-        # Optional channel guard
-        # if ctx.channel.id != ANNOUNCEMENTS_CHANNEL_ID:
-        #     await ctx.send("❌ Use this in the announcements channel.")
-        #     return
         try:
             embed, file = _build_challenge_embed(num)
         except Exception as e:
             await ctx.send(f"❌ Could not post Team Challenge {num}: {e}")
             return
+
+        # Delete the trigger if possible (tidy)
         try:
             await ctx.message.delete()
         except discord.HTTPException:
             pass
-        await ctx.send(embed=embed, file=file)
+
+        await ctx.send(file=file, embed=embed)
 
     _cmd.__name__ = f"teamchallenge{num}"
     return _cmd
+
 
 # Register commands: !teamchallenge1 .. !teamchallenge5
 for _n in range(1, 6):
     bot.add_command(commands.Command(make_teamchallenge_command(_n), name=f"teamchallenge{_n}"))
 # ============================================================================
-
 
 
 
