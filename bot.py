@@ -1789,11 +1789,11 @@ CHALLENGE_INFO = {
             "• **400 Invocation ToA**\n"
             "• **Challenge Mode CoX**\n"
             "• **Normal ToB**\n\n"
-            "**Restrictions**\n"
+            "**Restriction:**\n"
             "Each player may participate in **only two** of the three raids. "
             "No player may participate in all three.\n\n"
-            "**Bonus Points**\n"
-            "• **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
+            "**Bonus Points:**\n"
+            "• **+5** to any team that compeltes this challenge. **+3**for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
             "**Additional Reward:**\n"
             "Teams that complete this challenge earn **1 Tile Skip**."
         ),
@@ -1803,8 +1803,8 @@ CHALLENGE_INFO = {
         "image": "team_challenge_2.png",
         "description": (
             "Complete a **Barbarian Assault** run using **only teammates**.\n\n"
-            "**Bonus Points**\n"
-            "• **+5** for the **fastest completion time**\n"
+            "**Bonus Points:**\n"
+            "• **+5** for the team that submits the **fastest completion time**\n"
             "• **+3** to any team with a run **under 17:00**"
         ),
     },
@@ -1838,7 +1838,7 @@ CHALLENGE_INFO = {
         "image": "team_challenge_5.png",
         "description": (
             "Compete in **Trivia** across **5 categories**.\n\n"
-            "**Bonus Points:**\n\n"
+            "**Bonus Points:**\n"
             "• **+8** — **1st place** total score\n"
             "• **+5** — **2nd place** total score\n"
             "• **+3** — **3rd place** total score"
