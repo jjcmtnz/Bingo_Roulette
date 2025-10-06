@@ -1865,7 +1865,7 @@ def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
     )
     file = discord.File(str(img_path), filename=img_path.name)
     embed.set_image(url=f"attachment://{img_path.name}")
-    embed.set_footer(text="Bingo Betty — official team challenge")
+    embed.set_footer(text="Bingo Roulette")
     return embed, file
 
 
