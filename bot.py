@@ -278,7 +278,7 @@ LAST_RESETALL_CALL = 0  # prevents accidental double-fires
 bonus_challenges = {
     "A": "As a team of 5, battle Scurrius until you obtain a Ratbane weapon for everyone from scratch, while wearing no gear. \n\nYou may used any obtained Ratbane weapons during this grind to obtain future Ratbane weapons. You may bring food and potions. You may use the addy/rune armor & weapons that Scurrius drops.  Ironmen may complete their contribution in a solo instance. \n\n Submit a pre-team selfie screenshot showing your gear. Submit a screenshot whenever a teammate receives Scurrius' spine.\n\n+5 bonus points.",
     
-    "B": "As a team, choose a skill to earn 2m xp in:\n\n- Thieving,\n- Crafting \n- Cooking \n- Mining \n- Smithing \n- Agility \n- Woodcutting \n\n+5 bonus points.",
+    "B": "As a team, choose a skill to earn 2m xp in:\n\n- Thieving\n- Crafting \n- Cooking \n- Mining \n- Smithing \n- Agility \n- Woodcutting \n\n+5 bonus points.",
     
     "C": "Have up to 5 members of your team obtain both flippers and a mudskipper hat from mogres. \n\nSubmit a team selfie with everyone in their flippers & hats! Each team member must submit a ss showing their flipper and hat drops. \n\n+1 bonus point for every team member in the ss that is wearing flippers and mudskipper hat. \n\nMax of +5 bonus points.",
     
@@ -1795,7 +1795,8 @@ CHALLENGE_INFO = {
             "• No alts or boosting is allowed.\n"
             "• Take a screenshot in the final chest room of each raid, clearly showing your raid party.\n\n"
             "**Bonus Points:**\n"
-            "**+5** to any team that completes this challenge. **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
+            "• **+5** to any team that completes this challenge.\n" 
+            "• **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
             "**Additional Reward:**\n"
             "Teams that complete this challenge earn **1 Tile Skip**! This will be the only Tile Skip available to earn during the event.\n\n"
             "**Expiration:**\n"
