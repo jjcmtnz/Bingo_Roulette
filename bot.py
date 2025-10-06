@@ -1834,13 +1834,13 @@ CHALLENGE_INFO = {
         "title": "Nightmare on Gem Street\n\n",
         "image": "team_challenge_4.png",
         "description": (
-            "As a **team of 5**, defeat **The Nightmare**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
+            "As a **team of 5**, defeat **The Nightmare of Ashihama**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
             "**Rules:**\n"
              "• Your 5-man group must include at least 3 teammates.\n\n"
             "**Bonus Points:**\n"
             "• **+4** for any team that completes a **5-man kill in 4:00 or less**\n"
-            "• **+2** for the **fastest submitted 5-man completion time**\n"
-            "• **+2** for the **fastest submitted Phosani’s Nightmare** time\n\n"
+            "• **+2** for the **fastest submitted 5-man completion time at The Nightmare**\n"
+            "• **+2** for the **fastest submitted completion time at Phosani’s Nightmare**\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #4 expires on <t:1760893200:F>.\n\n"
         ),
