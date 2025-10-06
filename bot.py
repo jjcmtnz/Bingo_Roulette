@@ -278,7 +278,7 @@ LAST_RESETALL_CALL = 0  # prevents accidental double-fires
 bonus_challenges = {
     "A": "As a team of 5, battle Scurrius until you obtain a Ratbane weapon for everyone from scratch, while wearing no gear. \n\nYou may used any obtained Ratbane weapons during this grind to obtain future Ratbane weapons. You may bring food and potions. You may use the addy/rune armor & weapons that Scurrius drops.  Ironmen may complete their contribution in a solo instance. \n\n Submit a pre-team selfie screenshot showing your gear. Submit a screenshot whenever a teammate receives Scurrius' spine.\n\n+5 bonus points.",
     
-    "B": "Complete the following activities ONLY with teammates: Wintertodt, Tempoross, Zalcano, Volcanic Mine, and Guardians of the Rift. No solos, masses or non-team members allowed. Please find & use an empty world. \n\nTake and submit a team selfie at the end of each activity!\n\n+5 bonus points.",
+    "B": "As a team, choose a skill to earn 2m xp in:\n\n- Thieving,\n- Crafting \n- Cooking \n- Mining \n- Smithing \n- Agility \n- Woodcutting \n\n+5 bonus points.",
     
     "C": "Have up to 5 members of your team obtain both flippers and a mudskipper hat from mogres. \n\nSubmit a team selfie with everyone in their flippers & hats! Each team member must submit a ss showing their flipper and hat drops. \n\n+1 bonus point for every team member in the ss that is wearing flippers and mudskipper hat. \n\nMax of +5 bonus points.",
     
@@ -1822,7 +1822,7 @@ CHALLENGE_INFO = {
             "**Rules:**\n"
             "• **3+ teammates** must be visible in every fight screenshot\n"
             "• Take a screenshot of **each kill** and **each loot key opening**\n"
-            "• PKing **clan members does not count**\n\n"
+            "• PKing **clan members is not allowed**\n\n"
             "**Bonus Points:**\n"
             "• **+5** to any team that reaches **10M+** PK value\n"
             "• **+3** for the **highest total PKed loot** within **48 hours**\n\n"
