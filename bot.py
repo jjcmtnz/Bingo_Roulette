@@ -1782,12 +1782,12 @@ CHALLENGE_DIR = Path(__file__).parent / "assets" / "challenges"
 
 CHALLENGE_INFO = {
     1: {
-        "title": "Raid Triathlon",
+        "title": "Raid Triathlon\n\n",
         "image": "team_challenge_1.png",
         "description": (
-            "Complete **all three** raids with at least **3 teammates** in each group:\n"
+            "Complete **all three** raids with at least **3 teammates** in each group:\n\n"
             "• **400 Invocation ToA**\n"
-            "• **Challenge Mode Cox**\n"
+            "• **Challenge Mode CoX**\n"
             "• **Normal ToB**\n\n"
             "**Restrictions**\n"
             "Each player may participate in **only two** of the three raids. "
@@ -1799,7 +1799,7 @@ CHALLENGE_INFO = {
         ),
     },
     2: {
-        "title": "Barbarian Assault Blitz",
+        "title": "Barbarian Assault Blitz\n\n",
         "image": "team_challenge_2.png",
         "description": (
             "Complete a **Barbarian Assault** run using **only teammates**.\n\n"
@@ -1809,7 +1809,7 @@ CHALLENGE_INFO = {
         ),
     },
     3: {
-        "title": "Wilderness Heist",
+        "title": "Wilderness Heist\n\n",
         "image": "team_challenge_3.png",
         "description": (
             "As a team, **PK at least 10M** total loot in the wilderness.\n\n"
@@ -1823,7 +1823,7 @@ CHALLENGE_INFO = {
         ),
     },
     4: {
-        "title": "Nightmare Offensive",
+        "title": "Nightmare Offensive\n\n",
         "image": "team_challenge_4.png",
         "description": (
             "As a **team of 5**, defeat **The Nightmare** *(group must include at least 3 teammates).* \n\n"
@@ -1834,7 +1834,7 @@ CHALLENGE_INFO = {
         ),
     },
     5: {
-        "title": "Trivia Trials",
+        "title": "Trivia Trials\n\n",
         "image": "team_challenge_5.png",
         "description": (
             "Compete in **Trivia** across **5 categories**.\n\n"
