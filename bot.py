@@ -1847,9 +1847,10 @@ CHALLENGE_INFO = {
         "description": (
             "Compete in **Trivia** across **5 categories**.\n\n"
             "**Bonus Points:**\n"
-            "• **+8** — **1st place** total score\n"
-            "• **+5** — **2nd place** total score\n"
-            "• **+3** — **3rd place** total score"
+            "• **+5** for the 1st place trivia team\n"
+            "• **+4** for the 2nd place trivia team\n"
+            "• **+3** for the 3rd place trivia team\n"
+            "• **+1** for the 4th place trivia team\n\n"
             "**Trivia Trials:**\n"
             "Please join us in celebrating the conclusion of Bingo Roulette at the Trivia Trials. This Grand Finale team challenge event will take place on <t:1760828400:F>!\n\n"
         ),
