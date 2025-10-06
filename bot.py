@@ -1776,9 +1776,7 @@ async def intro(ctx):
     await ctx.send(msg)
 
 # === Team Challenge Announcements (final formatted version) ==================
-from pathlib import Path
-import discord
-from discord.ext import commands
+
 
 CHALLENGE_DIR = Path(__file__).parent / "assets" / "challenges"
 
