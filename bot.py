@@ -1801,7 +1801,7 @@ CHALLENGE_INFO = {
         ),
     },
     2: {
-        "title": "Barbarian Assault Blitz\n\n",
+        "title": "Barbarian Blitz\n\n",
         "image": "team_challenge_2.png",
         "description": (
             "Complete a **Barbarian Assault** run with **only teammates**.\n\n"
@@ -1816,8 +1816,8 @@ CHALLENGE_INFO = {
         "title": "The Player Killer\n\n",
         "image": "team_challenge_3.png",
         "description": (
-            "As a team, **PK at least 10M** total loot in the wilderness.\n\n"
-            "**Evidence Rules:**\n"
+            "As a team, **PK at least 10M** of total pvp loot in the wilderness.\n\n"
+            "**Rules:**\n"
             "• **3+ teammates** must be visible in every fight screenshot\n"
             "• Take a screenshot of **each kill** and **each loot key opening**\n"
             "• PKing **clan members does not count**\n\n"
