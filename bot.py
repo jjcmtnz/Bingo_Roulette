@@ -1809,7 +1809,7 @@ CHALLENGE_INFO = {
         ),
     },
     3: {
-        "title": "Wilderness Heist\n\n",
+        "title": "Player Killer\n\n",
         "image": "team_challenge_3.png",
         "description": (
             "As a team, **PK at least 10M** total loot in the wilderness.\n\n"
