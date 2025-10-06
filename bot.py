@@ -1797,7 +1797,7 @@ CHALLENGE_INFO = {
             "**Bonus Points:**\n"
             "**+5** to any team that completes this challenge. **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
             "**Additional Reward:**\n"
-            "Teams that complete this challenge earn **1 Tile Skip**.\n\n"
+            "Teams that complete this challenge earn **1 Tile Skip**! This will be the only Tile Skip available to earn during the event.\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #1 expires on <t:1760374800:F>.\n\n"
         ),
