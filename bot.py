@@ -1842,7 +1842,7 @@ CHALLENGE_INFO = {
         ),
     },
     5: {
-        "title": "Grand Finale - Trivia Trials\n\n",
+        "title": "Grand Finale: Trivia Trials\n\n",
         "image": "team_challenge_5.png",
         "description": (
             "Compete in **Trivia** across **5 categories**.\n\n"
