@@ -1850,7 +1850,7 @@ CHALLENGE_INFO = {
         "title": "Grand Finale: Trivia Trials\n\n",
         "image": "team_challenge_5.png",
         "description": (
-            "Teams will compete in the **Trivia Trials**, facing head-to-head in **5 different categories**.\n\n"
+            "Teams will compete in the **Trivia Trials**, facing head-to-head in *5 different categories*.\n\n"
             "**Bonus Points:**\n"
             "• +5 for the 1st place trivia team\n"
             "• +4 for the 2nd place trivia team\n"
