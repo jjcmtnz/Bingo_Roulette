@@ -1836,7 +1836,7 @@ CHALLENGE_INFO = {
             "**Bonus Points:**\n"
             "• **+4** for a **5-man kill in 4:00 or less**\n"
             "• **+2** for the **fastest 5-man completion time** *(≥3 teammates present)*\n"
-            "• **+2** for the **fastest submitted Phosani’s Nightmare** time"
+            "• **+2** for the **fastest submitted Phosani’s Nightmare** time\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #4 expires on <t:1760893200:F>.\n\n"
         ),
