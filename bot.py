@@ -1838,7 +1838,7 @@ CHALLENGE_INFO = {
             "**Rules:**\n"
              "• Your 5-man group must include at least 3 teammates.\n\n"
             "**Bonus Points:**\n"
-            "• **+4** for a **5-man kill in 4:00 or less**\n"
+            "• **+4** for any team that completes a **5-man kill in 4:00 or less**\n"
             "• **+2** for the **fastest submitted 5-man completion time**\n"
             "• **+2** for the **fastest submitted Phosani’s Nightmare** time\n\n"
             "**Expiration:**\n"
