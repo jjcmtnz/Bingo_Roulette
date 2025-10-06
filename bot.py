@@ -1785,7 +1785,6 @@ CHALLENGE_INFO = {
         "title": "Raid Triathlon",
         "image": "team_challenge_1.png",
         "description": (
-            "**Objective**\n"
             "Complete **all three** raids with at least **3 teammates** in each group:\n"
             "• **400 Invocation ToA**\n"
             "• **Challenge Mode Cox**\n"
@@ -1803,7 +1802,6 @@ CHALLENGE_INFO = {
         "title": "Barbarian Assault Blitz",
         "image": "team_challenge_2.png",
         "description": (
-            "**Objective**\n"
             "Complete a **Barbarian Assault** run using **only teammates**.\n\n"
             "**Bonus Points**\n"
             "• **+5** for the **fastest completion time**\n"
@@ -1814,7 +1812,6 @@ CHALLENGE_INFO = {
         "title": "Wilderness Heist",
         "image": "team_challenge_3.png",
         "description": (
-            "**Objective**\n"
             "As a team, **PK at least 10M** total loot in the wilderness.\n\n"
             "**Evidence Rules:**\n\n"
             "• **3+ teammates** must be visible in every fight screenshot\n"
@@ -1829,7 +1826,6 @@ CHALLENGE_INFO = {
         "title": "Nightmare Offensive",
         "image": "team_challenge_4.png",
         "description": (
-            "**Objective:**\n"
             "As a **team of 5**, defeat **The Nightmare** *(group must include at least 3 teammates).* \n\n"
             "**Bonus Points:**\n"
             "• **+4** for a **5-man kill in 4:00 or less**\n"
@@ -1841,7 +1837,6 @@ CHALLENGE_INFO = {
         "title": "Trivia Trials",
         "image": "team_challenge_5.png",
         "description": (
-            "**Objective:**\n"
             "Compete in **Trivia** across **5 categories**.\n\n"
             "**Bonus Points:**\n\n"
             "• **+8** — **1st place** total score\n"
