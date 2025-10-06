@@ -1895,58 +1895,6 @@ for _n in range(1, 6):
 
 
 
-
-def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
-    """Builds a single embed + file for the given challenge number."""
-    info = CHALLENGE_INFO[num]
-    img_path = CHALLENGE_DIR / info["image"]
-    if not img_path.exists():
-        raise FileNotFoundError(f"Image not found: {img_path} — place it in assets/challenges/")
-
-    embed = discord.Embed(
-        title=f"🏁 Team Challenge #{num} – {info['title']}",
-        description=info["description"],
-        color=discord.Color.gold(),
-    )
-
-    file = discord.File(str(img_path), filename=img_path.name)
-    embed.set_image(url=f"attachment://{img_path.name}")
-    embed.set_footer(text="Bingo Roulette - Team Challenge")
-    return embed, file
-
-
-def make_teamchallenge_command(num: int):
-    """Creates one command for each challenge number."""
-    @commands.has_permissions(manage_messages=True)  # admin-only
-    async def _cmd(ctx: commands.Context):
-        try:
-            embed, file = _build_challenge_embed(num)
-        except Exception as e:
-            await ctx.send(f"❌ Could not post Team Challenge {num}: {e}")
-            return
-
-        # Delete the trigger if possible (tidy)
-        try:
-            await ctx.message.delete()
-        except discord.HTTPException:
-            pass
-
-        await ctx.send(file=file, embed=embed)
-
-    _cmd.__name__ = f"teamchallenge{num}"
-    return _cmd
-
-
-# Register commands: !teamchallenge1 .. !teamchallenge5
-for _n in range(1, 6):
-    bot.add_command(commands.Command(make_teamchallenge_command(_n), name=f"teamchallenge{_n}"))
-# ============================================================================
-
-
-
-
-
-
 # ------- Admin: finalize a team's event -------
 @bot.command(hidden=True)
 @is_allowed_admin()
