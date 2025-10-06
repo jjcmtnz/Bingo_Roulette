@@ -1784,13 +1784,13 @@ CHALLENGE_INFO = {
         "title": "Raid Triathlon",
         "image": "team_challenge_1.png",
         "description": (
-            "(+5) Complete all of the following with at least **3 team members** in each group:\n"
+            "Complete all of the following with at least **3 team members** in each group:\n"
             "• **400 Invocation ToA**\n"
             "• **Challenge Mode Cox**\n"
             "• **Normal ToB**\n\n"
             "⚠️ A player may only participate in **two** of these raids. "
             "No player may participate in all three.\n\n"
-            "**Bonus Points:** +3 awarded for the team with the **fastest submitted time** in each raid "
+            "**Bonus Points:** +5 to any team that completes this challenge. +3 awarded for the team with the **fastest submitted time** in each raid "
             "(+3 for ToA, +3 for CM, +3 for ToB).\n\n"
             "🏁 **Reward:** 1 **tile skip** granted for each team that completes this Team Challenge."
         ),
@@ -1860,7 +1860,7 @@ def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
 
     file = discord.File(str(img_path), filename=img_path.name)
     embed.set_image(url=f"attachment://{img_path.name}")
-    embed.set_footer(text="Bingo Betty — official team challenge")
+    embed.set_footer(text="Bingo Roulette - Team Challenge")
     return embed, file
 
 
