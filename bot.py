@@ -1813,7 +1813,7 @@ CHALLENGE_INFO = {
         ),
     },
     3: {
-        "title": "Player Killer\n\n",
+        "title": "The Player Killer\n\n",
         "image": "team_challenge_3.png",
         "description": (
             "As a team, **PK at least 10M** total loot in the wilderness.\n\n"
@@ -1829,7 +1829,7 @@ CHALLENGE_INFO = {
         ),
     },
     4: {
-        "title": "Nightmare Offensive\n\n",
+        "title": "Nightmare on Gem Street\n\n",
         "image": "team_challenge_4.png",
         "description": (
             "As a **team of 5**, defeat **The Nightmare** *(group must include at least 3 teammates).* \n\n"
@@ -1842,7 +1842,7 @@ CHALLENGE_INFO = {
         ),
     },
     5: {
-        "title": "Trivia Trials\n\n",
+        "title": "Grand Finale - Trivia Trials\n\n",
         "image": "team_challenge_5.png",
         "description": (
             "Compete in **Trivia** across **5 categories**.\n\n"
@@ -1851,7 +1851,7 @@ CHALLENGE_INFO = {
             "• **+5** — **2nd place** total score\n"
             "• **+3** — **3rd place** total score"
             "Trivia Trivals**\n"
-            "Please celebrate the conclusion of Bingo Roulette at the Trivia Trials Finale. This Grand Finale team challenge event will take place on <t:1760828400:F>\n\n"
+            "Please celebrate the conclusion of Bingo Roulette at the Trivia Trials. This Grand Finale team challenge event will take place on <t:1760828400:F>\n\n"
         ),
     },
 }
