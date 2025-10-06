@@ -1786,17 +1786,17 @@ CHALLENGE_INFO = {
         "image": "team_challenge_1.png",
         "description": (
             "Complete **all three** raids with at least **3 teammates** in each group:\n\n"
-            "• **400 Invocation ToA**\n"
-            "• **Challenge Mode CoX**\n"
-            "• **Normal ToB**\n\n"
+            "• 400 Invocation ToA\n"
+            "• Challenge Mode CoX\n"
+            "• Normal ToB\n\n"
             "**Rules:**\n"
-            "• Each player may participate in **only two** of the three raids. "
+            "• Each player may participate in *only two* of the three raids. "
             "No player may participate in all three.\n"
             "• No alts or boosting is allowed.\n"
             "• Take a screenshot in the final chest room of each raid, clearly showing your raid party.\n\n"
             "**Bonus Points:**\n"
-            "• **+5** to any team that completes this challenge.\n" 
-            "• **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
+            "• +5 to any team that completes this challenge.\n" 
+            "• +3 for the *fastest submitted time* in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
             "**Additional Reward:**\n"
             "Teams that complete this challenge earn **1 Tile Skip**! This will be the only Tile Skip available to earn during the event.\n\n"
             "**Expiration:**\n"
@@ -1807,10 +1807,10 @@ CHALLENGE_INFO = {
         "title": "Barbarian Blitz\n\n",
         "image": "team_challenge_2.png",
         "description": (
-            "Complete a **Barbarian Assault** run with **only teammates**.\n\n"
+            "Complete a Barbarian Assault run with only teammates.\n\n"
             "**Bonus Points:**\n"
-            "• **+5** for the team that submits the **fastest completion time**\n"
-            "• **+3** to any team with a run **under 18:00**\n\n"
+            "• +5 for the team that submits the **fastest completion time**\n"
+            "• +3 to any team with a run **under 18:00**\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #2 expires on <t:1760547600:F>.\n\n"
         ),
@@ -1819,14 +1819,14 @@ CHALLENGE_INFO = {
         "title": "The Player Killer\n\n",
         "image": "team_challenge_3.png",
         "description": (
-            "As a team, **PK at least 10M** of total pvp loot in the wilderness.\n\n"
+            "As a team, PK at least **10M** of total pvp loot in the wilderness.\n\n"
             "**Rules:**\n"
-            "• **3+ teammates** must be visible in every fight screenshot\n"
-            "• Take a screenshot of **each kill** and **each loot key opening**\n"
-            "• PKing **clan members is not allowed**\n\n"
+            "• 3+ teammates must be visible in every fight screenshot\n"
+            "• Take a screenshot of *each kill* and *each loot key opening*\n"
+            "• PKing clan members or using actors is not allowed\n\n"
             "**Bonus Points:**\n"
-            "• **+5** to any team that reaches **10M+** PK value\n"
-            "• **+3** for the **highest total PKed loot** within **48 hours**\n\n"
+            "• +5 to any team that reaches **10M+** PK value\n"
+            "• +3 for the *highest total PKed loot* within 48 hours\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #3 expires on <t:1760720400:F>.\n\n"
         ),
@@ -1835,13 +1835,13 @@ CHALLENGE_INFO = {
         "title": "A Nightmare on Gem Street\n\n",
         "image": "team_challenge_4.png",
         "description": (
-            "As a **team of 5**, defeat **The Nightmare of Ashihama**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
+            "As a team of 5, defeat **The Nightmare of Ashihama**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
             "**Rules:**\n"
              "• Your 5-man group must include at least 3 teammates.\n\n"
             "**Bonus Points:**\n"
-            "• **+4** for any team that completes a **5-man kill in 4:00 or less**\n"
-            "• **+2** for the **fastest submitted 5-man completion time at The Nightmare**\n"
-            "• **+2** for the **fastest submitted completion time at Phosani’s Nightmare**\n\n"
+            "• +4 for any team that completes a *5-man kill in 4:00 or less*\n"
+            "• +2 for the *fastest submitted 5-man completion time at The Nightmare*\n"
+            "• +2 for the *fastest submitted completion time at Phosani’s Nightmare*\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #4 expires on <t:1760893200:F>.\n\n"
         ),
@@ -1850,12 +1850,12 @@ CHALLENGE_INFO = {
         "title": "Grand Finale: Trivia Trials\n\n",
         "image": "team_challenge_5.png",
         "description": (
-            "Compete in **Trivia** across **5 categories**.\n\n"
+            "Teams will compete in the **Trivia Trials**, facing head-to-head in **5 different categories**.\n\n"
             "**Bonus Points:**\n"
-            "• **+5** for the 1st place trivia team\n"
-            "• **+4** for the 2nd place trivia team\n"
-            "• **+3** for the 3rd place trivia team\n"
-            "• **+1** for the 4th place trivia team\n\n"
+            "• +5 for the 1st place trivia team\n"
+            "• +4 for the 2nd place trivia team\n"
+            "• +3 for the 3rd place trivia team\n"
+            "• +1 for the 4th place trivia team\n\n"
             "**Trivia Trials:**\n"
             "Please join us in celebrating the conclusion of Bingo Roulette at the Trivia Trials. This Grand Finale team challenge event will take place on <t:1760828400:F>!\n\n"
         ),
