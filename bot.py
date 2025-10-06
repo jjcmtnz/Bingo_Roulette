@@ -1785,17 +1785,17 @@ CHALLENGE_INFO = {
         "title": "Raid Triathlon",
         "image": "team_challenge_1.png",
         "description": (
-            "**🎯 Objective**\n\n"
-            "(+5) Complete **all three** raids with at least **3 teammates** in each group:\n"
+            "**Objective**\n"
+            "Complete **all three** raids with at least **3 teammates** in each group:\n"
             "• **400 Invocation ToA**\n"
             "• **Challenge Mode Cox**\n"
             "• **Normal ToB**\n\n"
-            "**🚫 Restrictions**\n\n"
+            "**Restrictions**\n"
             "Each player may participate in **only two** of the three raids. "
             "No player may participate in all three.\n\n"
-            "**🏆 Bonus Points**\n\n"
+            "**Bonus Points**\n"
             "• **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
-            "**🎁 Reward**\n\n"
+            "**Additional Reward:**\n"
             "Teams that complete this challenge earn **1 Tile Skip**."
         ),
     },
@@ -1803,9 +1803,9 @@ CHALLENGE_INFO = {
         "title": "Barbarian Assault Blitz",
         "image": "team_challenge_2.png",
         "description": (
-            "**🎯 Objective**\n\n"
+            "**Objective**\n"
             "Complete a **Barbarian Assault** run using **only teammates**.\n\n"
-            "**🏆 Bonus Points**\n\n"
+            "**Bonus Points**\n"
             "• **+5** for the **fastest completion time**\n"
             "• **+3** to any team with a run **under 17:00**"
         ),
@@ -1814,13 +1814,13 @@ CHALLENGE_INFO = {
         "title": "Wilderness Heist",
         "image": "team_challenge_3.png",
         "description": (
-            "**🎯 Objective**\n\n"
+            "**Objective**\n"
             "As a team, **PK at least 10M** total loot in the wilderness.\n\n"
-            "**📸 Evidence Rules**\n\n"
+            "**Evidence Rules:**\n\n"
             "• **3+ teammates** must be visible in every fight screenshot\n"
             "• Take a screenshot of **each kill** and **each loot key opening**\n"
             "• PKing **clan members does not count**\n\n"
-            "**🏆 Bonus Points**\n\n"
+            "**Bonus Points:**\n"
             "• **+5** to any team that reaches **10M+** PK value\n"
             "• **+3** for the **highest total PKed loot** within **48 hours**"
         ),
@@ -1829,9 +1829,9 @@ CHALLENGE_INFO = {
         "title": "Nightmare Offensive",
         "image": "team_challenge_4.png",
         "description": (
-            "**🎯 Objective**\n\n"
+            "**Objective:**\n"
             "As a **team of 5**, defeat **The Nightmare** *(group must include at least 3 teammates).* \n\n"
-            "**🏆 Bonus Points**\n\n"
+            "**Bonus Points:**\n"
             "• **+4** for a **5-man kill in 4:00 or less**\n"
             "• **+2** for the **fastest 5-man completion time** *(≥3 teammates present)*\n"
             "• **+2** for the **fastest submitted Phosani’s Nightmare** time"
@@ -1841,9 +1841,9 @@ CHALLENGE_INFO = {
         "title": "Trivia Trials",
         "image": "team_challenge_5.png",
         "description": (
-            "**🎯 Objective**\n\n"
+            "**Objective:**\n"
             "Compete in **Trivia** across **5 categories**.\n\n"
-            "**🏆 Bonus Points (Top Scores)**\n\n"
+            "**Bonus Points:**\n\n"
             "• **+8** — **1st place** total score\n"
             "• **+5** — **2nd place** total score\n"
             "• **+3** — **3rd place** total score"
