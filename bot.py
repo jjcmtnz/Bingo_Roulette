@@ -1795,7 +1795,9 @@ CHALLENGE_INFO = {
             "**Bonus Points:**\n"
             "**+5** to any team that completes this challenge. **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
             "**Additional Reward:**\n"
-            "Teams that complete this challenge earn **1 Tile Skip**."
+            "Teams that complete this challenge earn **1 Tile Skip**.\n\n"
+            "Expiration:**\n"
+            "You have 48 hours to complete this challenge. This Team Challenge expires on <t:1760374800:F>\n\n"
         ),
     },
     2: {
@@ -1805,7 +1807,9 @@ CHALLENGE_INFO = {
             "Complete a **Barbarian Assault** run using **only teammates**.\n\n"
             "**Bonus Points:**\n"
             "• **+5** for the team that submits the **fastest completion time**\n"
-            "• **+3** to any team with a run **under 17:00**"
+            "• **+3** to any team with a run **under 17:00**\n\n"
+            "Expiration:**\n"
+            "You have 48 hours to complete this challenge. This Team Challenge expires on <t:1760547600:F>\n\n"
         ),
     },
     3: {
@@ -1819,7 +1823,9 @@ CHALLENGE_INFO = {
             "• PKing **clan members does not count**\n\n"
             "**Bonus Points:**\n"
             "• **+5** to any team that reaches **10M+** PK value\n"
-            "• **+3** for the **highest total PKed loot** within **48 hours**"
+            "• **+3** for the **highest total PKed loot** within **48 hours**\n\n"
+            "Expiration:**\n"
+            "You have 48 hours to complete this challenge. This Team Challenge expires on <t:1760720400:F>\n\n"
         ),
     },
     4: {
@@ -1831,6 +1837,8 @@ CHALLENGE_INFO = {
             "• **+4** for a **5-man kill in 4:00 or less**\n"
             "• **+2** for the **fastest 5-man completion time** *(≥3 teammates present)*\n"
             "• **+2** for the **fastest submitted Phosani’s Nightmare** time"
+            "Expiration:**\n"
+            "You have 48 hours to complete this challenge. This Team Challenge expires on <t:1760893200:F>\n\n"
         ),
     },
     5: {
@@ -1842,6 +1850,8 @@ CHALLENGE_INFO = {
             "• **+8** — **1st place** total score\n"
             "• **+5** — **2nd place** total score\n"
             "• **+3** — **3rd place** total score"
+            "Trivia Trivals**\n"
+            "Please celebrate the conclusion of Bingo Roulette at the Trivia Trials Finale. This Grand Finale team challenge event will take place on <t:1760828400:F>\n\n"
         ),
     },
 }
