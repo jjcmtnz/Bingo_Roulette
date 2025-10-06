@@ -1793,7 +1793,7 @@ CHALLENGE_INFO = {
             "Each player may participate in **only two** of the three raids. "
             "No player may participate in all three.\n\n"
             "**Bonus Points:**\n"
-            "• **+5** to any team that compeltes this challenge. **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
+            "**+5** to any team that completes this challenge. **+3** for the **fastest submitted time** in each raid *(+3 ToA, +3 CM, +3 ToB)*\n\n"
             "**Additional Reward:**\n"
             "Teams that complete this challenge earn **1 Tile Skip**."
         ),
