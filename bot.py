@@ -1776,9 +1776,7 @@ async def intro(ctx):
     await ctx.send(msg)
 
 # === Team Challenge Announcements (assets/challenges) =======================
-from pathlib import Path
-import discord
-from discord.ext import commands
+
 
 # Optional: lock usage to ONE announcements channel by ID
 # ANNOUNCEMENTS_CHANNEL_ID = 123456789012345678
@@ -1810,7 +1808,7 @@ def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
     )
     file = discord.File(str(img_path), filename=img_path.name)
     embed.set_image(url=f"attachment://{img_path.name}")
-    embed.set_footer(text="Bingo Betty — official team challenge")
+    embed.set_footer(text="Bingo Roulette")
     return embed, file
 
 def make_teamchallenge_command(num: int):
