@@ -52,6 +52,20 @@ SPECTATOR_CHANNEL_IDS = [
 SPECTATOR_CHANNEL_NAME = os.environ.get("SPECTATOR_CHANNEL_NAME", "roulette-spectator")
 ENABLE_SPECTATOR_ANNOUNCE = True
 
+# --- temporary compatibility shim ---
+async def _get_spectator_channel(guild):
+    """Backwards-compatibility for old code; returns the first resolved spectator channel."""
+    try:
+        chans = await _get_spectator_channels(guild)
+        return chans[0] if chans else None
+    except NameError:
+        return None
+
+
+
+
+
+
 
 # --- Team Challenge posting channels (for !teamchallenge1-5) ---
 def _parse_env_list(var_name: str, default_csv: str) -> set[str]:
@@ -2325,6 +2339,7 @@ def make_teamchallenge_command(num: int):
                 name = f"Challenge {num}"
 
             headline = f"💎 **Team Challenge #{num} - {name}** has now begun.\n"
+            subline = "Teams have 48 hours to complete this team challenge."
             await spectator_send_text(ctx.guild, f"{headline}\n{subline}", quip=False, divider=True)
 
     _cmd.__name__ = f"teamchallenge{num}"
