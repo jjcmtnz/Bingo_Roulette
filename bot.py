@@ -2240,17 +2240,17 @@ CHALLENGE_INFO = {
         ),
     },
     5: {
-        "title": "Grand Finale: Trivia Trials\n\n",
+        "title": "Trivia Roulette: The Grand Finale\n\n",
         "image": "team_challenge_5.png",
         "description": (
-            "Teams will compete in the **Trivia Trials**, facing head-to-head in *5 different categories*.\n\n"
+            "Teams will compete in the **Trivia Roulette**, facing head-to-head in *5 different categories*.\n\n"
             "**Bonus Points:**\n"
             "• +5 for the 1st place trivia team\n"
             "• +4 for the 2nd place trivia team\n"
             "• +3 for the 3rd place trivia team\n"
             "• +1 for the 4th place trivia team\n\n"
-            "**Trivia Trials:**\n"
-            "Please join us in celebrating the conclusion of Bingo Roulette at the Trivia Trials. This Grand Finale team challenge event will take place on <t:1760828400:F>!\n\n"
+            "**Trivia Roulette:**\n"
+            "Please join us in celebrating the conclusion of Bingo Roulette at Trivia Roulette. This Grand Finale team challenge will take place on <t:1760828400:F>!\n\n"
         ),
     },
 }
