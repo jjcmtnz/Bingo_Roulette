@@ -1050,7 +1050,7 @@ def make_tile_command(tile_num):
                 await save_state(game_state)
 
                 # spectator notice (no bonus details)
-                await spectator_send_text(ctx.guild, f"🏁 {format_team_text(team_key)} has completed a board.")
+                await spectator_send_text(ctx.guild, f"🏁 **{format_team_text(team_key)}** has completed a board.")
 
 
                 # 1) Combined: action + quip + scoreboard (moved above image)
@@ -1085,7 +1085,7 @@ def make_tile_command(tile_num):
                     f"{points_line}"
                 )
                 # spectator notice (loop cycle board completion)
-                await spectator_send_text(ctx.guild, f"🏁 {format_team_text(team_key)} has completed a board.")
+                await spectator_send_text(ctx.guild, f"🏁 **{format_team_text(team_key)}** has completed a board.")
 
 
                 # Advance and reset
@@ -2299,8 +2299,8 @@ def make_teamchallenge_command(num: int):
             except Exception:
                 name = f"Challenge {num}"
 
-            headline = f"🪩 **Team Challenge #{num} - {name}** has been deployed to all teams.\n\n"
-            subline = "Teams have 48 hours to complete this team challenge."
+            headline = f"🪩 **Team Challenge #{num} - {name}** has now begun.\n\n"
+            subline = "Teams have 48 hours to complete this team challenge. May the best team win!"
             await spectator_send_text(ctx.guild, f"{headline}\n{subline}", quip=False, divider=True)
 
     _cmd.__name__ = f"teamchallenge{num}"
