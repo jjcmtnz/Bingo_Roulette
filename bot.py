@@ -2263,7 +2263,7 @@ def _build_challenge_embed(num: int) -> tuple[discord.Embed, discord.File]:
         raise FileNotFoundError(f"Image not found: {img_path} — place it in assets/challenges/")
 
     embed = discord.Embed(
-        title=f"🏁 Team Challenge #{num} — {info['title']}",
+        title=f"💎 Team Challenge #{num} — {info['title']}",
         description=info["description"],
         color=discord.Color.gold(),
     )
@@ -2299,8 +2299,7 @@ def make_teamchallenge_command(num: int):
             except Exception:
                 name = f"Challenge {num}"
 
-            headline = f"🪩 **Team Challenge #{num} - {name}** has now begun.\n\n"
-            subline = "Teams have 48 hours to complete this team challenge. May the best team win!"
+            headline = f"💎 **Team Challenge #{num} - {name}** has now begun.\n"
             await spectator_send_text(ctx.guild, f"{headline}\n{subline}", quip=False, divider=True)
 
     _cmd.__name__ = f"teamchallenge{num}"
