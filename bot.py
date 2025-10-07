@@ -760,7 +760,7 @@ async def spectator_tile_completed(guild: discord.Guild, team_key: str, silent: 
         log.info("[spectator] No channel resolved, skipping")
         return
 
-    msg = f"👀 {format_team_text(team_key)} has completed a tile."
+    msg = f"**{format_team_text(team_key)}** has completed a tile ✔️"
     quip = random.choice(SPECTATOR_QUIPS)
     try:
         # cleanly separated message with a quip for flavor
