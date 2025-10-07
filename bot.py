@@ -2013,7 +2013,7 @@ CHALLENGE_INFO = {
         "title": "Raid Triathlon\n\n",
         "image": "team_challenge_1.png",
         "description": (
-            "Complete **all three** raids as a trio. All three team members must be from your team.\n\n"
+            "Complete **all three** raids as a trio. All three members of your raid party must be teammates.\n\n"
             "• 400 Invocation ToA\n"
             "• Challenge Mode CoX\n"
             "• Normal ToB\n\n"
@@ -2039,8 +2039,7 @@ CHALLENGE_INFO = {
             "**Rules:**\n"
             "• 5 teammates must be visible in each submitted screenshot.\n" 
             "Screenshot must also include wave completion time in the chat box\n"
-            "• You may completes as many Barbarian Assault runs as you wish, until you get the desired PB.\n"
-
+            "• You may completes as many Barbarian Assault runs as you wish, until you get the desired PB.\n\n"
             "**Bonus Points:**\n"
             "• +5 for the team that submits the **fastest completion time**\n"
             "• +3 to any team with a run **under 18:00**\n\n"
@@ -2054,9 +2053,9 @@ CHALLENGE_INFO = {
         "description": (
             "As a team, PK at least **7M** of total pvp loot in the wilderness.\n\n"
             "**Rules:**\n"
-            "• 3+ teammates must be visible in every fight screenshot\n"
-            "• Take a screenshot of *each kill* and *each loot key opening*\n"
-            "• PKing clan members or using actors is not allowed\n\n"
+            "• 3+ teammates must be visible in every fight screenshot.\n"
+            "• Take a screenshot of *each kill* and *each loot key opening*.\n"
+            "• PKing clan members or using actors is not allowed.\n\n"
             "**Bonus Points:**\n"
             "• +5 to any team that reaches **7M+** PK value\n"
             "• +3 for the *highest total PKed loot* within 48 hours\n\n"
@@ -2070,11 +2069,12 @@ CHALLENGE_INFO = {
         "description": (
             "As a team of 5, defeat **The Nightmare of Ashihama**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
             "**Rules:**\n"
-             "• Your 5-man group must include at least 3 teammates.\n\n"
+             "• Your 5-man group must include at least 3 teammates.\n"
+             "• You many complete as many kc as you wish, until you get your desired PB.\n\n"
             "**Bonus Points:**\n"
             "• +4 for any team that completes a *5-man kill in 4:00 or less*\n"
-            "• +2 for the *fastest submitted 5-man completion time* at The Nightmare*\n"
-            "• +2 for the *fastest submitted solo completion time* at Phosani’s Nightmare*\n\n"
+            "• +2 for the *fastest submitted 5-man completion time* at The Nightmare\n"
+            "• +2 for the *fastest submitted solo completion time* at Phosani’s Nightmare\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #4 expires on <t:1760893200:F>.\n\n"
         ),
