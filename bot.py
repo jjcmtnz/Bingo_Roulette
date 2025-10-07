@@ -60,8 +60,6 @@ ANNOUNCE_CHANNELS = _parse_env_list("ANNOUNCE_CHANNELS", "roulette-announcements
 # Private admin channels where posting should NOT trigger spectator
 ADMIN_BOT_CHANNELS = _parse_env_list("ADMIN_BOT_CHANNELS", "admin-bot")
 
-
-
 def _is_announce_channel(channel: discord.abc.GuildChannel) -> bool:
     try:
         return channel.name.lower() in ANNOUNCE_CHANNELS
@@ -73,6 +71,18 @@ def _is_admin_bot_channel(channel: discord.abc.GuildChannel) -> bool:
         return channel.name.lower() in ADMIN_BOT_CHANNELS
     except Exception:
         return False
+
+
+
+# --- Team Challenge spectator text templates (neutral public format) ---
+TEAM_CHALLENGE_INFO = {
+    1: ("**The Raid Triathlon**", "Teams have 48 hours to complete this team challenge."),
+    2: ("**Barbarian Blitz**", "Teams have 48 hours to complete this team challenge."),
+    3: ("**The Player Killer**", "Teams have 48 hours to complete this team challenge."),
+    4: ("**A Nightmare on Gem Street**", "Teams have 48 hours to complete this team challenge."),
+    5: ("**Trivia Roulette: The Grand Finale**", "Teams will compete in a live trivia event."),
+}
+
 
 
 
@@ -711,8 +721,14 @@ async def _get_spectator_channel(guild: discord.Guild) -> discord.TextChannel | 
     log.info("[spectator] Could not resolve spectator channel by ID or name")
     return None
 
-async def spectator_send_text(guild: discord.Guild, text: str):
-    """Post a spectator line with a quip and divider, if the spectator channel exists."""
+async def spectator_send_text(
+    guild: discord.Guild,
+    text: str,
+    *,
+    quip: bool = True,
+    divider: bool = True
+):
+    """Post a spectator line. Optional quip + divider."""
     if not ENABLE_SPECTATOR_ANNOUNCE:
         return
 
@@ -720,17 +736,24 @@ async def spectator_send_text(guild: discord.Guild, text: str):
     if not ch:
         return
 
-    # If you implemented spectator_quip() for no-repeat lines, use it.
-    # Otherwise this falls back to random.choice.
-    try:
-        quip = spectator_quip()  # non-repeating, if you added it
-    except NameError:
-        quip = random.choice(SPECTATOR_QUIPS)
+    lines = [text]
+
+    if quip:
+        try:
+            q = spectator_quip()  # non-repeating, if you added it
+        except NameError:
+            q = random.choice(SPECTATOR_QUIPS)
+        lines.append(f"_{q}_")
+
+    if divider:
+        lines.append("┈┈┈┈┈")
 
     try:
-        await ch.send(f"{text}\n_{quip}_\n┈┈┈┈┈")
+        await ch.send("\n".join(lines))
     except Exception as e:
         log.warning("[spectator] Failed to send spectator text: %r", e)
+
+
 
 
 
@@ -2259,22 +2282,30 @@ def make_teamchallenge_command(num: int):
             await ctx.send(f"❌ Could not post Team Challenge {num}: {e}")
             return
 
+        # delete the trigger if possible
         try:
             await ctx.message.delete()
         except discord.HTTPException:
             pass
 
+        # post the embed
         await ctx.send(file=file, embed=embed)
-                # --- spectator ping only when posted in roulette-announcements (not admin-bot) ---
-        if _is_announce_channel(ctx.channel):
-            await spectator_send_text(
-                ctx.guild,
-                f"📣 **Bingo Roulette - Team Challenge #{num}** has been deployed to **all teams**."
-            )
 
+        # spectator: only when posted in announce channel (neutral line, no quip, keep divider)
+        if _is_announce_channel(ctx.channel):
+            # derive clean name from CHALLENGE_INFO title (first line only)
+            try:
+                raw_title = CHALLENGE_INFO[num]["title"]
+                name = raw_title.split("\n", 1)[0].strip()
+            except Exception:
+                name = f"Challenge {num}"
+
+            msg = f"📣 **Team Challenge #{num} - {name}** has been deployed to all teams."
+            await spectator_send_text(ctx.guild, msg, quip=False, divider=True)
 
     _cmd.__name__ = f"teamchallenge{num}"
     return _cmd
+
 
 
 for _n in range(1, 6):
