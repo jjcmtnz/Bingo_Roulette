@@ -2028,16 +2028,22 @@ async def ping(ctx):
         print("[PING][ERROR]", repr(e))
         await ctx.send(f"pong? something went wrong: `{type(e).__name__}: {e}`")
 
-
-
-
-
-
-
 @bot.command()
 @is_allowed_admin()
 async def hola(ctx):
     await ctx.send("👋 Hola! Bingo Betty is awake, loud af, and ready to twerk.")
+
+
+@bot.command(hidden=True)
+@is_allowed_admin()
+async def spectatortest(ctx):
+    """Quick test to see if spectator messages work."""
+    await spectator_tile_completed(ctx.guild, "team1")
+    await ctx.send("✅ Tried sending to spectator channel.")
+
+
+
+
 
 
 # --- Run the bot ---
