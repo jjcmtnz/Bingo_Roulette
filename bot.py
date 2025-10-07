@@ -122,7 +122,7 @@ ADMIN_COMMAND_NAMES = {
     "setboard", "setnextboard", "reset", "resetall", "pointsallteams",
     # hidden admin
     "hola", "finishevent",
-    # private cleanup tools (still hidden from !commands)
+    # private cleanup tools (still hidden from !bingocommands)
     "cleanup", "delete", "purge",
 }
 
@@ -2149,7 +2149,7 @@ async def show_all_commands(ctx):
         "- `!skipbonus` — skip the bonus tile and advance\n"
         "- `!progress` — show your board image, checklist, and points\n"
         "- `!points` — show your team’s point totals\n"
-        "- `!commands` — show participant's command list\n\n"
+        "- `!bingocommands` — show participant's command list\n\n"
 
         "**• Admin Commands**\n"
         "- `!addpoints X team#` — add tile points\n"
@@ -2193,7 +2193,7 @@ async def intro(ctx):
         "**🏠 House Rules**\n"
         "- Keep all chatter in the chit-chat channel. This channel is for bot commands only. Please don't abuse Betty.\n"
         "- All drops should be posted in the drops channel. Please refer to the rules-and-info channel for screenshot requirements.\n"
-        "- Use `!progress`, `!points`, and `!commands` to see your current board, your current points, and a list of available commands\n"
+        "- Use `!progress`, `!points`, and `!bingocommands` to see your current board, your current points, and a list of available commands\n"
         "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, have fun, and for the love of Betty, take a damn shower!\n\n"
 
         "**🔮 Ready?**\n"
