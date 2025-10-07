@@ -645,7 +645,7 @@ async def _get_spectator_channel(guild: discord.Guild) -> discord.TextChannel | 
 # --- Spectator Quip Settings ---
 SPECTATOR_QUIPS = [
     "The crowd gasps in almost-interest.",
-    "Bingo Betty marks it down with dramatic sighing.",
+    "Bingo Betty marks it down with dramatic sigh.",
     "Somewhere, a confetti cannon misfires prematurely.",
     "A single golf clap echoes through the void.",
     "The scoreboard flickers. The tension doesn’t.",
@@ -669,7 +669,7 @@ async def spectator_tile_completed(guild: discord.Guild, team_key: str, silent: 
     quip = random.choice(SPECTATOR_QUIPS)
     try:
         # cleanly separated message with a quip for flavor
-        await ch.send(f"{msg}\n_{quip}_\n┈┈┈┈┈")
+        await ch.send(f"{msg}\n_{quip}_\n")
         log.info("[spectator] Sent spectator message for %s", team_key)
     except Exception as e:
         log.warning("[spectator] Failed to send spectator message: %r", e)
