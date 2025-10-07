@@ -2299,7 +2299,7 @@ def make_teamchallenge_command(num: int):
             except Exception:
                 name = f"Challenge {num}"
 
-            headline = f"📣 **Team Challenge #{num} - {name}** has been deployed to all teams.\n\n"
+            headline = f"🪩 **Team Challenge #{num} - {name}** has been deployed to all teams.\n\n"
             subline = "Teams have 48 hours to complete this team challenge."
             await spectator_send_text(ctx.guild, f"{headline}\n{subline}", quip=False, divider=True)
 
