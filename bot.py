@@ -715,6 +715,8 @@ def make_tile_command(tile_num):
         state["points"] += 1
         await save_state(game_state)
 
+        await spectator_tile_completed(ctx.guild, team_key)
+
         # Pre-build common strings (used by both cases)
         check_emoji = "✅"
         # If your tile_texts structure differs, keep your existing lookup
