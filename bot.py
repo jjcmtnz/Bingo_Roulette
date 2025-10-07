@@ -162,13 +162,6 @@ async def on_ready():
 
 
 
-
-PENDING_PURGE_CONFIRMATIONS = {}  # {channel_id: {"user": int, "expires": float}}
-
-# Quip memory for non-team cases (must be defined BEFORE persistence helpers)
-GLOBAL_USED_QUIPS = {}
-
-
 def _serialize_state():
     """Make a JSON-safe snapshot (convert sets -> lists)."""
     gs = {}
@@ -693,6 +686,61 @@ async def _get_spectator_channel(guild: discord.Guild) -> discord.TextChannel | 
     log.info("[spectator] Could not resolve spectator channel by ID or name")
     return None
 
+async def spectator_send_text(guild: discord.Guild, text: str):
+    """Post a spectator line with a quip and divider, if the spectator channel exists."""
+    if not ENABLE_SPECTATOR_ANNOUNCE:
+        return
+
+    ch = await _get_spectator_channel(guild)
+    if not ch:
+        return
+
+    # If you implemented spectator_quip() for no-repeat lines, use it.
+    # Otherwise this falls back to random.choice.
+    try:
+        quip = spectator_quip()  # non-repeating, if you added it
+    except NameError:
+        quip = random.choice(SPECTATOR_QUIPS)
+
+    try:
+        await ch.send(f"{text}\n_{quip}_\n┈┈┈┈┈")
+    except Exception as e:
+        log.warning("[spectator] Failed to send spectator text: %r", e)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def spectator_quip() -> str:
+    used = GLOBAL_USED_QUIPS.setdefault("spectator_quips", set())
+    pool = SPECTATOR_QUIPS
+    available = [q for q in pool if q not in used] or pool[:]  # reset when exhausted
+    choice = random.choice(available)
+    used.add(choice)
+    if len(used) >= len(pool):
+        used.clear()
+    return choice
+
+
+
+
+
 # --- Spectator Quip Settings ---
 SPECTATOR_QUIPS = [
     "Bingo Betty scribbles something in her imaginary notebook. Probably judgment.",
@@ -812,7 +860,7 @@ async def spectator_tile_completed(guild: discord.Guild, team_key: str, silent: 
         return
 
     msg = f"**{format_team_text(team_key)}** has completed a tile ☑️"
-    quip = random.choice(SPECTATOR_QUIPS)
+    quip = spectator_quip()
     try:
         # cleanly separated message with a quip for flavor
         await ch.send(f"{msg}\n_{quip}_\n┈┈┈┈┈")
@@ -821,8 +869,64 @@ async def spectator_tile_completed(guild: discord.Guild, team_key: str, silent: 
         log.warning("[spectator] Failed to send spectator message: %r", e)
 
 
+@bot.event
+async def on_command_error(ctx, error):
+    # Unwrap original errors (e.g., CommandInvokeError wraps the real one)
+    original = getattr(error, "original", error)
+
+    # 1) Unknown commands: stay quiet (prevents noise in public channels)
+    if isinstance(error, commands.CommandNotFound):
+        return
+
+    # 2) Concurrency: pairs with @max_concurrency on tile commands
+    if isinstance(error, commands.MaxConcurrencyReached):
+        await ctx.send("⏳ Slow down—another command is still running here.")
+        return
+
+    # 3) Cooldowns (if you add @commands.cooldown later)
+    if isinstance(error, commands.CommandOnCooldown):
+        await ctx.send(f"🧊 Cool it—try again in {error.retry_after:.1f}s.")
+        return
+
+    # 4) Permission / check failures (e.g., is_allowed_admin)
+    if isinstance(error, commands.MissingPermissions) or isinstance(error, commands.CheckFailure):
+        await ctx.send("🛡️ You don’t have permission for that.")
+        return
+
+    # 5) Bad / missing args
+    if isinstance(error, commands.MissingRequiredArgument):
+        await ctx.send(f"❓ Missing argument: `{error.param.name}`.")
+        return
+    if isinstance(error, commands.BadArgument):
+        await ctx.send("❓ That argument didn’t look right. Try again.")
+        return
+
+    # 6) Disabled commands (if you disable any)
+    if isinstance(error, commands.DisabledCommand):
+        await ctx.send("🚫 That command is currently disabled.")
+        return
+
+    # 7) Anything else: log details, show a safe generic message
+    log.exception("[command_error] %s in #%s by %s", ctx.command, getattr(ctx.channel, 'name', '?'), ctx.author)
+    await ctx.send("⚠️ Something broke on my end. If it keeps happening, ping an admin.")
 
 
+def spectator_quip() -> str:
+    """Return a non-repeating spectator quip; reset when all used."""
+    used = GLOBAL_USED_QUIPS.setdefault("spectator_quips", set())
+    pool = SPECTATOR_QUIPS
+
+    # pick from unused, or reset if we've gone through all
+    available = [q for q in pool if q not in used] or pool[:]
+    choice = random.choice(available)
+
+    # mark as used
+    used.add(choice)
+    if len(used) >= len(pool):
+        # optional: auto-reset when all have been seen
+        used.clear()
+
+    return choice
 
 
 
@@ -840,6 +944,7 @@ async def spectator_tile_completed(guild: discord.Guild, team_key: str, silent: 
 
 def make_tile_command(tile_num):
     @bot.command(name=f"tile{tile_num}")
+    @commands.max_concurrency(1, per=commands.BucketType.channel, wait=False)
     async def tile_command(ctx):
         # infer team from channel name (e.g., "team-1" -> "team1")
         team_name = ctx.channel.name.replace("-", "")
@@ -896,6 +1001,10 @@ def make_tile_command(tile_num):
                 state["bonus_active"] = True
                 await save_state(game_state)
 
+                # spectator notice (no bonus details)
+                await spectator_send_text(ctx.guild, f"🏁 {format_team_text(team_key)} has completed a board.")
+
+
                 # 1) Combined: action + quip + scoreboard (moved above image)
                 await ctx.send(
                     f"🎉 {format_team_text(team_key)} has completed all 9 tiles and has finished Board {board_letter}!\n\n"
@@ -927,6 +1036,9 @@ def make_tile_command(tile_num):
                     f"🗣️ Bingo Betty says: *\"No encore Bonus Tile for you. You've already seen that show. Onward. Also take a shower... ew.\"*\n\n"
                     f"{points_line}"
                 )
+                # spectator notice (loop cycle board completion)
+                await spectator_send_text(ctx.guild, f"🏁 {format_team_text(team_key)} has completed a board.")
+
 
                 # Advance and reset
                 state["board_index"] = (state["board_index"] + 1) % len(team_sequences[team_key])
@@ -2207,6 +2319,30 @@ async def spectatortest(ctx):
     await ctx.send("✅ Tried sending to spectator channel.")
 
 
+@bot.command(hidden=True)
+@is_allowed_admin()
+async def diag(ctx):
+    issues = []
+    # assets
+    try:
+        pngs = [p.name for p in ASSETS_DIR.glob("*.png")]
+        if not pngs: issues.append("No board PNGs found in assets/boards/")
+    except Exception as e:
+        issues.append(f"ASSETS_DIR error: {e}")
+
+    # spectator perms
+    ch = await _get_spectator_channel(ctx.guild)
+    if not ch: issues.append("Spectator channel unresolved (ID/name mismatch?)")
+    else:
+        perms = ch.permissions_for(ctx.guild.me)
+        if not perms.send_messages: issues.append(f"No send permission in {ch.mention}")
+        if not perms.view_channel: issues.append(f"No view permission in {ch.mention}")
+
+    # token intents
+    if not intents.message_content: issues.append("message_content intent is disabled.")
+
+    summary = "✅ Diagnostics passed." if not issues else "⚠️ Issues:\n- " + "\n- ".join(issues)
+    await ctx.send(f"🧪 **Diagnostics**\n{summary}")
 
 
 
