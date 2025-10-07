@@ -44,10 +44,14 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 ASSETS_DIR = Path(__file__).parent / "assets" / "boards"
 
 
-# --- Spectator broadcast config ---
-SPECTATOR_CHANNEL_ID = int(os.environ.get("SPECTATOR_CHANNEL_ID", "1424913708076892252"))  # optional env override
+# --- Spectator broadcast config (supports multiple channels) ---
+SPECTATOR_CHANNEL_IDS = [
+    1424913708076892252,  # test server spectator channel
+    1425258298512380045,   # live server spectator channel
+]
 SPECTATOR_CHANNEL_NAME = os.environ.get("SPECTATOR_CHANNEL_NAME", "roulette-spectator")
-ENABLE_SPECTATOR_ANNOUNCE = True  # flip to False to disable globally
+ENABLE_SPECTATOR_ANNOUNCE = True
+
 
 # --- Team Challenge posting channels (for !teamchallenge1-5) ---
 def _parse_env_list(var_name: str, default_csv: str) -> set[str]:
@@ -700,26 +704,35 @@ def get_tile_descriptions(board_letter, completed_tiles):
     return "\n\n".join(display) if display else "*All tiles completed!*"
 
 
-async def _get_spectator_channel(guild: discord.Guild) -> discord.TextChannel | None:
+async def _get_spectator_channels(guild: discord.Guild) -> list[discord.TextChannel]:
+    """Return all configured spectator channels that exist in this guild."""
     if not guild:
         log.info("[spectator] No guild provided")
-        return None
+        return []
 
-    if SPECTATOR_CHANNEL_ID:
-        ch = guild.get_channel(SPECTATOR_CHANNEL_ID)
+    resolved = []
+
+    # 1️⃣ Try each configured channel ID
+    for cid in SPECTATOR_CHANNEL_IDS:
+        ch = guild.get_channel(cid)
         if isinstance(ch, discord.TextChannel):
             log.info("[spectator] Resolved by ID: %s (#%s)", ch.name, ch.id)
-            return ch
+            resolved.append(ch)
         else:
-            log.info("[spectator] Channel ID %s not found or not a text channel", SPECTATOR_CHANNEL_ID)
+            log.info("[spectator] Channel ID %s not found or not a text channel", cid)
 
-    for ch in guild.text_channels:
-        if ch.name.lower() == SPECTATOR_CHANNEL_NAME.lower():
-            log.info("[spectator] Resolved by name: %s (#%s)", ch.name, ch.id)
-            return ch
+    # 2️⃣ Fallback by name if nothing resolved
+    if not resolved:
+        for ch in guild.text_channels:
+            if ch.name.lower() == SPECTATOR_CHANNEL_NAME.lower():
+                log.info("[spectator] Resolved by name: %s (#%s)", ch.name, ch.id)
+                resolved.append(ch)
 
-    log.info("[spectator] Could not resolve spectator channel by ID or name")
-    return None
+    if not resolved:
+        log.info("[spectator] Could not resolve any spectator channels by ID or name")
+
+    return resolved
+
 
 async def spectator_send_text(
     guild: discord.Guild,
@@ -728,12 +741,20 @@ async def spectator_send_text(
     quip: bool = True,
     divider: bool = True
 ):
-    """Post a spectator line. Optional quip + divider."""
+    """Post a spectator line to one or more channels. Optional quip + divider."""
     if not ENABLE_SPECTATOR_ANNOUNCE:
         return
 
-    ch = await _get_spectator_channel(guild)
-    if not ch:
+    # Try plural helper first; fall back to the old singular helper if needed
+    channels = []
+    try:
+        channels = await _get_spectator_channels(guild)  # new multi-channel helper
+    except NameError:
+        ch = await _get_spectator_channel(guild)         # old single-channel helper
+        if ch:
+            channels = [ch]
+
+    if not channels:
         return
 
     lines = [text]
@@ -748,10 +769,14 @@ async def spectator_send_text(
     if divider:
         lines.append("┈┈┈┈┈")
 
-    try:
-        await ch.send("\n".join(lines))
-    except Exception as e:
-        log.warning("[spectator] Failed to send spectator text: %r", e)
+    payload = "\n".join(lines)
+
+    for ch in channels:
+        try:
+            await ch.send(payload)
+        except Exception as e:
+            log.warning("[spectator] Failed to send to %s (#%s): %r", getattr(ch, "name", "?"), getattr(ch, "id", "?"), e)
+
 
 
 
