@@ -2170,7 +2170,7 @@ CHALLENGE_DIR = Path(__file__).parent / "assets" / "challenges"
 
 CHALLENGE_INFO = {
     1: {
-        "title": "Raid Triathlon\n\n",
+        "title": "The Raid Triathlon\n\n",
         "image": "team_challenge_1.png",
         "description": (
             "Complete **all three** raids as a trio. All three members of your raid party must be teammates.\n\n"
@@ -2282,34 +2282,35 @@ def make_teamchallenge_command(num: int):
             await ctx.send(f"❌ Could not post Team Challenge {num}: {e}")
             return
 
-        # delete the trigger if possible
+        # Delete the trigger if possible
         try:
             await ctx.message.delete()
         except discord.HTTPException:
             pass
 
-        # post the embed
+        # Post the embed
         await ctx.send(file=file, embed=embed)
 
-        # spectator: only when posted in announce channel (neutral line, no quip, keep divider)
+        # --- spectator ping only when posted in roulette-announcements (not admin-bot) ---
         if _is_announce_channel(ctx.channel):
-            # derive clean name from CHALLENGE_INFO title (first line only)
             try:
                 raw_title = CHALLENGE_INFO[num]["title"]
                 name = raw_title.split("\n", 1)[0].strip()
             except Exception:
                 name = f"Challenge {num}"
 
-            msg = f"📣 **Team Challenge #{num} - {name}** has been deployed to all teams."
-            await spectator_send_text(ctx.guild, msg, quip=False, divider=True)
+            headline = f"📣 **Team Challenge #{num} - {name}** has been deployed to all teams."
+            subline = "Teams have 48 hours to complete this team challenge."
+            await spectator_send_text(ctx.guild, f"{headline}\n{subline}", quip=False, divider=True)
 
     _cmd.__name__ = f"teamchallenge{num}"
     return _cmd
 
 
-
+# Register all 5 commands
 for _n in range(1, 6):
     bot.add_command(commands.Command(make_teamchallenge_command(_n), name=f"teamchallenge{_n}"))
+
 # ============================================================================
 
 
