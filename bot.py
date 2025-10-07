@@ -49,6 +49,31 @@ SPECTATOR_CHANNEL_ID = int(os.environ.get("SPECTATOR_CHANNEL_ID", "1424913708076
 SPECTATOR_CHANNEL_NAME = os.environ.get("SPECTATOR_CHANNEL_NAME", "roulette-spectator")
 ENABLE_SPECTATOR_ANNOUNCE = True  # flip to False to disable globally
 
+# --- Team Challenge posting channels (for !teamchallenge1-5) ---
+def _parse_env_list(var_name: str, default_csv: str) -> set[str]:
+    raw = os.environ.get(var_name, default_csv)
+    return {part.strip().lower() for part in raw.split(",") if part.strip()}
+
+# Public announce channels where posting should trigger a spectator ping
+ANNOUNCE_CHANNELS = _parse_env_list("ANNOUNCE_CHANNELS", "roulette-announcements")
+
+# Private admin channels where posting should NOT trigger spectator
+ADMIN_BOT_CHANNELS = _parse_env_list("ADMIN_BOT_CHANNELS", "admin-bot")
+
+
+
+def _is_announce_channel(channel: discord.abc.GuildChannel) -> bool:
+    try:
+        return channel.name.lower() in ANNOUNCE_CHANNELS
+    except Exception:
+        return False
+
+def _is_admin_bot_channel(channel: discord.abc.GuildChannel) -> bool:
+    try:
+        return channel.name.lower() in ADMIN_BOT_CHANNELS
+    except Exception:
+        return False
+
 
 
 # --- Allowlist for admin commands (use real Discord user IDs) ---
@@ -2240,6 +2265,13 @@ def make_teamchallenge_command(num: int):
             pass
 
         await ctx.send(file=file, embed=embed)
+                # --- spectator ping only when posted in roulette-announcements (not admin-bot) ---
+        if _is_announce_channel(ctx.channel):
+            await spectator_send_text(
+                ctx.guild,
+                f"📣 **Bingo Roulette - Team Challenge #{num}** has been deployed to **all teams**."
+            )
+
 
     _cmd.__name__ = f"teamchallenge{num}"
     return _cmd
