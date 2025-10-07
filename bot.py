@@ -2013,18 +2013,18 @@ CHALLENGE_INFO = {
         "title": "Raid Triathlon\n\n",
         "image": "team_challenge_1.png",
         "description": (
-            "Complete **all three** raids with at least **3 teammates** in each group:\n\n"
+            "Complete **all three** raids as a trio. All three team members must be from your team.\n\n"
             "• 400 Invocation ToA\n"
             "• Challenge Mode CoX\n"
             "• Normal ToB\n\n"
             "**Rules:**\n"
-            "• Each player may participate in *only two* of the three raids. "
-            "No player may participate in all three.\n"
+            "• You may choose different team members for each raid, if desired. \n"
+            "• You can complete these raids as many times as you wish, until you get the desired PB. \n"
             "• No alts or boosting is allowed.\n"
             "• Take a screenshot in the final chest room of each raid, clearly showing your raid party.\n\n"
             "**Bonus Points:**\n"
             "• +5 to any team that completes this challenge.\n" 
-            "• +3 for the *fastest submitted time* in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
+            "• +3 for the *fastest submitted trio time* in each raid *(+3 ToA, +3 CM, +3 ToB).*\n\n"
             "**Additional Reward:**\n"
             "Teams that complete this challenge earn **1 Tile Skip**! This will be the only Tile Skip available to earn during the event.\n\n"
             "**Expiration:**\n"
@@ -2036,6 +2036,11 @@ CHALLENGE_INFO = {
         "image": "team_challenge_2.png",
         "description": (
             "Complete a Barbarian Assault run with only teammates.\n\n"
+            "**Rules:**\n"
+            "• 5 teammates must be visible in each submitted screenshot.\n" 
+            "Screenshot must also include wave completion time in the chat box\n"
+            "• You may completes as many Barbarian Assault runs as you wish, until you get the desired PB.\n"
+
             "**Bonus Points:**\n"
             "• +5 for the team that submits the **fastest completion time**\n"
             "• +3 to any team with a run **under 18:00**\n\n"
@@ -2047,13 +2052,13 @@ CHALLENGE_INFO = {
         "title": "The Player Killer\n\n",
         "image": "team_challenge_3.png",
         "description": (
-            "As a team, PK at least **10M** of total pvp loot in the wilderness.\n\n"
+            "As a team, PK at least **7M** of total pvp loot in the wilderness.\n\n"
             "**Rules:**\n"
             "• 3+ teammates must be visible in every fight screenshot\n"
             "• Take a screenshot of *each kill* and *each loot key opening*\n"
             "• PKing clan members or using actors is not allowed\n\n"
             "**Bonus Points:**\n"
-            "• +5 to any team that reaches **10M+** PK value\n"
+            "• +5 to any team that reaches **7M+** PK value\n"
             "• +3 for the *highest total PKed loot* within 48 hours\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #3 expires on <t:1760720400:F>.\n\n"
