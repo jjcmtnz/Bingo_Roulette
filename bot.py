@@ -622,30 +622,47 @@ def get_tile_descriptions(board_letter, completed_tiles):
 
 
 async def _get_spectator_channel(guild: discord.Guild) -> discord.TextChannel | None:
-    """Resolve the spectator channel using ID first, then by name."""
     if not guild:
+        log.info("[spectator] No guild provided")
         return None
 
-    # By ID (fast + reliable)
     if SPECTATOR_CHANNEL_ID:
         ch = guild.get_channel(SPECTATOR_CHANNEL_ID)
         if isinstance(ch, discord.TextChannel):
+            log.info("[spectator] Resolved by ID: %s (#%s)", ch.name, ch.id)
+            return ch
+        else:
+            log.info("[spectator] Channel ID %s not found or not a text channel", SPECTATOR_CHANNEL_ID)
+
+    for ch in guild.text_channels:
+        if ch.name.lower() == SPECTATOR_CHANNEL_NAME.lower():
+            log.info("[spectator] Resolved by name: %s (#%s)", ch.name, ch.id)
             return ch
 
+    log.info("[spectator] Could not resolve spectator channel by ID or name")
+    return None
 
-
-async def spectator_tile_completed(guild: discord.Guild, team_key: str):
-    """Send the minimal spectator message if enabled and channel is found."""
-    if not ENABLE_SPECTATOR_ANNOUNCE:
+async def spectator_tile_completed(guild: discord.Guild, team_key: str, silent: bool = False):
+    if silent:
+        log.info("[spectator] Silent=True, skipping")
         return
+    if not ENABLE_SPECTATOR_ANNOUNCE:
+        log.info("[spectator] Feature disabled, skipping")
+        return
+
     ch = await _get_spectator_channel(guild)
     if not ch:
-        return  # silently skip if no spectator channel
-    # Keep it intentionally vague: no tile names, no bonus info
+        log.info("[spectator] No channel resolved, skipping")
+        return
+
+    msg = f"👀 {format_team_text(team_key)} has completed a tile."
     try:
-        await ch.send(f"👀 {format_team_text(team_key)} has completed a tile.")
+        await ch.send(msg)
+        log.info("[spectator] Sent: %s", msg)
     except Exception as e:
-        log.warning("Failed to send spectator message: %r", e)
+        log.warning("[spectator] Failed to send: %r", e)
+
+
 
 
 
