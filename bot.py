@@ -44,6 +44,13 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 ASSETS_DIR = Path(__file__).parent / "assets" / "boards"
 
 
+# --- Spectator broadcast config ---
+SPECTATOR_CHANNEL_ID = int(os.environ.get("SPECTATOR_CHANNEL_ID", "1424913708076892252"))  # optional env override
+SPECTATOR_CHANNEL_NAME = os.environ.get("SPECTATOR_CHANNEL_NAME", "roulette-spectator")
+ENABLE_SPECTATOR_ANNOUNCE = True  # flip to False to disable globally
+
+
+
 # --- Allowlist for admin commands (use real Discord user IDs) ---
 ALLOWED_ADMINS = {
       991856535930163230,  # disco
@@ -614,6 +621,47 @@ def get_tile_descriptions(board_letter, completed_tiles):
     return "\n\n".join(display) if display else "*All tiles completed!*"
 
 
+async def _get_spectator_channel(guild: discord.Guild) -> discord.TextChannel | None:
+    """Resolve the spectator channel using ID first, then by name."""
+    if not guild:
+        return None
+
+    # By ID (fast + reliable)
+    if SPECTATOR_CHANNEL_ID:
+        ch = guild.get_channel(SPECTATOR_CHANNEL_ID)
+        if isinstance(ch, discord.TextChannel):
+            return ch
+
+
+
+async def spectator_tile_completed(guild: discord.Guild, team_key: str):
+    """Send the minimal spectator message if enabled and channel is found."""
+    if not ENABLE_SPECTATOR_ANNOUNCE:
+        return
+    ch = await _get_spectator_channel(guild)
+    if not ch:
+        return  # silently skip if no spectator channel
+    # Keep it intentionally vague: no tile names, no bonus info
+    try:
+        await ch.send(f"👀 {format_team_text(team_key)} has completed a tile.")
+    except Exception as e:
+        log.warning("Failed to send spectator message: %r", e)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def make_tile_command(tile_num):
     @bot.command(name=f"tile{tile_num}")
@@ -864,6 +912,9 @@ async def tileall(ctx, *, team: str):
     remaining = max(0, 9 - len(state["completed_tiles"]))
     state["completed_tiles"] = list(range(1, 10))
     state["points"] += remaining
+
+    # 👇 add this one line (silences spectator broadcast for tileall)
+    await spectator_tile_completed(ctx.guild, team_key, silent=True)
 
     if not state.get("looped", False):
         # First cycle → trigger bonus tile
