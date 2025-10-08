@@ -108,6 +108,14 @@ TEAM_CHALLENGE_INFO = {
 ALLOWED_ADMINS = {
       991856535930163230,  # disco
     221415080514945035,  # limon
+    122899028617854976,  # lyreth
+    1266487519822872738,  # uimalchemy
+    269658379981553674,  # lexi
+    213805215890014209,  # kiuyu
+    468530835570556938,  # varrock
+
+
+
 }
 
 def is_allowed_admin():
