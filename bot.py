@@ -2152,7 +2152,6 @@ async def show_all_commands(ctx):
         "**• Team Commands (run only in respective team’s channel)**\n"
         "- `!startboard` — start your team’s first board\n"
         "- `!tile1` … `!tile9` — mark a tile as complete\n"
-        "- `!removetile1` … `!removetile9` — undo a tile (admin only)\n"
         "- `!finishbonus` — complete the bonus tile and advance\n"
         "- `!skipbonus` — skip the bonus tile and advance\n"
         "- `!progress` — show your board image, checklist, and points\n"
@@ -2164,6 +2163,7 @@ async def show_all_commands(ctx):
         "- `!removepoints X team#` — remove tile points\n"
         "- `!addbonuspoints X team#` — add bonus points\n"
         "- `!removebonuspoints X team#` — remove bonus points\n"
+        "- `!removetile1` … `!removetile9` — undo a tile (admin only)\n"
         "- `!tileall team#` — mark all 9 tiles complete (testing only)\n"
         "- `!allcommands` — show this full command list\n"
     )
