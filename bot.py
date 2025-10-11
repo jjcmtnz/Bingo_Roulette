@@ -603,7 +603,7 @@ tile_texts = {
         "Tombs of Amascut\n\n1 purple from ToA (Fang, LB, Ward, Masori, Shadow, pet)",
         "Alchemical Hydra\n\n100 kc or 1 unique (eye, fang, heart, tail, leather, claw, jar, pet)",
         "Vardorvis\n\n125 kc or 1 unique (ingot, vestige, SRA piece, virtus, quartz, pet)",
-        "Kalphite Queen\n\n150 kc or 1 unique (kq head (no tattered head), d pick, d2h, d chainbody, pet)",
+        "Kalphite Queen\n\n150 kc or 1 unique (kq head (no tattered head), d pick, d2h, pet)",
         "Bandos\n\n150 kc or 1 unique (chestplate, tassets, boots, hilt, pet)",
         "Sarachnis\n\n200 kc or 2 uniques (cudgel, jar, d med helm, pet)",
         "Moons of Peril\n\nAny 3 uniques (any armor or weapons from the blood/moon/blue moon sets)",
