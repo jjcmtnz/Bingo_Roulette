@@ -343,7 +343,7 @@ bonus_challenges = {
     
     "C": "Have up to 5 members of your team obtain both flippers and a mudskipper hat from mogres. \n\nSubmit a team selfie with everyone in their flippers & hats! Each team member must submit a ss showing their flipper and hat drops. \n\n+1 bonus point for every team member in the ss that is wearing flippers and mudskipper hat. \n\nMax of +5 bonus points.",
     
-    "D": "Complete a Raid of your choosing (200+ invo ToA or normal Cox/ToB) with at least 3 teammates. However, each player may only use gear totaled under 10m. \n\nEach team member should submit a screenshot at the beginning of the raid, and another ss in the chest room, showing their full gear and inventory.\n\n+5 bonus points.",
+    "D": "Complete a Raid of your choosing (200+ invo ToA or normal Cox/ToB) with at least 3 teammates. However, each player may only use gear totaled under 10m. \n\nEach team member should submit a screenshot at the beginning of the raid, and another screenshot in the chest room, showing their full gear and inventory.\n\n+5 bonus points.",
     
     "E": "Achieve platinum time in the Dragon Slayer 1 quest on a Quest Speedrunning world (+3 bonus points).\n\n+2 bonus points if you achieve Diamond time. \n\nMax of +5 bonus points.",
     
