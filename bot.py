@@ -2188,9 +2188,9 @@ async def intro(ctx):
 
         "**🎲 Gameplay Loop**\n"
         "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board!\n"
-        "- 1. `!tile#` — Use to check-off tiles after completing them (e.g. `!tile3`).\n"
-        "- 2. Use `!finishbonus` after completing the Bonus Tile or use `!skipbonus` to skip the Bonus Tile.\n"
-        "- 3. rinse n' repeat steps 1 and 2.\n\n" 
+        "1. `!tile#` — Use to check-off tiles after completing them (e.g. `!tile3`).\n"
+        "2. Use `!finishbonus` after completing the Bonus Tile or use `!skipbonus` to skip the Bonus Tile.\n"
+        "3. rinse n' repeat steps 1 and 2.\n\n" 
         
 
         "**📜 Points**\n"
