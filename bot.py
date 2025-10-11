@@ -2186,7 +2186,7 @@ async def intro(ctx):
         "- Teams will work on one board at a time. After you complete every tile on one board, you will proceed to the next board.\n"
         "- Once you complete the final sixth board, the sequence of boards will begin again.\n\n"
 
-        "**🎲 Gameplay Loop**\n"
+        "**🎲 Simplified Gameplay Loop**\n"
         "- Event start: `!startboard` — Use this command to activate Bingo Roulette and show your team’s first board!\n"
         "1. `!tile#` — Use to check-off tiles after completing them (e.g. `!tile3`).\n"
         "2. Use `!finishbonus` after completing the Bonus Tile or use `!skipbonus` to skip the Bonus Tile.\n"
