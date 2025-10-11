@@ -638,7 +638,7 @@ tile_texts = {
         "Duke Sucellus\n\n100 kc or 1 unique (ingot, vestige, SRA piece, virtus, quartz, pet)",
         "Vorkath\n\n100 kc or 1 unique (dragonbone necklace, either visage, head [50kc heads don't count], pet)",
         "Commander Zilyana\n\n150 kc or 1 unique (sara sword, sara light, acb, hilt, pet)",
-        "Royal Titans\n\n150 kc or 1 unique (fire crown, ice crown, either prayer scroll)",
+        "Royal Titans\n\n150 kc or 1 unique (fire crown, ice crown, pet)",
         "Scurrius\n\n300 kc or 10 spines or 1 pet",
         "Chaos Elemental\n\n200 kc or 2 uniques (d pick, d2h, pet)",
         "Vale Totems\n\n1 unique (bowstring spool, fletching knife, greenman mask)\n\n"
