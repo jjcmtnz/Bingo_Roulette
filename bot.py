@@ -2182,6 +2182,7 @@ async def intro(ctx):
 
     msg = (
         "**🔥 Welcome to Bingo Roulette!**\n"
+        "- Please read through the full rules and info here: https://discord.com/channels/649974578424184833/1422522047489376368/1426381912880189440\n"
         "- This event features 6 rotating bingo boards in a predetermined random order.\n"
         "- Teams will work on one board at a time. After you complete every tile on one board, you will proceed to the next board.\n"
         "- Once you complete the final sixth board, the sequence of boards will begin again.\n\n"
