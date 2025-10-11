@@ -337,7 +337,7 @@ LAST_RESETALL_CALL = 0  # prevents accidental double-fires
 
 # Real bonus challenges
 bonus_challenges = {
-    "A": "As a team of 5, battle Scurrius until you obtain a Ratbane weapon for everyone from scratch, while wearing no gear. \n\nYou may used any obtained Ratbane weapons during this grind to obtain future Ratbane weapons. You may bring food and potions. You may use the addy/rune armor & weapons that Scurrius drops.  Ironmen may complete their contribution in a solo instance. \n\n Submit a pre-team selfie screenshot showing your gear. Submit a screenshot whenever a teammate receives Scurrius' spine.\n\n+5 bonus points.",
+    "A": "In teams of no more than 5, battle Scurrius until you obtain 5 ratbane weapons, from scratch, while wearing no gear. \n\nYou may used any obtained Ratbane weapons during this grind to obtain future Ratbane weapons. You may bring food and potions. You may use the addy/rune armor & weapons that Scurrius drops.  Ironmen may complete their contribution in a solo instance. \n\n Submit a pre-team selfie screenshot showing your gear. Submit a screenshot whenever a teammate receives Scurrius' spine.\n\n+5 bonus points.",
     
     "B": "As a team, choose a skill to earn 2m xp in:\n\n- Thieving\n- Crafting \n- Cooking \n- Mining \n- Smithing \n- Agility \n- Woodcutting \n\n+5 bonus points.",
     
