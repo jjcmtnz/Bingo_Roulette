@@ -606,7 +606,7 @@ tile_texts = {
         "Kalphite Queen\n\n150 kc or 1 unique (kq head (no tattered head), d pick, d2h, pet)",
         "Bandos\n\n150 kc or 1 unique (chestplate, tassets, boots, hilt, pet)",
         "Sarachnis\n\n200 kc or 2 uniques (cudgel, jar, d med helm, pet)",
-        "Moons of Peril\n\nAny 3 uniques (any armor or weapons from the blood/moon/blue moon sets)",
+        "Moons of Peril\n\nAny 3 uniques (any armor or weapons from the blood/eclipse/blue moon sets)",
         "Artio/Callisto\n\n100 kc or 1 unique (claws, d2h, d pick, voidwaker hilt, tyrannical ring, pet)",
         "Tempoross\n\n1 unique (fish barrel, tackle box, x25 soaked pages, big harpoonfish, tome of water, d harpoon, pet)\n\n"
     ],
