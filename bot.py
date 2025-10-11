@@ -2163,7 +2163,7 @@ async def show_all_commands(ctx):
         "- `!removepoints X team#` — remove tile points\n"
         "- `!addbonuspoints X team#` — add bonus points\n"
         "- `!removebonuspoints X team#` — remove bonus points\n"
-        "- `!removetile1` … `!removetile9` — undo a tile (admin only)\n"
+        "- `!removetile1` … `!removetile9` — undo a tile\n"
         "- `!tileall team#` — mark all 9 tiles complete (testing only)\n"
         "- `!allcommands` — show this full command list\n"
     )
