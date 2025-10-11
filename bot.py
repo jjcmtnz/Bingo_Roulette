@@ -605,7 +605,7 @@ tile_texts = {
         "Vardorvis\n\n125 kc or 1 unique (ingot, vestige, SRA piece, virtus, quartz, pet)",
         "Kalphite Queen\n\n150 kc or 1 unique (kq head (no tattered head), d pick, d2h, d chainbody, pet)",
         "Bandos\n\n150 kc or 1 unique (chestplate, tassets, boots, hilt, pet)",
-        "Sarachnis\n\n150 kc or 1 unique (cudgel, jar, d med helm, pet)",
+        "Sarachnis\n\n200 kc or 2 uniques (cudgel, jar, d med helm, pet)",
         "Moons of Peril\n\nAny 3 uniques (any armor or weapons from the blood/moon/blue moon sets)",
         "Artio/Callisto\n\n100 kc or 1 unique (claws, d2h, d pick, voidwaker hilt, tyrannical ring, pet)",
         "Tempoross\n\n1 unique (fish barrel, tackle box, x25 soaked pages, big harpoonfish, tome of water, d harpoon, pet)\n\n"
@@ -616,7 +616,7 @@ tile_texts = {
         "Whisperer\n\n75 kc or 1 unique (ingot, vestige, SRA piece, virtus, quartz, pet)",
         "Corporeal Beast\n\n50 kc or 1 unique (any sigil, spirit shield, holy elixir, jar, pet)",
         "Kree'arra\n\n150 kc or 1 unique (helm, chainskirt, chestplate, hilt, pet)",
-        "Amoxliatl\n\n150 kc or 1 unique (glacial temotli, pet)",
+        "Amoxliatl\n\n200 kc or 2 uniques (glacial temotli, pet)",
         "Barrows\n\n1 helm, 1 body, and 1 legs from any set (does not have to match)",
         "Spindel/Vene\n\n150 kc or 1 unique (fangs, d2h, d pick, voidwaker gem, treasonous ring, pet)",
         "Hunter Rumors\n\n100 hunter rumors or quetzin pet\n\n"
@@ -630,7 +630,7 @@ tile_texts = {
         "Giant Mole\n\n200 kc or 1 unique (long bone, curved bone, elite clue scroll, pet)",
         "King Black Dragon\n\n250 kc or 2 uniques (kbd heads, visage, d pick, pet) ",
         "Calvarion/Vetion\n\n150 kc or 1 unique (skull, d2h, d pick, voidwaker blade, ring of the gods)",
-        "Wintertodt\n\n1 unique (d axe, tome of fire, any pyromancer piece, pet)\n\n"
+        "Wintertodt\n\n1 unique (d axe, tome of fire, any pyromancer piece, pet. warm gloves and bruma torch do not count.)\n\n"
     ],
     "D": [
         "Nex\n\n200 Nihil Shards or 1 unique (Torva, Nihil Horn, Zaryte Vambs, Ancient Hilt, pet)",
@@ -640,7 +640,7 @@ tile_texts = {
         "Commander Zilyana\n\n150 kc or 1 unique (sara sword, sara light, acb, hilt, pet)",
         "Royal Titans\n\n150 kc or 1 unique (fire crown, ice crown, either prayer scroll)",
         "Scurrius\n\n300 kc or 10 spines or 1 pet",
-        "Chaos Elemental\n\n150 kc or 1 unique (d pick, d2h, pet)",
+        "Chaos Elemental\n\n200 kc or 2 uniques (d pick, d2h, pet)",
         "Vale Totems\n\n1 unique (bowstring spool, fletching knife, greenman mask)\n\n"
     ],
     "E": [
@@ -648,9 +648,9 @@ tile_texts = {
         "Cerberus\n\n150 kc or 1 unique (any crystal, smouldering stone, jar, pet)",
         "Phantom Muspah\n\n150 kc or 2 uniques (venator shard, ancient icon, pet)",
         "Zulrah\n\n175 kc or 1 unique (tanz fang, magic fang, visage, either mutagen, pet)",
-        "Huey\n\n200 kc or 3 separate hide drops or 1 unique (tome of earth, dragon hunter wand, pet)",
+        "Huey\n\n3 separate hide drops or 1 unique (tome of earth, dragon hunter wand, pet)",
         "Dagannoth Kings\n\n1 pet or all 4 rings (berserker, warrior, seers, archers)",
-        "Obor\n\n35 obor chest kc or 1 unique (hill giant club)",
+        "Obor\n\n40 obor chest kc or 1 unique (hill giant club)",
         "Scorpia\n\n150 kc or 1 unique (either ward shard, pet)",
         "Guardians of the Rift\n\n1 unique (catalytic talisman, elemental talisman, abyssal needle, abyssal lantern, any dye, pet)\n\n"
     ],
@@ -661,7 +661,7 @@ tile_texts = {
         "Tormented Demons\n\n1 unique(burning claws, tormented synapse)",
         "Jad\n\n4 fire capes or pet",
         "Gemstone Crab\n\n1 diamond",
-        "Bryophyta\n\n35 bryo chest kc or 1 unique (bryophyta's essence)",
+        "Bryophyta\n\n40 bryo chest kc or 1 unique (bryophyta's essence)",
         "Revenants\n\n1 unique (any wilderness weapon, ancient crystal, amulet of avarice, or any ancient artefact)",
         "Mastering Mixology\n\nPrescription Goggles (can split mox, aga, and lye resin #s across team)\n\n"
     ]
