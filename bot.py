@@ -2200,7 +2200,7 @@ async def intro(ctx):
 
         "**🏠 House Rules**\n"
         "- Keep all chatter in the chit-chat channel. This channel is for bot commands only. Please don't abuse Betty.\n"
-        "- All drops should be posted in the drops channel. Please refer to the rules-and-info channel for screenshot requirements. https://discord.com/channels/649974578424184833/1422522047489376368/1426388172757274674\n"
+        "- All drops should be posted in the drops channel. Please refer to the rules-and-info channel for screenshot requirements: https://discord.com/channels/649974578424184833/1422522047489376368/1426388172757274674\n"
         "- Use `!progress`, `!points`, and `!bingocommands` to see your current board, your current points, and a list of available commands\n"
         "- Please be respectful, kind, and courteous to your teammates and refs. Keep it positive, have fun, and for the love of Betty, take a damn shower!\n\n"
 
