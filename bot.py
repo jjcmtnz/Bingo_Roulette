@@ -662,7 +662,7 @@ tile_texts = {
         "Jad\n\n4 fire capes or pet",
         "Gemstone Crab\n\n1 diamond",
         "Bryophyta\n\n40 bryo chest kc or 1 unique (bryophyta's essence)",
-        "Revenants\n\n1 unique (any wilderness weapon, ancient crystal, amulet of avarice, or any ancient artefact)",
+        "Revenants\n\n1 unique (any wilderness weapon, ancient crystal, amulet of avarice, or any ancient artefact. drops from revs demi-boss do not count)",
         "Mastering Mixology\n\nPrescription Goggles (can split mox, aga, and lye resin #s across team)\n\n"
     ]
 }
