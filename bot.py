@@ -339,7 +339,7 @@ LAST_RESETALL_CALL = 0  # prevents accidental double-fires
 bonus_challenges = {
     "A": "In teams of no more than 5, battle Scurrius until you obtain 5 Scurrius spines, while wearing no gear. Naked. \n\nYou may used any obtained Ratbane weapons during this grind to obtain your spines. You may bring food and potions. You may use the addy/rune armor & weapons that Scurrius drops. Ironmen may complete their contribution in a solo instance. \n\n Submit a pre-team selfie screenshot showing your gear. Submit a screenshot whenever a teammate receives Scurrius' spine.\n\n+5 bonus points.",
     
-    "B": "As a team, choose a skill to earn 2m xp in:\n\n- Thieving\n- Crafting \n- Cooking \n- Mining \n- Smithing \n- Agility \n- Woodcutting \n\n+5 bonus points.",
+    "B": "As a team, choose a skill to earn 1m xp in:\n\n- Thieving\n- Crafting \n- Cooking \n- Mining \n- Smithing \n- Agility \n- Woodcutting \n\n+5 bonus points.",
     
     "C": "Have up to 5 members of your team obtain both flippers and a mudskipper hat from mogres. \n\nSubmit a team selfie with everyone in their flippers & hats! Each team member must submit a ss showing their flipper and hat drops. \n\n+1 bonus point for every team member in the ss that is wearing flippers and mudskipper hat. \n\nMax of +5 bonus points.",
     
