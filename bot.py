@@ -347,7 +347,7 @@ bonus_challenges = {
     
     "E": "Achieve platinum time in the Dragon Slayer 1 quest on a Quest Speedrunning world (+3 bonus points).\n\n+2 bonus points if you achieve Diamond time. \n\nMax of +5 bonus points.",
     
-    "F": "Acquire and complete 1 champion scroll. \n\n Submit a screenshot of the champion scroll drop, and \n\n+5 bonus points."
+    "F": "Acquire and complete 1 champion scroll. \n\n Submit a screenshot of the champion scroll drop, and kill completion. \n\n+5 bonus points."
 }
 
 # =========================
