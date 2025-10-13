@@ -2246,7 +2246,7 @@ CHALLENGE_INFO = {
             "Complete a Barbarian Assault run with only teammates.\n\n"
             "**Rules:**\n"
             "• 5 teammates must be visible in each submitted screenshot.\n" 
-            "Screenshot must also include wave completion time in the chat box\n"
+            "• Screenshot must also include wave completion time in the chat box\n"
             "• You may completes as many Barbarian Assault runs as you wish, until you get the desired PB.\n\n"
             "**Bonus Points:**\n"
             "• +3 to any team that completes a Barbarian Assault run\n\n"
