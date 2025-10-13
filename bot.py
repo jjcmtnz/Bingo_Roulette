@@ -658,7 +658,7 @@ tile_texts = {
         "Doom of Mokhaiotl\n\n15,000 demon tears or 1 unique (cloth, eye of ayak, avernic treads, pet)",
         "Grotesque Guardians\n\n150 kc or 1 unique (granite gloves/ring/hammer, black tourmaline core, jar, pet)",
         "Yama\n\n100 oathplate shards or 1 unique (soulflame horn, oathplate, pet)",
-        "Tormented Demons\n\n1 unique(burning claws, tormented synapse)",
+        "Tormented Demons\n\n1 unique (burning claws, tormented synapse)",
         "Jad\n\n4 fire capes or pet",
         "Gemstone Crab\n\n1 diamond",
         "Bryophyta\n\n40 bryo chest kc or 1 unique (bryophyta's essence)",
