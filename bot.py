@@ -2252,7 +2252,7 @@ CHALLENGE_INFO = {
             "• +3 to any team that completes a Barbarian Assault run\n\n"
             "• +1 if your team submits a run **under 18:00**\n\n"
             "• +5 for the team that submits the **fastest completion time**\n\n"
-            "• +1 for the team with the best fashionscape, as voted on by the refs. Lexi has chosen a fashionscape theme: **Best Disco Horse Cosplay**. Submit a team selfie!\n\n"
+            "• +1 for the team with the best fashionscape, as voted on by the refs. Lexi has chosen a fashionscape theme: **Best Disco Horse Cosplay** 🪩🐴. Submit a team selfie!\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #2 expires on <t:1760547600:F>.\n\n"
         ),
