@@ -630,7 +630,7 @@ tile_texts = {
         "Giant Mole\n\n200 kc or 1 unique (long bone, curved bone, elite clue scroll, pet)",
         "King Black Dragon\n\n250 kc or 2 uniques (kbd heads, visage, d pick, pet) ",
         "Calvarion/Vetion\n\n150 kc or 1 unique (skull, d2h, d pick, voidwaker blade, ring of the gods)",
-        "Wintertodt\n\n1 unique (d axe, tome of fire, any pyromancer piece, pet. warm gloves and bruma torch do not count.)\n\n"
+        "Wintertodt\n\n1 unique (d axe, tome of fire, any pyromancer piece, pet. note: warm gloves and bruma torch do not count.)\n\n"
     ],
     "D": [
         "Nex\n\n200 Nihil Shards or 1 unique (Torva, Nihil Horn, Zaryte Vambs, Ancient Hilt, pet)",
