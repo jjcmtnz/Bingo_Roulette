@@ -2263,7 +2263,7 @@ CHALLENGE_INFO = {
         "description": (
             "As a team, PK at least **7M** of total pvp loot in the wilderness.\n\n"
             "**Rules:**\n"
-            "• 3+ teammates must be visible in every fight screenshot.\n"
+            "• At least 2 teammates must be visible in every fight screenshot.\n"
             "• Take a screenshot of *each kill* and *each loot key opening*.\n"
             "• PKing clan members or using actors is not allowed.\n\n"
             "**Bonus Points:**\n"
