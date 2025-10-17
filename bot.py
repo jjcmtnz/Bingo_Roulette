@@ -2277,7 +2277,7 @@ CHALLENGE_INFO = {
         "title": "A Nightmare on Gem Street\n\n",
         "image": "team_challenge_4.png",
         "description": (
-            "As a team of 5, defeat **The Nightmare of Ashihama**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
+            "As a team of 5, defeat **The Nightmare of Ashihama**. And, as a brave solo challenger, defeat **Phosani's Nightmare.**\n\n"
             "**Rules:**\n"
              "• Your 5-man group must include at least 4 teammates.\n"
              "• Your 5th member can be a teammate or an EG clan member, with ref approval!\n"
