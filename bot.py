@@ -2279,8 +2279,8 @@ CHALLENGE_INFO = {
         "description": (
             "As a team of 5, defeat **The Nightmare of Ashihama**. And, as a brave solo, defeat **Phosani's Nightmare.**\n\n"
             "**Rules:**\n"
-             "• Your 5-man group must include at least 3 teammates.\n"
-             "• You many complete as many kc as you wish, until you get your desired PB.\n\n"
+             "• Your 5-man group must include at least 4 teammates. Your 5th member must be a teammate or EG clan member (must be approved by refs).\n"
+             "• You may complete as many kc as you wish, until you get your desired PB.\n\n"
             "**Bonus Points:**\n"
             "• +5 for any team that completes a *5-man kill in 4:00 or less*\n"
             "• Additional Bonus Points will be awarded for the *fastest submitted 5-man completion time* at The Nightmare and for the *fastest submitted solo completion time* at Phosani’s Nightmare\n\n"
