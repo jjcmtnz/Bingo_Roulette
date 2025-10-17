@@ -2284,7 +2284,7 @@ CHALLENGE_INFO = {
              "• You may complete as many kc as you wish, until you achieve your desired PB.\n\n"
             "**Bonus Points:**\n"
             "• +5 for any team that completes a *5-man kill in 4:00 or less*\n"
-            "• Additional Bonus Points will be awarded for the *fastest submitted 5-man completion time* at The Nightmare and for the *fastest submitted solo completion time* at Phosani’s Nightmare\n\n"
+            "• Additional Bonus Points will be awarded for the *fastest submitted 5-man completion time* at The Nightmare and for the *fastest submitted solo completion time* at Phosani’s Nightmare.\n\n"
             "**Expiration:**\n"
             "You have 48 hours to complete this challenge. Team Challenge #4 expires when the event officially ends, on <t:1760893200:F>.\n\n"
         ),
